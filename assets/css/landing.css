@@ -57,6 +57,12 @@ body {
   opacity: 0.3;
 }
 
+.hero-logo {
+  width: clamp(120px, 25vw, 200px);
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 30px rgba(0, 190, 200, 0.3));
+}
+
 .hero-badge {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -93,6 +99,7 @@ body {
   max-width: 800px;
   margin-bottom: 3rem;
   font-weight: 300;
+  text-align: left;
 }
 
 .btn-launch {
@@ -136,7 +143,7 @@ body {
 
 .grid-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
 
@@ -155,8 +162,12 @@ body {
 }
 
 .feature-icon {
-  font-size: 2.5rem;
   margin-bottom: 1.5rem;
+  color: var(--turquesa-main);
+}
+
+.feature-icon .material-symbols-sharp {
+  font-size: 2.5rem;
 }
 
 .feature-card h3 {
@@ -214,6 +225,7 @@ footer a:hover { text-decoration: underline; }
   .hero { min-height: 70vh; padding-top: 6rem; }
   .hero h1 { font-size: 2.5rem; }
   .btn-launch { width: 100%; text-align: center; }
+  .grid-features { grid-template-columns: 1fr; }
 }
 
 /* Science & Evidence Sections */
