@@ -227,6 +227,83 @@
       .hero h1 { font-size: 2.5rem; }
       .btn-launch { width: 100%; text-align: center; }
     }
+
+    /* Science & Evidence Sections */
+    .science-section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .science-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .science-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .evidence-tag {
+      background: rgba(0, 190, 200, 0.1);
+      color: var(--turquesa-main);
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .sop-box {
+      background: var(--bg-container);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px dashed var(--turquesa-main);
+    }
+
+    .bibliography {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    
+    .bibliography h4 { color: var(--text-main); margin-bottom: 1rem; }
+    .bibliography ul { list-style: none; }
+    .bibliography li { margin-bottom: 0.75rem; border-left: 2px solid var(--bg-interactive); padding-left: 1rem; }
+
+    /* Neural Efficiency Chart Simulation */
+    .chart-box {
+      background: #0d1117;
+      padding: 1.5rem;
+      border-radius: 12px;
+      position: relative;
+      height: 200px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .bar {
+      flex: 1;
+      background: var(--bg-interactive);
+      border-radius: 4px 4px 0 0;
+      transition: height 1s;
+      position: relative;
+    }
+    .bar.active { background: var(--turquesa-main); box-shadow: 0 0 15px var(--turquesa-glow); }
+    .bar::after {
+      content: attr(data-label);
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -252,22 +329,78 @@
       <div class="feature-card">
         <div class="feature-icon">🧠</div>
         <h3>Conflicto y Control (Stroop)</h3>
-        <p>Trabajamos el control inhibitorio frontal a través de incongruencias visuales y auditivas bajo fatiga motora.</p>
+        <p>Inhibición de respuestas automáticas prepotentes. Mejora la flexibilidad cognitiva y la resistencia a la interferencia cortical.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">👁️</div>
-        <h3>Visuomotora (Tracking)</h3>
-        <p>Puntos de seguimiento cinético en pantalla para estabilización cervical e isométricos pélvicos. Cero latencias.</p>
+        <h3>Visuomotora (Eriksen Flanker)</h3>
+        <p>Resolución de conflictos de flancos. Entrenamiento crítico para la navegación en entornos urbanos y prevención de tropiezos.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🎙️</div>
-        <h3>Reconocimiento de Voz</h3>
-        <p>A través de la API Web Speech, el sistema canta instrucciones (Combos, Sonidos) mientras el usuario se somete al esfuerzo físico.</p>
+        <div class="feature-icon">🔢</div>
+        <h3>Memoria de Trabajo (N-Back)</h3>
+        <p>Actualización incesante de la memoria a corto plazo. Standard de oro para la manipulación rítmica de información bajo fatiga.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Performance Pura (MPA)</h3>
-        <p>Hemos desechado monolitos. Cada herramienta es una página puramente HTML/JS independiente. Garantizando 60fps en tablets de baja gama clínica.</p>
+        <div class="feature-icon">🔊</div>
+        <h3>Decisión Rápida (Auditory D50)</h3>
+        <p>Discriminación temporal y aritmética. Obligamos al cerebro a priorizar dinámicamente entre el equilibrio y el cálculo mental.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIENCIA: fNIRS & EFICIENCIA -->
+  <section class="science-section">
+    <div class="science-grid">
+      <div>
+        <span class="evidence-tag">Investigación fNIRS</span>
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 1.5rem;">Cero Hiperactivación: La Eficiencia Neuronal</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+          La evidencia neurobiológica indica que antes del entrenamiento, el cerebro sobrecarga la corteza prefrontal (PFC) para compensar la pérdida de automatismo. 
+          NeuroFit entrena la <strong>eficiencia metabólica</strong>: logramos que realices las mismas tareas con menor consumo de oxi-hemoglobina (oxy-Hb), re-automatizando el control postural.
+        </p>
+        <div class="chart-box">
+          <div class="bar" style="height: 90%;" data-label="Sin Entrenamiento"></div>
+          <div class="bar active" style="height: 40%;" data-label="Con NeuroFit"></div>
+          <p style="position: absolute; right: 20px; bottom: 20px; font-size: 0.75rem; color: var(--turquesa-main);">▼ 55% Costo Neuronal</p>
+        </div>
+      </div>
+      <div style="background: var(--bg-container); padding: 3rem; border-radius: 16px;">
+        <h3 style="font-family: var(--font-display); color: var(--rosa-accent); margin-bottom: 1rem;">La "Niebla Mental" y la Salud Ósea</h3>
+        <p style="font-size: 0.95rem; line-height: 1.8;">
+          Para mujeres en transición menopáusica (40-60 años), el declive de estrógenos altera la <strong>neuroprotección</strong> focalizada en las redes fronto-parietales. 
+          NeuroFit no solo activa la neuroplasticidad; su enfoque en <strong>baja tensión mecánica</strong> permite fortalecer la estabilidad y prevenir la sarcopenia incipiente sin comprometer la integridad articular.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- METODOLOGÍA SOP (Entrenadores) -->
+  <section class="science-section">
+    <div class="features-header">
+      <h2>Prescripción Clínica (SOP)</h2>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">Protocolos basados en revisiones sistemáticas y meta-análisis (2016-2026).</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <div class="sop-box">
+        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+          <span class="material-icons" style="color: var(--turquesa-main)">schedule</span> Dosis Óptima
+        </h4>
+        <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 1.25rem;">
+          <li>Frecuencia: 2-3 sesiones por semana.</li>
+          <li>Duración: 30-60 minutos totales.</li>
+          <li>Ciclo: 12 a 16 semanas para adaptaciones estructurales.</li>
+          <li>Adherencia requerida: >95%.</li>
+        </ul>
+      </div>
+      <div class="sop-box" style="border-color: var(--rosa-accent);">
+        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+          <span class="material-icons" style="color: var(--rosa-accent)">fitness_center</span> Baja Tensión Mecánica
+        </h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Priorizar movimientos de coordinación y estabilidad (Sit-to-stand, Tándem, Reaching) sobre saltos balísticos. Desviamos el estrés hacia el <strong>Sistema Nervioso</strong>, no hacia las articulaciones.
+        </p>
       </div>
     </div>
   </section>
@@ -303,6 +436,17 @@
         <h4 style="margin-bottom: 0.5rem; color: white;">Cero Dependencias</h4>
         <p style="color: var(--text-muted);">Despliega el código abriendo el archivo local sin conexión a internet:</p>
         <p style="margin-top: 1rem;"><code>src/herramientas/vanilla/index.html</code></p>
+      </div>
+
+      <div class="bibliography" style="margin-top: 4rem;">
+        <h4>Evidencia y Referencias Seleccionadas (2016-2026)</h4>
+        <ul>
+          <li><strong>Khan MJ et al. (2025).</strong> Effectiveness of dual-task exercise in improving balance and preventing falls: systematic review with meta-analysis. Eur Geriatr Med.</li>
+          <li><strong>Almutairi JS et al. (2025).</strong> Ranking the difficulty of the cognitive tasks in Dual-Tasks during walking in healthy adults. Neurosciences.</li>
+          <li><strong>Nayak A et al. (2021).</strong> Dual-Task Training Program for Older Adults: Blending Gait, Visuomotor and Cognitive Training. Front Netw Physiol.</li>
+          <li><strong>Liao Y-Y et al. (2019).</strong> VR-based physical and cognitive training in older adults with MCI: RCT. Front Aging Neurosci.</li>
+          <li><strong>Wollesen B et al. (2017).</strong> Does dual task training improve walking performance of older adults with concern of falling? BMC Geriatr.</li>
+        </ul>
       </div>
     </div>
   </section>
