@@ -10,8 +10,11 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Temporizador</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
       <button class="btn-secondary" onclick="tool.reset()" style="margin-right: var(--space-4);">
@@ -28,6 +31,48 @@
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Temporizador Cl&iacute;nico</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Reloj de alto contraste dise&ntilde;ado para ser visible desde lejos en la sala de entrenamiento. Marca tiempo de trabajo de forma clara y legible. Herramienta de soporte esencial para cualquier formato de sesi&oacute;n.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Pulsa START para iniciar el cron&oacute;metro.</li>
+            <li>Pulsa PAUSE para pausar y reanudar.</li>
+            <li>Pulsa RESET para volver a cero.</li>
+            <li>El n&uacute;mero grande es visible a distancia en TV o tablet.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Proyecta en pantalla grande para que todos vean el tiempo.</li>
+            <li>&Uacute;salo como base para AMRAP (&ldquo;tantas rondas como puedas en X minutos&rdquo;).</li>
+            <li>Combina con herramientas cognitivas: el timer corre mientras hacen tareas.</li>
+            <li>Ideal para pausas medidas entre series.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Cualquier formato temporizado: AMRAP, EMOM, Tabata, intervalos.</li>
+            <li>Pausas controladas entre series de fuerza.</li>
+            <li>Tests cronometrados (TUG, 30s sit-to-stand, etc.).</li>
+            <li>Base temporal para cualquier otra herramienta cognitiva.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="timers.js"></script>
 </body>
 </html>

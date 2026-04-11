@@ -5,27 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tracking Continuo - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    #tracking-dot { position: absolute; width: 60px; height: 60px; background-color: var(--rosa-600); border-radius: 50%; box-shadow: var(--shadow-two-layer-lg); transition: all 1s ease-in-out; }
+    #tracking-dot {
+      position: absolute; width: 60px; height: 60px;
+      background-color: var(--rosa-600); border-radius: 50%;
+      box-shadow: 0 0 30px var(--rosa-400);
+      transition: all 1s ease-in-out;
+    }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      position: absolute; bottom: var(--space-3); left: 50%; transform: translateX(-50%);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
   </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Tracking Continuo</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
+      <div class="control-group">
+        <span class="control-label">Velocidad:</span>
+        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+          <option value="1500">Lenta (1.5s)</option>
+          <option value="1000" selected>Media (1s)</option>
+          <option value="600">R&aacute;pida (0.6s)</option>
+        </select>
+      </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
         <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
-        <p class="stimulus-instruction" style="position: absolute; top: 10%; width: 100%; opacity: 0.5; z-index: 0; text-align: center;">Sigue el punto con la vista</p>
+        <p class="stimulus-instruction" style="position: absolute; top: 10%; width: 100%; opacity: 0.5; z-index: 0; text-align: center; color: var(--gris-300);">Sigue el punto con la vista</p>
         <div id="tracking-dot" style="left: 50%; top: 50%;"></div>
+        <div class="stats-bar" aria-live="polite" role="status">
+          <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Movimientos</span></div>
+        </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Tracking Continuo</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Entrenamiento de <strong>seguimiento ocular y estabilidad cervical</strong>. Un punto se desplaza por la pantalla y el usuario debe seguirlo con la mirada, manteniendo la cabeza orientada hacia el objetivo. Trabaja la coordinaci&oacute;n oculomotora.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Selecciona la velocidad de movimiento del punto.</li>
+            <li>Pulsa START. El punto se desplaza aleatoriamente por la pantalla.</li>
+            <li>El usuario sigue el punto con la mirada (y giros de cabeza si est&aacute; lejos).</li>
+            <li>Se contabilizan los movimientos realizados.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Coloca la pantalla a distancia de 1-2 metros para forzar giros cervicales reales.</li>
+            <li>Combina con equilibrio monopodal o sobre superficie inestable.</li>
+            <li>En velocidad lenta, enfatiza precisi&oacute;n del seguimiento. En r&aacute;pida, reactividad.</li>
+            <li>Ideal para rehab cervical: controla amplitud de movimiento sin dolor.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Rehabilitaci&oacute;n cervical y vestibular (conmoci&oacute;n, v&eacute;rtigo).</li>
+            <li>Trabajo propioceptivo con componente oculomotor.</li>
+            <li>Deportes: seguimiento de bal&oacute;n/oponente mientras se mantiene estabilidad.</li>
+            <li>Adultos mayores: entrenamiento de equilibrio con foco visual externo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="tracking.js"></script>
 </body>
 </html>

@@ -1,5 +1,31 @@
 class GoNoGoTool {
   constructor() {
+    this.levels = {
+      basic: {
+        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app' },
+        nogoColors: [{ bg: '#e11d48', label: 'NO TOQUES', icon: 'block' }],
+        instruction: 'Verde = toca. Rojo = no toques.'
+      },
+      distractors: {
+        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app' },
+        nogoColors: [
+          { bg: '#e11d48', label: 'NO TOQUES', icon: 'block' },
+          { bg: '#eab308', label: 'NO TOQUES', icon: 'block' },
+          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block' }
+        ],
+        instruction: 'Solo verde = toca. Cualquier otro color = no toques.'
+      },
+      inverted: {
+        goColor: { bg: '#e11d48', label: 'TOCA', icon: 'touch_app' },
+        nogoColors: [
+          { bg: '#10b981', label: 'NO TOQUES', icon: 'block' },
+          { bg: '#eab308', label: 'NO TOQUES', icon: 'block' },
+          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block' }
+        ],
+        instruction: 'Solo rojo = toca. Cualquier otro color = no toques.'
+      }
+    };
+    this.currentLevel = 'basic';
     this.interval = null;
     this.isPlaying = false;
     this.currentSpeed = 2000;
@@ -26,7 +52,7 @@ class GoNoGoTool {
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.frequency.value = freq;
-    gain.gain.value = 0.15;
+    gain.gain.value = 0.25;
     osc.start();
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration / 1000);
     osc.stop(ctx.currentTime + duration / 1000);
@@ -62,9 +88,21 @@ class GoNoGoTool {
   }
 
   changeLevel(level) {
-    if (level === 'easy') this.goRatio = 0.8;
-    else if (level === 'medium') this.goRatio = 0.6;
-    else this.goRatio = 0.5;
+    this.currentLevel = level;
+    const config = this.levels[level];
+    document.getElementById('goInstruction').textContent = config.instruction;
+    if (this.isPlaying) {
+      this.stopEngine();
+      this.isPlaying = false;
+      this.resetStats();
+      document.getElementById('playIcon').textContent = 'play_arrow';
+      document.getElementById('playText').textContent = 'START';
+      const circle = document.getElementById('goCircle');
+      circle.style.background = 'var(--gris-700)';
+      circle.querySelector('.material-icons').textContent = 'touch_app';
+      document.getElementById('goLabel').textContent = 'Preparado';
+      document.getElementById('goLabel').style.color = 'var(--gris-500)';
+    }
   }
 
   resetStats() {
@@ -76,7 +114,9 @@ class GoNoGoTool {
   }
 
   showTrial() {
-    this.currentTrial = Math.random() < this.goRatio ? 'go' : 'nogo';
+    const config = this.levels[this.currentLevel];
+    const isGo = Math.random() < this.goRatio;
+
     this.responded = false;
     this.trialStart = performance.now();
 
@@ -87,18 +127,19 @@ class GoNoGoTool {
     void circle.offsetWidth;
     circle.classList.add('flash');
 
-    if (this.currentTrial === 'go') {
-      circle.style.background = '#10b981';
-      circle.querySelector('.material-icons').textContent = 'touch_app';
-      label.textContent = 'TOCA';
-      label.style.color = '#10b981';
-      label.className = 'go-label';
+    if (isGo) {
+      this.currentTrial = 'go';
+      circle.style.background = config.goColor.bg;
+      circle.querySelector('.material-icons').textContent = config.goColor.icon;
+      label.textContent = config.goColor.label;
+      label.style.color = config.goColor.bg;
     } else {
-      circle.style.background = 'var(--rosa-600)';
-      circle.querySelector('.material-icons').textContent = 'block';
-      label.textContent = 'NO TOQUES';
-      label.style.color = 'var(--rosa-400)';
-      label.className = 'go-label';
+      this.currentTrial = 'nogo';
+      const nogo = config.nogoColors[Math.floor(Math.random() * config.nogoColors.length)];
+      circle.style.background = nogo.bg;
+      circle.querySelector('.material-icons').textContent = nogo.icon;
+      label.textContent = nogo.label;
+      label.style.color = nogo.bg;
     }
   }
 
@@ -128,7 +169,7 @@ class GoNoGoTool {
       this.falseAlarms++;
       this.beep(220, 200);
       this.flashFeedback('false');
-      if (navigator.vibrate) navigator.vibrate(100);
+      if (navigator.vibrate) navigator.vibrate(200);
     }
 
     this.updateStats();

@@ -11,217 +11,351 @@
 
   <main id="view-menu" class="app-container">
 
-    <header class="page-header">
-      <span class="material-icons header-icon">psychology</span>
-      <h1>NeuroFit Dual-Task</h1>
-      <p class="page-subtitle">
-        Entrenamiento cognitivo-motor basado en evidencia cl&iacute;nica (&ge;40 a&ntilde;os).
-        Selecciona la tarea, ajusta la cadencia y ejecuta simult&aacute;neamente con ejercicios de propiocepci&oacute;n.
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                       -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="landing-hero">
+      <div class="hero-badge">
+        <span class="material-icons">science</span>
+        Basado en evidencia cient&iacute;fica
+      </div>
+      <h1 class="hero-title">
+        Entrena el cerebro<br>
+        <span class="hero-title-accent">mientras mueves el cuerpo</span>
+      </h1>
+      <p class="hero-subtitle">
+        17 herramientas de entrenamiento cognitivo-motor dise&ntilde;adas para entrenadores personales.
+        Mejora el equilibrio, la atenci&oacute;n y la autonom&iacute;a funcional de tus clientes mayores de 40 a&ntilde;os.
       </p>
-    </header>
+      <div class="hero-meta">
+        <span class="hero-meta-item">
+          <span class="material-icons">devices</span>
+          PWA instalable
+        </span>
+        <span class="hero-meta-item">
+          <span class="material-icons">wifi_off</span>
+          Funciona sin conexi&oacute;n
+        </span>
+        <span class="hero-meta-item">
+          <span class="material-icons">payments</span>
+          Gratuita y sin registro
+        </span>
+      </div>
+      <a href="./dashboard.html" class="hero-cta">
+        <span class="material-icons">apps</span>
+        Abrir herramientas
+      </a>
+    </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- INHIBICIÓN Y CONTROL EJECUTIVO                     -->
+    <!-- SHOWCASE: Doble Tarea Cognitiva                    -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--rosa-400);">block</span>
-        <h2 style="color: var(--rosa-400);">INHIBICI&Oacute;N Y CONTROL EJECUTIVO</h2>
-      </header>
-      <p class="category-desc">Frenar respuestas autom&aacute;ticas. Fundamental para prevenci&oacute;n de ca&iacute;das y toma de decisiones bajo presi&oacute;n.</p>
+    <hr class="landing-divider">
 
-      <div class="tools-grid">
-        <article class="tool-card card-rosa" onclick="window.location.href='./tools/stroop/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">palette</span></div>
-          <h3 class="tool-title">Test de Stroop</h3>
-          <p class="tool-desc">Di en voz alta el COLOR de la tinta, ignorando la palabra escrita.</p>
+    <section class="showcase-section">
+      <div class="showcase-text">
+        <h2 class="showcase-title" style="color: var(--turquesa-400);">Doble Tarea Cognitiva</h2>
+        <p class="showcase-desc">Exige al paciente tomar decisiones r&aacute;pidas bajo patrones de color incongruentes o c&aacute;lculos aritm&eacute;ticos invertidos al mismo tiempo que compromete el equilibrio p&eacute;lvico. Todo esto reduce radicalmente el riesgo de ca&iacute;das en el mundo real.</p>
+      </div>
+      <div class="showcase-image">
+        <img src="../../../assets/neurofit_ui1.png" alt="Interfaz de entrenamiento dual-task cognitivo" class="showcase-img showcase-img--turquesa">
+      </div>
+    </section>
+
+    <section class="showcase-section showcase-section--reverse">
+      <div class="showcase-text">
+        <h2 class="showcase-title" style="color: var(--rosa-400);">Se&ntilde;ales Reactivas de Estr&eacute;s</h2>
+        <p class="showcase-desc">No hay patrones repetitivos. El motor interno de NeuroFit escupe se&ntilde;ales auditivas y lum&iacute;nicas de Stop/Go configuradas por cadencia. Desafiamos la inercia del adulto oblig&aacute;ndole a reclutar fibras r&aacute;pidas ante el caos dictado por la pantalla.</p>
+      </div>
+      <div class="showcase-image">
+        <img src="../../../assets/neurofit_ui2.png" alt="Entrenamiento dual-task auditivo" class="showcase-img showcase-img--rosa">
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- BENEFITS SECTION                                   -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-benefits" aria-labelledby="benefits-title">
+      <h2 id="benefits-title" class="landing-section-title">Por qu&eacute; dual-task</h2>
+      <p class="landing-section-subtitle">
+        Combinar ejercicio f&iacute;sico con tareas cognitivas produce beneficios que ninguno logra por separado.
+      </p>
+
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--turquesa">
+            <span class="material-icons">balance</span>
+          </div>
+          <h3 class="benefit-title">Mejor equilibrio, menos ca&iacute;das</h3>
+          <p class="benefit-text">
+            Los estudios sugieren que el entrenamiento dual-task puede mejorar el equilibrio y reducir el riesgo de ca&iacute;das en adultos mayores.
+          </p>
+          <p class="benefit-cite">Khan et al. 2025, Eur Geriatr Med &mdash; 44 ensayos, 2782 participantes</p>
         </article>
 
-        <article class="tool-card card-rosa" onclick="window.location.href='./tools/go-nogo/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">do_not_touch</span></div>
-          <h3 class="tool-title">Go / No-Go</h3>
-          <p class="tool-desc">Toca en verde, frena en rojo. Mide tiempo de reacci&oacute;n y falsos positivos.</p>
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--rosa">
+            <span class="material-icons">neurology</span>
+          </div>
+          <h3 class="benefit-title">Superior al ejercicio solo</h3>
+          <p class="benefit-text">
+            El entrenamiento combinado muestra resultados significativamente mejores que el ejercicio o la estimulaci&oacute;n cognitiva por separado.
+          </p>
+          <p class="benefit-cite">Gavelin et al. 2020, Ageing Res Rev &mdash; Network meta-analysis, g=0.22</p>
         </article>
 
-        <article class="tool-card card-rosa" onclick="window.location.href='./tools/arrows/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">swap_horiz</span></div>
-          <h3 class="tool-title">Conflicto Audiovisual</h3>
-          <p class="tool-desc">Flecha visual + audio incongruente. Inhibe la respuesta autom&aacute;tica al sonido.</p>
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--amarillo">
+            <span class="material-icons">psychology_alt</span>
+          </div>
+          <h3 class="benefit-title">Combate el declive cognitivo</h3>
+          <p class="benefit-text">
+            Desde los 40, la memoria de trabajo, la atenci&oacute;n y la funci&oacute;n ejecutiva pueden deteriorarse. El entrenamiento dual-task puede ayudar a mitigarlo.
+          </p>
+          <p class="benefit-cite">Khadilkar et al. 2026, Int J Gynaecol Obstet &mdash; Evidencia sobre menopausia y cognici&oacute;n</p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--gris">
+            <span class="material-icons">speed</span>
+          </div>
+          <h3 class="benefit-title">Mayor eficiencia neural</h3>
+          <p class="benefit-text">
+            Las investigaciones indican que el entrenamiento puede reducir la hiperactivaci&oacute;n prefrontal, logrando un procesamiento cerebral m&aacute;s eficiente.
+          </p>
+          <p class="benefit-cite">Maidan et al. 2018, Neurorehabil Neural Repair &mdash; Neuroimagen funcional</p>
         </article>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- MEMORIA DE TRABAJO                                 -->
+    <!-- IMPACT CHARTS                                      -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--turquesa-400);">memory</span>
-        <h2 style="color: var(--turquesa-400);">MEMORIA DE TRABAJO</h2>
-      </header>
-      <p class="category-desc">Retener y manipular informaci&oacute;n mientras el cuerpo est&aacute; en movimiento. Clave para la autonom&iacute;a funcional.</p>
+    <hr class="landing-divider">
 
-      <div class="tools-grid">
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/nback/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">replay</span></div>
-          <h3 class="tool-title">N-Back Visual</h3>
-          <p class="tool-desc">Detecta cu&aacute;ndo el est&iacute;mulo coincide con el de N posiciones atr&aacute;s.</p>
-        </article>
+    <section class="landing-charts" aria-labelledby="charts-title">
+      <h2 id="charts-title" class="landing-section-title">Impacto cognitivo medido</h2>
+      <p class="landing-section-subtitle">
+        Tama&ntilde;os de efecto (Hedges' g) reportados en meta-an&aacute;lisis recientes. Mayor barra = mayor mejora.
+      </p>
 
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/simon/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">psychology</span></div>
-          <h3 class="tool-title">Secuencias (Simon)</h3>
-          <p class="tool-desc">Memoriza y replica el orden exacto de los destellos visual-sonoros.</p>
-        </article>
+      <!-- Chart 1: Dual-Task vs Solo ejercicio (Gavelin 2020) -->
+      <div class="chart-block">
+        <h3 class="chart-title">Dual-Task vs Ejercicio Solo</h3>
+        <p class="chart-source">Gavelin et al. 2020, Ageing Research Reviews &mdash; Network meta-analysis</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Cognici&oacute;n global</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 44%;" data-value="g = 0.22"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Atenci&oacute;n</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 56%;" data-value="g = 0.28"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Funci&oacute;n ejecutiva</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 60%;" data-value="g = 0.30"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Memoria de trabajo</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 50%;" data-value="g = 0.25"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/matrix/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">grid_view</span></div>
-          <h3 class="tool-title">Matriz Visoespacial</h3>
-          <p class="tool-desc">Memoriza las posiciones iluminadas moment&aacute;neamente en la cuadr&iacute;cula.</p>
-        </article>
+      <!-- Chart 2: Reducción de caídas (Khan 2025) -->
+      <div class="chart-block">
+        <h3 class="chart-title">Reducci&oacute;n de ca&iacute;das y mejora de equilibrio</h3>
+        <p class="chart-source">Khan et al. 2025, Eur Geriatr Med &mdash; 44 ensayos, 2782 participantes</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Equilibrio est&aacute;tico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 72%;" data-value="SMD = 0.72"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Equilibrio din&aacute;mico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 65%;" data-value="SMD = 0.65"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Timed Up &amp; Go</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 58%;" data-value="SMD = 0.58"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Riesgo de ca&iacute;das</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 45%;" data-value="-30%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/sort/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">format_list_numbered</span></div>
-          <h3 class="tool-title">De Menor a Mayor</h3>
-          <p class="tool-desc">Recibe n&uacute;meros inconexos y ord&eacute;nalos r&aacute;pido en voz alta.</p>
-        </article>
+      <!-- Chart 3: Dosis-Respuesta -->
+      <div class="chart-block">
+        <h3 class="chart-title">Dosis &oacute;ptima de entrenamiento</h3>
+        <p class="chart-source">S&iacute;ntesis de m&uacute;ltiples revisiones sistem&aacute;ticas (2018&ndash;2026)</p>
+        <div class="dose-cards">
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--turquesa-400);">3x</div>
+            <div class="dose-label">sesiones/semana</div>
+            <div class="dose-detail">frecuencia &oacute;ptima</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--tulip-tree-400);">30</div>
+            <div class="dose-label">min/sesi&oacute;n</div>
+            <div class="dose-detail">duraci&oacute;n m&iacute;nima eficaz</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--rosa-400);">12</div>
+            <div class="dose-label">semanas</div>
+            <div class="dose-detail">para resultados &oacute;ptimos</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--turquesa-400);">4</div>
+            <div class="dose-label">semanas</div>
+            <div class="dose-detail">mejoras detectables</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 4: Comparativa de intervenciones -->
+      <div class="chart-block">
+        <h3 class="chart-title">Comparativa: tipos de intervenci&oacute;n</h3>
+        <p class="chart-source">Gavelin et al. 2020 &mdash; Tama&ntilde;o de efecto sobre cognici&oacute;n global</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Solo ejercicio aer&oacute;bico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--gris" style="width: 20%;" data-value="g = 0.10"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Solo estimulaci&oacute;n cognitiva</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--amarillo" style="width: 30%;" data-value="g = 0.15"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Ejercicio + cognitivo secuencial</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--amarillo" style="width: 36%;" data-value="g = 0.18"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Dual-Task simult&aacute;neo</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 44%;" data-value="g = 0.22"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- ATENCIÓN Y VELOCIDAD DE PROCESAMIENTO              -->
+    <!-- HOW IT WORKS                                       -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--tulip-tree-400);">bolt</span>
-        <h2 style="color: var(--tulip-tree-400);">ATENCI&Oacute;N Y VELOCIDAD DE PROCESAMIENTO</h2>
-      </header>
-      <p class="category-desc">Reaccionar r&aacute;pido ante est&iacute;mulos cambiantes. Entrena la capacidad de dividir atenci&oacute;n entre tarea f&iacute;sica y cognitiva.</p>
+    <hr class="landing-divider">
 
-      <div class="tools-grid">
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/flechas/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">directions</span></div>
-          <h3 class="tool-title">Flechas Reactivas</h3>
-          <p class="tool-desc">Cambios de direcci&oacute;n aleatorios en 8 ejes. Mueve tu cuerpo hacia donde apunta.</p>
-        </article>
+    <section class="landing-how" aria-labelledby="how-title">
+      <h2 id="how-title" class="landing-section-title">C&oacute;mo funciona</h2>
+      <p class="landing-section-subtitle">
+        Tres pasos para integrar dual-task en cualquier sesi&oacute;n de entrenamiento.
+      </p>
 
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/colores/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">palette</span></div>
-          <h3 class="tool-title">Colores Reactivos</h3>
-          <p class="tool-desc">Discriminaci&oacute;n crom&aacute;tica r&aacute;pida. Est&iacute;mulos flash a intervalos r&iacute;tmicos.</p>
-        </article>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="how-step-number">1</span>
+          <span class="material-icons how-step-icon">touch_app</span>
+          <h3 class="how-step-title">Elige la herramienta</h3>
+          <p class="how-step-text">Selecciona la tarea cognitiva adecuada al objetivo de la sesi&oacute;n: inhibici&oacute;n, memoria, atenci&oacute;n o c&aacute;lculo.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-step-number">2</span>
+          <span class="material-icons how-step-icon">tune</span>
+          <h3 class="how-step-title">Ajusta la cadencia</h3>
+          <p class="how-step-text">Configura la velocidad de los est&iacute;mulos seg&uacute;n el nivel del cliente. Dosis &oacute;ptima: 30 min, 3x/semana, intensidad moderada.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-step-number">3</span>
+          <span class="material-icons how-step-icon">directions_run</span>
+          <h3 class="how-step-title">Mueve mientras piensas</h3>
+          <p class="how-step-text">El cliente ejecuta ejercicios de propiocepci&oacute;n o movilidad mientras responde a los est&iacute;mulos cognitivos en pantalla.</p>
+        </div>
+      </div>
 
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/sonidos/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">hearing</span></div>
-          <h3 class="tool-title">Sonidos Audiomotores</h3>
-          <p class="tool-desc">Reacci&oacute;n auditiva pura. Discrimina frecuencias y ejecuta el movimiento asignado.</p>
-        </article>
-
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/reactive/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">flash_on</span></div>
-          <h3 class="tool-title">Se&ntilde;ales Reactivas</h3>
-          <p class="tool-desc">Agilidad multimodal. Se&ntilde;ales visuales y auditivas aleatorias exigen reacci&oacute;n inmediata.</p>
-        </article>
-
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/search/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">travel_explore</span></div>
-          <h3 class="tool-title">B&uacute;squeda Visual</h3>
-          <p class="tool-desc">Localiza el intruso entre distractores. Atenci&oacute;n selectiva visuoespacial.</p>
-        </article>
+      <div class="audience-tags">
+        <span class="audience-tag"><span class="material-icons">person</span> Adultos +40</span>
+        <span class="audience-tag"><span class="material-icons">fitness_center</span> Entrenadores personales</span>
+        <span class="audience-tag"><span class="material-icons">groups</span> Clases grupales</span>
+        <span class="audience-tag"><span class="material-icons">elderly</span> Prevenci&oacute;n de ca&iacute;das</span>
+        <span class="audience-tag"><span class="material-icons">self_improvement</span> Autonom&iacute;a funcional</span>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- RAZONAMIENTO Y CÁLCULO                             -->
+    <!-- EVIDENCE SECTION                                   -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--turquesa-400);">calculate</span>
-        <h2 style="color: var(--turquesa-400);">RAZONAMIENTO Y C&Aacute;LCULO</h2>
-      </header>
-      <p class="category-desc">Procesar informaci&oacute;n compleja bajo carga motora. Aritm&eacute;tica, razonamiento espacial y recuperaci&oacute;n l&eacute;xica.</p>
+    <hr class="landing-divider">
 
-      <div class="tools-grid">
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/d50/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">calculate</span></div>
-          <h3 class="tool-title">Decisi&oacute;n D50</h3>
-          <p class="tool-desc">Suma dos n&uacute;meros e indica si el total es mayor o menor que 50.</p>
-        </article>
+    <section class="landing-evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title" class="landing-section-title">Respaldado por la investigaci&oacute;n</h2>
+      <p class="landing-section-subtitle">
+        Datos de revisiones sistem&aacute;ticas y meta-an&aacute;lisis publicados en PubMed (2018&ndash;2026).
+      </p>
 
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/clock/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">schedule</span></div>
-          <h3 class="tool-title">Reloj Auditivo (ACT)</h3>
-          <p class="tool-desc">Escucha una hora y decide si las agujas est&aacute;n del mismo lado o en lados opuestos.</p>
-        </article>
+      <div class="evidence-stats">
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">44</div>
+          <div class="evidence-stat-label">Ensayos cl&iacute;nicos<br>aleatorizados</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">2782</div>
+          <div class="evidence-stat-label">Participantes<br>adultos mayores</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">4</div>
+          <div class="evidence-stat-label">Semanas para<br>mejoras medibles</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">17</div>
+          <div class="evidence-stat-label">Herramientas<br>disponibles</div>
+        </div>
+      </div>
 
-        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/fluency/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">record_voice_over</span></div>
-          <h3 class="tool-title">Fluencia Verbal</h3>
-          <p class="tool-desc">Nombra elementos de categor&iacute;as sem&aacute;nticas y fon&eacute;micas sin perder el patr&oacute;n motor.</p>
-        </article>
+      <div class="evidence-disclaimer">
+        <span class="material-icons">info</span>
+        <p class="evidence-disclaimer-text">
+          <strong>Nota sobre la evidencia:</strong> La calidad de la evidencia var&iacute;a de muy baja a moderada seg&uacute;n las escalas GRADE (Cochrane 2024).
+          Esta herramienta no diagnostica, trata ni cura ninguna condici&oacute;n. Consulta siempre a un profesional sanitario.
+        </p>
       </div>
     </section>
 
     <!-- ══════════════════════════════════════════════════ -->
-    <!-- COORDINACIÓN VISUOMOTORA                           -->
+    <!-- FINAL CTA                                          -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--tulip-tree-400);">gesture</span>
-        <h2 style="color: var(--tulip-tree-400);">COORDINACI&Oacute;N VISUOMOTORA</h2>
-      </header>
-      <p class="category-desc">Precisi&oacute;n ojo-mano y seguimiento visual. Integra control postural con tareas de trazado y rastreo.</p>
-
-      <div class="tools-grid">
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/tracking/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">visibility</span></div>
-          <h3 class="tool-title">Tracking Continuo</h3>
-          <p class="tool-desc">Sigue el objetivo en movimiento con giros cervicales y estabilidad axial.</p>
-        </article>
-
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/maze/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">route</span></div>
-          <h3 class="tool-title">Laberinto Motor</h3>
-          <p class="tool-desc">Sigue el pasillo sin tocar las paredes. Dificultad din&aacute;mica seg&uacute;n cadencia.</p>
-        </article>
-
-        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/trace/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">gesture</span></div>
-          <h3 class="tool-title">Trazado Alfanum&eacute;rico</h3>
-          <p class="tool-desc">Resigue el contorno de letras y n&uacute;meros en pantalla con la articulaci&oacute;n asignada.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- ══════════════════════════════════════════════════ -->
-    <!-- HERRAMIENTAS DE SOPORTE                            -->
-    <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
-      <header class="category-header">
-        <span class="material-icons" style="color: var(--gris-400);">build</span>
-        <h2 style="color: var(--gris-400);">HERRAMIENTAS DE SOPORTE</h2>
-      </header>
-      <p class="category-desc">Temporizadores, generadores de combos y herramientas complementarias para la sesi&oacute;n.</p>
-
-      <div class="tools-grid">
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/timers/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">hourglass_empty</span></div>
-          <h3 class="tool-title">Temporizador Cl&iacute;nico</h3>
-          <p class="tool-desc">Reloj en alto contraste para rutinas AMRAP, EMOM y pausas medidas.</p>
-        </article>
-
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/comba/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">fitness_center</span></div>
-          <h3 class="tool-title">Comba Fit</h3>
-          <p class="tool-desc">Salto guiado por voz. Cambia pies o t&eacute;cnica seg&uacute;n &oacute;rdenes a ritmo exigente.</p>
-        </article>
-
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/boxing/index.html'">
-          <div class="tool-icon-container"><span class="material-icons">sports_mma</span></div>
-          <h3 class="tool-title">Fit Boxing</h3>
-          <p class="tool-desc">Combos ca&oacute;ticos de golpes y esquivas bajo estr&eacute;s verbal r&iacute;tmico.</p>
-        </article>
-      </div>
+    <section class="landing-final-cta">
+      <h2 class="landing-section-title">Empieza hoy</h2>
+      <p class="landing-section-subtitle">Sin registro, sin coste, directamente en tu navegador.</p>
+      <a href="./dashboard.html" class="hero-cta">
+        <span class="material-icons">apps</span>
+        Abrir herramientas
+      </a>
     </section>
 
   </main>

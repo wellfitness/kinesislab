@@ -5,26 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matriz Visoespacial - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .matrix-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 300px; height: 300px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px;}
-    .matrix-cell { background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.1s; }
-    .matrix-cell.active { background: var(--rosa-400); box-shadow: 0 0 20px var(--rosa-400); }
+    .matrix-grid {
+      display: grid;
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 12px;
+    }
+    .matrix-cell {
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      border: 2px solid rgba(255,255,255,0.1);
+      transition: all 0.15s;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: white;
+      min-height: 44px;
+      min-width: 44px;
+      aspect-ratio: 1;
+    }
+    .matrix-cell.active {
+      background: var(--rosa-400);
+      box-shadow: 0 0 20px var(--rosa-400);
+    }
+    .matrix-cell.selected {
+      background: var(--turquesa-400);
+      box-shadow: 0 0 15px var(--turquesa-400);
+    }
+    .matrix-cell.wrong {
+      background: var(--tulip-tree-400);
+      box-shadow: 0 0 15px var(--tulip-tree-400);
+    }
+    .ordered-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: var(--space-2);
+      padding: 8px 16px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+    }
+    .ordered-toggle label {
+      font-size: 0.85rem;
+      color: var(--gris-300);
+      cursor: pointer;
+      user-select: none;
+    }
+    .ordered-toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--turquesa-400);
+      cursor: pointer;
+    }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
   </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Matriz Visoespacial</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
+      <div class="control-group">
+        <span class="control-label">Cuadr&iacute;cula:</span>
+        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+          <option value="3" selected>3&times;3</option>
+          <option value="4">4&times;4</option>
+          <option value="5">5&times;5</option>
+        </select>
+      </div>
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -32,16 +104,63 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runMatrix()">
-        <p class="stimulus-instruction" id="matrixInstruction">Memoriza el patrón</p>
-        <div class="matrix-grid">
-          <div class="matrix-cell" id="cell-0"></div><div class="matrix-cell" id="cell-1"></div><div class="matrix-cell" id="cell-2"></div>
-          <div class="matrix-cell" id="cell-3"></div><div class="matrix-cell" id="cell-4"></div><div class="matrix-cell" id="cell-5"></div>
-          <div class="matrix-cell" id="cell-6"></div><div class="matrix-cell" id="cell-7"></div><div class="matrix-cell" id="cell-8"></div>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p class="stimulus-instruction" id="matrixInstruction" style="color: var(--gris-300);">Memoriza el patr&oacute;n</p>
+        <div class="matrix-grid" id="matrixGrid"></div>
+        <div class="ordered-toggle">
+          <input type="checkbox" id="orderedCheck" onchange="tool.toggleOrdered(this.checked)">
+          <label for="orderedCheck">Modo orden (avanzado)</label>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
         </div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Matriz Visoespacial</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Entrenamiento de <strong>memoria visoespacial</strong> basado en el test de Corsi. Se iluminan celdas en una cuadr&iacute;cula; debes recordar cu&aacute;les se activaron y tocarlas. El modo orden avanzado exige recordar tambi&eacute;n la secuencia exacta.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Elige tama&ntilde;o de cuadr&iacute;cula (3x3, 4x4 o 5x5) y cadencia.</li>
+            <li>Pulsa START. Se iluminan varias celdas moment&aacute;neamente.</li>
+            <li>Cuando pida respuesta, toca las celdas que recuerdes.</li>
+            <li>Modo orden: las celdas muestran n&uacute;meros; debes tocarlas en ese orden.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza en 3x3 sin modo orden para establecer l&iacute;nea base.</li>
+            <li>El modo orden multiplica la dificultad &mdash; reservar para usuarios avanzados.</li>
+            <li>Combina con equilibrio o sentadillas isom&eacute;tricas durante la fase de memorizaci&oacute;n.</li>
+            <li>5x5 con modo orden es un reto extremo, incluso para j&oacute;venes deportistas.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Evaluaci&oacute;n de span visoespacial (an&aacute;logo al Corsi Block).</li>
+            <li>Doble tarea con carga espacial: ideal para deportes de posici&oacute;n.</li>
+            <li>Rehabilitaci&oacute;n cognitiva tras ictus o TCE.</li>
+            <li>Estimulaci&oacute;n cognitiva en adultos mayores.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="matrix.js"></script>
 </body>
 </html>

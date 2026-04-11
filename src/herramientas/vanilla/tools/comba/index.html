@@ -82,11 +82,14 @@
   <section class="view-execution">
     <header class="exec-header">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;">
-        NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span>
+        Comba Fit
       </h2>
-      <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../index.html'">
-        <span class="material-icons">arrow_back</span> Volver a Batería
-      </button>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../dashboard.html'">
+          <span class="material-icons">arrow_back</span> Volver
+        </button>
+      </div>
     </header>
 
     <div class="exec-toolbar" id="configPanel" style="flex-direction: column; align-items: stretch; gap: 1rem; padding: 1rem 2rem;">
@@ -168,6 +171,48 @@
 
     </div>
   </section>
+
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Comba Fit</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Generador de <strong>secuencias de salto a la comba</strong> con indicaciones por voz. Cambia autom&aacute;ticamente entre t&eacute;cnicas de salto (pies juntos, alternos, cruces, dobles) a ritmo configurable. La voz libera la vista para centrarse en la cuerda.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Configura: n&uacute;mero de ejercicios por secuencia y duraci&oacute;n de cada uno.</li>
+            <li>Activa &ldquo;ejercicios avanzados&rdquo; si el grupo tiene nivel.</li>
+            <li>Ajusta velocidad de voz seg&uacute;n preferencia.</li>
+            <li>Pulsa EMPEZAR. La voz anuncia cada cambio de t&eacute;cnica.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Sin avanzados: perfecto para principiantes (salto b&aacute;sico, pies alternos, rodillas).</li>
+            <li>Con avanzados: cruces y doble salto a&ntilde;aden dificultad motora real.</li>
+            <li>Sube la velocidad de voz para aumentar la presi&oacute;n temporal.</li>
+            <li>En grupo: todos saltan a la vez siguiendo la misma secuencia.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Calentamiento cardiovascular din&aacute;mico.</li>
+            <li>Trabajo de coordinaci&oacute;n y ritmo con carga cognitiva (escuchar + ejecutar).</li>
+            <li>Entrenamiento HIIT basado en comba.</li>
+            <li>Sesiones donde necesitas que todos cambien de ejercicio sincronizados.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="comba.js"></script>
 </body>

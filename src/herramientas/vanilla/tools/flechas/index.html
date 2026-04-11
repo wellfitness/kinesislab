@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flechas Reactivas - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     .arrow-display {
@@ -36,8 +37,8 @@
       background: var(--gris-700);
       color: white;
       border: 1px solid var(--gris-600);
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       font-size: 1.25rem;
       font-weight: bold;
@@ -75,13 +76,14 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <div style="display: flex; align-items: center; gap: 12px;">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Flechas Reactivas</h2>
+      <div class="exec-header-actions">
         <div id="timerDisplay" class="timer-display" style="display: none;">05:00</div>
         <button class="fullscreen-btn" onclick="tool.toggleFullscreen()">
           <span id="fullscreenIcon" class="material-icons">fullscreen</span>
         </button>
-        <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
       </div>
     </header>
     <div class="exec-toolbar">
@@ -107,11 +109,53 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <p class="stimulus-instruction" style="color: var(--gris-500);">Mueve tu cuerpo en la direcci&oacute;n de la flecha</p>
+        <p class="stimulus-instruction" style="color: var(--gris-300);">Mueve tu cuerpo en la direcci&oacute;n de la flecha</p>
         <span id="arrowIcon" class="material-icons arrow-display" style="color: var(--tulip-tree-400);">directions</span>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Flechas Reactivas</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Herramienta de <strong>agilidad reactiva</strong>. Se muestra una flecha en 8 direcciones posibles (4 cardinales + 4 diagonales). El usuario debe reaccionar movi&eacute;ndose f&iacute;sicamente en la direcci&oacute;n que indica la flecha.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Configura duraci&oacute;n y velocidad de cambio.</li>
+            <li>Pulsa START. Las flechas cambian de direcci&oacute;n autom&aacute;ticamente.</li>
+            <li>El usuario debe desplazarse, girar o se&ntilde;alar en la direcci&oacute;n indicada.</li>
+            <li>Usa pantalla completa para mejor visibilidad en sala.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Proyecta en TV o pantalla grande para grupos.</li>
+            <li>Combina con desplazamientos laterales, shuffles o cambios de direcci&oacute;n reales.</li>
+            <li>Aumenta velocidad progresivamente dentro de la misma sesi&oacute;n.</li>
+            <li>En deportes: simula toma de decisiones direccionales bajo fatiga.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Calentamiento din&aacute;mico con componente reactivo.</li>
+            <li>Entrenamiento de agilidad en deportes de equipo.</li>
+            <li>Trabajo de cambios de direcci&oacute;n en rehabilitaci&oacute;n de rodilla/tobillo.</li>
+            <li>Sesiones grupales: todos siguen las flechas a la vez.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="flechas.js"></script>
 </body>
 </html>

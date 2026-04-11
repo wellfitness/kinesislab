@@ -76,11 +76,14 @@
   <section class="view-execution">
     <header class="exec-header">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;">
-        NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span>
+        Fit Boxing
       </h2>
-      <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../index.html'">
-        <span class="material-icons">arrow_back</span> Volver a Batería
-      </button>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../dashboard.html'">
+          <span class="material-icons">arrow_back</span> Volver
+        </button>
+      </div>
     </header>
 
     <div class="exec-toolbar" id="configPanel" style="flex-direction: column; align-items: stretch; gap: 1rem; padding: 1rem 2rem;">
@@ -133,6 +136,48 @@
 
     </div>
   </section>
+
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Fit Boxing</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Generador de <strong>combinaciones de boxeo fitness</strong> con indicaciones por voz. Anuncia secuencias ca&oacute;ticas de golpes (jab, cross, gancho, uppercut) y opcionalmente esquivas y bloqueos. Alta demanda de atenci&oacute;n auditiva y coordinaci&oacute;n.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Configura golpes por combinaci&oacute;n (2-20) y velocidad de voz.</li>
+            <li>Activa &ldquo;movimientos defensivos&rdquo; para a&ntilde;adir esquivas y bloqueos.</li>
+            <li>Pulsa EMPEZAR. La voz va diciendo cada golpe de la secuencia.</li>
+            <li>El usuario ejecuta cada golpe al saco o al aire seg&uacute;n se anuncia.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con 3-4 golpes por combo para aprender los nombres.</li>
+            <li>Con defensivos activados, mezcla esquivas entre golpes: m&aacute;s realista.</li>
+            <li>Sube a 10-20 golpes por combo para combos largos tipo &ldquo;freestyle&rdquo;.</li>
+            <li>En parejas: uno golpea, el otro sujeta manoplas y valida.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Sesiones de boxeo fitness o cardio combat.</li>
+            <li>Trabajo de coordinaci&oacute;n ojo-mano bajo estr&eacute;s verbal.</li>
+            <li>Descarga emocional: golpeo libre con estructura.</li>
+            <li>Calentamiento intenso con alta demanda cognitiva.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="boxing.js"></script>
 </body>

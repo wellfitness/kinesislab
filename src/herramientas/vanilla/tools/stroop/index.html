@@ -5,21 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test de Stroop - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .stroop-answers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: var(--space-3);
+    }
+    .stroop-answer-btn {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: 3px solid var(--gris-600);
+      background: var(--gris-800);
+      color: white;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      min-width: 100px;
+      min-height: 56px;
+      transition: all 150ms;
+    }
+    .stroop-answer-btn:active { transform: scale(0.95); }
+    .stroop-answer-btn:disabled { opacity: 0.3; cursor: default; }
+    .stroop-answer-btn.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
+    .stroop-answer-btn.wrong { border-color: var(--rosa-400); background: rgba(225, 29, 72, 0.2); }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+  </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Test de Stroop</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -27,12 +65,67 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runStroop()">
-        <p class="stimulus-instruction" style="color: var(--gris-500);">Nombra el color de la TINTA (no lo que pone):</p>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p class="stimulus-instruction" style="color: var(--gris-300);">Toca el bot&oacute;n del COLOR DE LA TINTA (no lo que pone)</p>
         <div id="stroopText" class="text-giant" style="color: white; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">---</div>
+        <div class="stroop-answers">
+          <button class="stroop-answer-btn" data-color="ROJO" onclick="tool.handleAnswer('ROJO')" disabled style="border-color: #e11d48; color: #e11d48;">ROJO</button>
+          <button class="stroop-answer-btn" data-color="AZUL" onclick="tool.handleAnswer('AZUL')" disabled style="border-color: #3b82f6; color: #3b82f6;">AZUL</button>
+          <button class="stroop-answer-btn" data-color="VERDE" onclick="tool.handleAnswer('VERDE')" disabled style="border-color: #10b981; color: #10b981;">VERDE</button>
+          <button class="stroop-answer-btn" data-color="AMARILLO" onclick="tool.handleAnswer('AMARILLO')" disabled style="border-color: #eab308; color: #eab308;">AMARILLO</button>
+          <button class="stroop-answer-btn" data-color="BLANCO" onclick="tool.handleAnswer('BLANCO')" disabled style="border-color: #ffffff; color: #ffffff;">BLANCO</button>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+          <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
+        </div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Test de Stroop</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Cl&aacute;sico test neuropsicol&oacute;gico que mide la <strong>inhibici&oacute;n cognitiva</strong> y la funci&oacute;n ejecutiva. Aparece una palabra de color escrita en una tinta diferente: debes identificar el color de la tinta, no lo que dice la palabra. El conflicto entre leer y percibir el color entrena el control atencional.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Selecciona la cadencia (velocidad entre est&iacute;mulos).</li>
+            <li>Pulsa START. Aparecer&aacute; una palabra de color escrita en otra tinta.</li>
+            <li>Toca el bot&oacute;n que corresponde al <strong>color de la tinta</strong>, no al texto.</li>
+            <li>El marcador registra aciertos, errores y tiempo de reacci&oacute;n medio.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza en cadencia lenta para que el usuario entienda la mec&aacute;nica.</li>
+            <li>Combina con tarea motora: sentadillas, marcha en el sitio o equilibrio monopodal.</li>
+            <li>Usa el tiempo de reacci&oacute;n medio como m&eacute;trica de progresi&oacute;n entre sesiones.</li>
+            <li>En grupo: proyecta en pantalla y que respondan en voz alta.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Calentamiento cognitivo al inicio de sesi&oacute;n.</li>
+            <li>Trabajo de doble tarea con adultos mayores (prevenci&oacute;n de ca&iacute;das).</li>
+            <li>Vuelta a la calma activa tras bloque de fuerza.</li>
+            <li>Evaluaci&oacute;n r&aacute;pida de fatiga cognitiva durante la sesi&oacute;n.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="stroop.js"></script>
 </body>
 </html>

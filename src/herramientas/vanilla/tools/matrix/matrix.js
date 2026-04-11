@@ -1,64 +1,298 @@
 class MatrixTool {
   constructor() {
+    this.levels = {
+      '3': { size: 3, count: 3 },
+      '4': { size: 4, count: 4 },
+      '5': { size: 5, count: 5 }
+    };
+    this.currentLevel = '3';
+    this.orderedMode = false;
     this.interval = null;
     this.isPlaying = false;
     this.currentSpeed = 4000;
-    this.matrixTimeoutId = null;
+    this.hideTimeout = null;
+    this.activeCells = [];
+    this.playerSelection = [];
+    this.phase = 'idle';
+    this.hits = 0;
+    this.misses = 0;
+    this.totalTrials = 0;
+    this.audioCtx = null;
   }
+
+  get gridSize() { return this.levels[this.currentLevel].size; }
+  get cellCount() { return this.levels[this.currentLevel].count; }
+  get totalCells() { return this.gridSize * this.gridSize; }
+
+  getAudioCtx() {
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return this.audioCtx;
+  }
+
+  beep(freq, dur) {
+    const ctx = this.getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.value = 0.25;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
+    osc.stop(ctx.currentTime + dur / 1000);
+  }
+
+  buildGrid() {
+    const grid = document.getElementById('matrixGrid');
+    grid.style.gridTemplateColumns = 'repeat(' + this.gridSize + ', 1fr)';
+
+    const cellSize = Math.floor(280 / this.gridSize);
+    const gridPx = cellSize * this.gridSize + (this.gridSize - 1) * 8 + 20;
+    grid.style.width = gridPx + 'px';
+    grid.style.height = gridPx + 'px';
+    grid.style.gap = '8px';
+
+    grid.innerHTML = '';
+    for (let i = 0; i < this.totalCells; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'matrix-cell';
+      cell.id = 'cell-' + i;
+      cell.onclick = () => this.handleCellTap(i);
+      grid.appendChild(cell);
+    }
+  }
+
+  changeLevel(level) {
+    this.currentLevel = level;
+    if (this.isPlaying) {
+      this.stopEngine();
+      this.isPlaying = false;
+      document.getElementById('playIcon').textContent = 'play_arrow';
+      document.getElementById('playText').textContent = 'START';
+    }
+    this.buildGrid();
+    this.resetStats();
+    document.getElementById('matrixInstruction').textContent = 'Memoriza el patrón';
+    document.getElementById('matrixInstruction').style.color = '';
+  }
+
+  toggleOrdered(checked) {
+    this.orderedMode = checked;
+    if (this.isPlaying) {
+      this.stopEngine();
+      this.isPlaying = false;
+      document.getElementById('playIcon').textContent = 'play_arrow';
+      document.getElementById('playText').textContent = 'START';
+    }
+    this.resetStats();
+    this.clearMatrix();
+    document.getElementById('matrixInstruction').textContent = checked
+      ? 'Memoriza el patrón Y el orden'
+      : 'Memoriza el patrón';
+    document.getElementById('matrixInstruction').style.color = '';
+  }
+
   togglePlay() {
     this.isPlaying = !this.isPlaying;
-    const btn = document.getElementById('btnPlayPause');
     if (this.isPlaying) {
-      btn.classList.add('active');
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSE';
+      this.resetStats();
       this.startEngine();
     } else {
-      btn.classList.remove('active');
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'RESUME';
       this.stopEngine();
     }
   }
+
   startEngine() {
-    this.runMatrix();
-    this.interval = setInterval(() => this.runMatrix(), this.currentSpeed * 1.5);
+    this.showTrial();
+    this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
   }
+
+  tick() {
+    if (this.phase === 'respond') {
+      this.misses++;
+      document.getElementById('matrixInstruction').textContent = 'Tiempo agotado';
+      document.getElementById('matrixInstruction').style.color = 'var(--rosa-400)';
+      this.revealAnswer();
+      this.phase = 'feedback';
+      this.updateStats();
+      this.beep(220, 200);
+      if (navigator.vibrate) navigator.vibrate(100);
+      this.stopEngine();
+      setTimeout(() => {
+        if (!this.isPlaying) return;
+        this.showTrial();
+        this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
+      }, 800);
+      return;
+    }
+    this.showTrial();
+  }
+
   stopEngine() {
     if (this.interval) clearInterval(this.interval);
+    this.interval = null;
+    clearTimeout(this.hideTimeout);
   }
+
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
     if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
   }
 
-  runMatrix() {
+  resetStats() {
+    this.hits = 0;
+    this.misses = 0;
+    this.totalTrials = 0;
+    this.updateStats();
+  }
+
+  showTrial() {
     this.clearMatrix();
+    this.phase = 'memorize';
+    this.totalTrials++;
+
     const instruction = document.getElementById('matrixInstruction');
     instruction.textContent = 'MEMORIZA...';
     instruction.style.color = 'white';
 
-    let selected = [];
-    while(selected.length < 3) {
-      let r = Math.floor(Math.random() * 9);
-      if(!selected.includes(r)) selected.push(r);
+    this.activeCells = [];
+    while (this.activeCells.length < this.cellCount) {
+      const r = Math.floor(Math.random() * this.totalCells);
+      if (!this.activeCells.includes(r)) this.activeCells.push(r);
     }
-    selected.forEach(idx => document.getElementById(`cell-${idx}`).classList.add('active'));
 
-    let hideTime = this.currentSpeed * 0.4;
-
-    clearTimeout(this.matrixTimeoutId);
-    this.matrixTimeoutId = setTimeout(() => {
-      if(this.isPlaying) {
-        this.clearMatrix();
-        instruction.textContent = '¿Dónde estaban?';
-        instruction.style.color = 'var(--turquesa-400)';
+    this.activeCells.forEach((idx, order) => {
+      const cell = document.getElementById('cell-' + idx);
+      cell.classList.add('active');
+      if (this.orderedMode) {
+        cell.textContent = order + 1;
       }
-    }, hideTime);
+    });
+
+    this.setCellsClickable(false);
+
+    clearTimeout(this.hideTimeout);
+    this.hideTimeout = setTimeout(() => {
+      if (!this.isPlaying) return;
+      this.clearMatrix();
+      this.phase = 'respond';
+      this.playerSelection = [];
+      instruction.textContent = this.orderedMode
+        ? 'Toca en ORDEN (' + this.cellCount + ' celdas)'
+        : 'Toca las ' + this.cellCount + ' celdas';
+      instruction.style.color = 'var(--turquesa-400)';
+      this.setCellsClickable(true);
+    }, this.currentSpeed * 0.5);
+
+    this.updateStats();
   }
-  
+
+  handleCellTap(idx) {
+    if (this.phase !== 'respond' || !this.isPlaying) return;
+
+    const cell = document.getElementById('cell-' + idx);
+    if (cell.classList.contains('selected') || cell.classList.contains('wrong')) return;
+
+    if (navigator.vibrate) navigator.vibrate(30);
+
+    if (this.orderedMode) {
+      const expectedIdx = this.activeCells[this.playerSelection.length];
+      if (idx === expectedIdx) {
+        cell.classList.add('selected');
+        cell.textContent = this.playerSelection.length + 1;
+        this.playerSelection.push(idx);
+        if (this.playerSelection.length === this.cellCount) {
+          this.setCellsClickable(false);
+          this.evaluateSuccess();
+        }
+      } else {
+        cell.classList.add('wrong');
+        this.setCellsClickable(false);
+        this.evaluateFail();
+      }
+    } else {
+      cell.classList.add('selected');
+      this.playerSelection.push(idx);
+      if (this.playerSelection.length === this.cellCount) {
+        this.setCellsClickable(false);
+        this.evaluate();
+      }
+    }
+  }
+
+  evaluate() {
+    const correct = this.playerSelection.every(idx => this.activeCells.includes(idx));
+    if (correct) {
+      this.evaluateSuccess();
+    } else {
+      this.evaluateFail();
+    }
+  }
+
+  evaluateSuccess() {
+    this.hits++;
+    this.beep(880, 80);
+    this.revealAnswer();
+    document.getElementById('matrixInstruction').textContent = 'Correcto';
+    document.getElementById('matrixInstruction').style.color = '#10b981';
+    this.phase = 'feedback';
+    this.updateStats();
+  }
+
+  evaluateFail() {
+    this.misses++;
+    this.beep(220, 200);
+    if (navigator.vibrate) navigator.vibrate(100);
+
+    this.playerSelection.forEach(idx => {
+      if (!this.activeCells.includes(idx)) {
+        document.getElementById('cell-' + idx).classList.add('wrong');
+      }
+    });
+
+    this.revealAnswer();
+    document.getElementById('matrixInstruction').textContent = 'Incorrecto';
+    document.getElementById('matrixInstruction').style.color = 'var(--rosa-400)';
+    this.phase = 'feedback';
+    this.updateStats();
+  }
+
+  revealAnswer() {
+    this.activeCells.forEach((idx, order) => {
+      const cell = document.getElementById('cell-' + idx);
+      cell.classList.add('active');
+      if (this.orderedMode) {
+        cell.textContent = order + 1;
+      }
+    });
+  }
+
+  setCellsClickable(clickable) {
+    for (let i = 0; i < this.totalCells; i++) {
+      const cell = document.getElementById('cell-' + i);
+      cell.style.pointerEvents = clickable ? 'auto' : 'none';
+      cell.style.cursor = clickable ? 'pointer' : 'default';
+    }
+  }
+
   clearMatrix() {
-    for(let i=0; i<9; i++) document.getElementById(`cell-${i}`).classList.remove('active');
+    for (let i = 0; i < this.totalCells; i++) {
+      const cell = document.getElementById('cell-' + i);
+      cell.classList.remove('active', 'selected', 'wrong');
+      cell.textContent = '';
+    }
+  }
+
+  updateStats() {
+    document.getElementById('statHits').textContent = this.hits;
+    document.getElementById('statMisses').textContent = this.misses;
+    document.getElementById('statTotal').textContent = this.totalTrials;
   }
 }
+
 const tool = new MatrixTool();
+tool.buildGrid();

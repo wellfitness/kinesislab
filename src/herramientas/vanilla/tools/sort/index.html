@@ -5,21 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>De Menor a Mayor - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .sort-item {
+      font-family: var(--font-display);
+      font-weight: bold;
+      color: white;
+    }
+    .sort-separator { color: var(--gris-500); }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+  </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">De Menor a Mayor</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
+      <div class="control-group">
+        <span class="control-label">Nivel:</span>
+        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+          <option value="easy" selected>N&uacute;meros</option>
+          <option value="medium">Sumas y restas</option>
+          <option value="hard">Multiplicaciones</option>
+        </select>
+      </div>
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -27,18 +54,63 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runSort()">
-        <p class="stimulus-instruction">Dílos en voz alta de menor a mayor</p>
-        <div style="display: flex; gap: var(--space-4); margin-top: var(--space-4); align-items: center; flex-wrap: wrap; justify-content: center;">
-          <div id="sort-0" class="text-huge">00</div>
-          <div class="text-huge" style="color: var(--gris-700)">-</div>
-          <div id="sort-1" class="text-huge">00</div>
-          <div class="text-huge" style="color: var(--gris-700)">-</div>
-          <div id="sort-2" class="text-huge">00</div>
+      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <p id="sortInstruction" class="stimulus-instruction" style="color: var(--gris-300);">D&iacute;los en voz alta de menor a mayor</p>
+        <div id="sortDisplay" style="display: flex; gap: var(--space-3); margin-top: var(--space-4); align-items: center; justify-content: center; font-size: clamp(3.1rem, 8.5vw, 5.8rem);">
+          <div id="sort-0" class="sort-item">00</div>
+          <div class="sort-separator" style="color: var(--gris-500);">-</div>
+          <div id="sort-1" class="sort-item">00</div>
+          <div class="sort-separator" style="color: var(--gris-500);">-</div>
+          <div id="sort-2" class="sort-item">00</div>
+        </div>
+        <div class="stats-bar" aria-live="polite" role="status">
+          <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
         </div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>De Menor a Mayor</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Ejercicio de <strong>memoria de trabajo y ordenaci&oacute;n mental</strong>. Aparecen 3 n&uacute;meros (o operaciones) y el usuario debe ordenarlos de menor a mayor en voz alta. Trabaja la manipulaci&oacute;n mental de informaci&oacute;n num&eacute;rica.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Elige nivel: n&uacute;meros simples, sumas/restas o multiplicaciones.</li>
+            <li>Ajusta la cadencia seg&uacute;n la poblaci&oacute;n.</li>
+            <li>Pulsa START. Aparecen 3 valores.</li>
+            <li>El usuario los dice en voz alta ordenados de menor a mayor.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>N&uacute;meros simples es accesible para casi cualquier poblaci&oacute;n.</li>
+            <li>Las operaciones a&ntilde;aden carga de c&aacute;lculo: el usuario debe resolver Y ordenar.</li>
+            <li>No hay bot&oacute;n de respuesta &mdash; el usuario verbaliza. T&uacute; validas.</li>
+            <li>En grupo: &ldquo;quien lo diga primero&rdquo; a&ntilde;ade competitividad.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Doble tarea con carga aritm&eacute;tica durante ejercicio aer&oacute;bico.</li>
+            <li>Poblaci&oacute;n mayor: mantenimiento de habilidades num&eacute;ricas.</li>
+            <li>Deportistas: entrenamiento cognitivo bajo fatiga f&iacute;sica.</li>
+            <li>Sesiones grupales: proyectar y que todos respondan simult&aacute;neamente.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="sort.js"></script>
 </body>
 </html>

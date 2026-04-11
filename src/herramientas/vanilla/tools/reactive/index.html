@@ -3,23 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Señales Reactivas - NeuroFit Dual</title>
+  <title>Se&ntilde;ales Reactivas - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .reactive-action {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      letter-spacing: 6px;
+      color: white;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
+      transition: opacity 300ms ease;
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .reactive-signal {
+      display: none;
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      align-items: center;
+      justify-content: center;
+    }
+    .legend-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: var(--space-2);
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 320px;
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .legend-signal {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      min-width: 80px;
+      text-align: right;
+    }
+    .legend-arrow {
+      color: var(--gris-500);
+      font-size: 1.1rem;
+    }
+    .legend-action {
+      background: var(--gris-800);
+      border: 1px solid var(--gris-600);
+      border-radius: 6px;
+      color: var(--tulip-tree-400);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      width: 110px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .legend-action:focus {
+      border-color: var(--turquesa-400);
+      outline: none;
+    }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      position: absolute; bottom: var(--space-2); left: 50%; transform: translateX(-50%);
+      z-index: 2;
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+  </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Se&ntilde;ales Reactivas</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -27,13 +113,66 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
-      <div id="reactiveBg" style="position: absolute; top:0; left:0; right:0; bottom:0; background: var(--gris-900); z-index: -1;"></div>
-      <div style="display: flex; height: 100%; justify-content: center; align-items: center;">
-         <p id="reactiveText" class="text-giant" style="display:none; color: white;">¡YA!</p>
-         <p id="reactiveIntro" class="stimulus-instruction" style="color: var(--gris-500);">Atentos a la señal...</p>
+      <div id="reactiveBg" style="position: absolute; top:0; left:0; right:0; bottom:0; background: var(--gris-900); z-index: 0; transition: background 150ms;"></div>
+      <div style="display: flex; height: 100%; justify-content: center; align-items: center; position: relative; z-index: 1;">
+         <p id="reactiveIntro" class="stimulus-instruction" style="color: var(--gris-300);">Configura las acciones y pulsa START</p>
+      </div>
+      <div id="reactiveSignal" class="reactive-signal"></div>
+      <div id="reactiveAction" class="reactive-action" style="opacity: 0;"></div>
+      <div id="reactiveLegend" class="legend-panel">
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-icons" style="font-size:1rem;vertical-align:middle;">volume_up</span> PITIDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">TURQUESA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">AMARILLO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROSA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+        <div class="stat-item"><span id="statPhase" class="stat-value" style="color: var(--tulip-tree-400); font-size: 0.9rem;">---</span><span class="stat-label">Fase</span></div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Se&ntilde;ales Reactivas</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Herramienta de <strong>agilidad multimodal</strong>. Combina se&ntilde;ales visuales (colores) y auditivas (pitido) para provocar reacciones motoras espec&iacute;ficas. Cada est&iacute;mulo tiene una acci&oacute;n asignada que el usuario debe memorizar y ejecutar.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Edita las acciones en la leyenda inferior: asigna movimientos a cada se&ntilde;al.</li>
+            <li>Pulsa START. Las primeras rondas muestran la acci&oacute;n (aprendizaje).</li>
+            <li>Despu&eacute;s, solo aparece la se&ntilde;al y el usuario debe recordar qu&eacute; hacer.</li>
+            <li>Hay 4 est&iacute;mulos: pitido + 3 colores (turquesa, amarillo, rosa).</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con 2 se&ntilde;ales y a&ntilde;ade m&aacute;s cuando dominen las primeras.</li>
+            <li>Cambia las acciones entre rondas para forzar reaprendizaje.</li>
+            <li>Combina con desplazamientos: el usuario se mueve mientras espera la se&ntilde;al.</li>
+            <li>Proyecta en pantalla grande para uso grupal.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Entrenamiento reactivo multicanal (visual + auditivo).</li>
+            <li>Deportes de combate: reaccionar a se&ntilde;ales del oponente.</li>
+            <li>Sesiones grupales de alta intensidad con componente cognitivo.</li>
+            <li>Prevenci&oacute;n de ca&iacute;das: reaccionar a est&iacute;mulos inesperados.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="reactive.js"></script>
 </body>
 </html>

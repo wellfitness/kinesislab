@@ -5,44 +5,100 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simon - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 400px; aspect-ratio: 1/1; }
-    .simon-btn { border-radius: 20px; opacity: 0.3; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-    .simon-btn.lit { opacity: 1; transform: scale(1.05); box-shadow: 0 0 30px currentColor; }
+    .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: min(340px, 90vh); }
+    .simon-btn {
+      aspect-ratio: 1/1; border-radius: 20px; opacity: 0.45;
+      transition: all 0.15s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      cursor: pointer; border: none;
+    }
+    .simon-btn.lit { opacity: 1; transform: scale(1.08); box-shadow: 0 0 40px currentColor; }
+    .simon-btn.error { opacity: 1; background-color: #e11d48 !important; box-shadow: 0 0 40px #e11d48; transform: scale(1.08); }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
   </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Simon Dice</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
-        <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
-        </select>
-      </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
         <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-        <p id="simonInstruction" class="stimulus-instruction" style="color: white; margin-bottom: var(--space-8);">Memoriza la secuencia...</p>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p id="simonInstruction" class="stimulus-instruction" style="color: white; margin-bottom: var(--space-4);">Pulsa START para comenzar</p>
         <div class="simon-grid">
-          <div id="simon-0" class="simon-btn" style="background-color: var(--turquesa-400); color: var(--turquesa-400);"></div>
-          <div id="simon-1" class="simon-btn" style="background-color: var(--tulip-tree-400); color: var(--tulip-tree-400);"></div>
-          <div id="simon-2" class="simon-btn" style="background-color: var(--rosa-400); color: var(--rosa-400);"></div>
-          <div id="simon-3" class="simon-btn" style="background-color: #3b82f6; color: #3b82f6;"></div>
+          <button id="simon-0" class="simon-btn" style="background-color: var(--turquesa-400); color: var(--turquesa-400);" onclick="tool.handleTap(0)"></button>
+          <button id="simon-1" class="simon-btn" style="background-color: var(--tulip-tree-400); color: var(--tulip-tree-400);" onclick="tool.handleTap(1)"></button>
+          <button id="simon-2" class="simon-btn" style="background-color: var(--rosa-400); color: var(--rosa-400);" onclick="tool.handleTap(2)"></button>
+          <button id="simon-3" class="simon-btn" style="background-color: #3b82f6; color: #3b82f6;" onclick="tool.handleTap(3)"></button>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item"><span id="statRound" class="stat-value" style="color: white;">0</span><span class="stat-label">Ronda</span></div>
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+          <div class="stat-item"><span id="statBest" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Record</span></div>
         </div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Simon Dice</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Cl&aacute;sico juego de <strong>memoria secuencial</strong>. Se ilumina una secuencia de colores que crece en cada ronda. Debes repetir el orden exacto. Trabaja memoria a corto plazo, atenci&oacute;n sostenida y precisi&oacute;n motora fina.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Pulsa START. Se ilumina un bot&oacute;n de color.</li>
+            <li>Replica la secuencia tocando los colores en el mismo orden.</li>
+            <li>Cada ronda a&ntilde;ade un paso m&aacute;s a la secuencia.</li>
+            <li>Un error reinicia la secuencia. Se registra tu r&eacute;cord m&aacute;ximo.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Anima al usuario a verbalizar la secuencia (&ldquo;turquesa, amarillo, rosa&rdquo;) como estrategia de memorizaci&oacute;n.</li>
+            <li>En grupo: cada persona toca un color distinto, colaboraci&oacute;n en equipo.</li>
+            <li>Combina con marcha en el sitio o equilibrio entre turnos.</li>
+            <li>Usa el r&eacute;cord como m&eacute;trica de progresi&oacute;n entre sesiones.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Entrenamiento de memoria secuencial y span de memoria.</li>
+            <li>Actividad l&uacute;dica en grupo (competici&oacute;n amistosa).</li>
+            <li>Adultos mayores: estimulaci&oacute;n cognitiva accesible.</li>
+            <li>Vuelta a la calma con componente cognitivo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="simon.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>N-Back - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     .nback-stimulus {
@@ -30,15 +31,24 @@
       align-items: center;
     }
     .history-dot {
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       border-radius: 8px;
       border: 2px solid var(--gris-600);
+      background: var(--gris-800);
       transition: all 200ms;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .history-dot svg {
+      width: 32px;
+      height: 32px;
     }
     .history-dot.current {
       border-color: white;
-      transform: scale(1.2);
+      transform: scale(1.15);
+      background: var(--gris-700);
     }
     .match-btn {
       margin-top: var(--space-3);
@@ -117,15 +127,19 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">N-Back Visual</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Nivel:</span>
-        <select id="nbackLevel" class="speed-select" onchange="tool.changeN(this.value)">
-          <option value="1" selected>1-Back</option>
-          <option value="2">2-Back</option>
+        <select id="nbackLevel" class="speed-select" onchange="tool.changeLevel(this.value)">
+          <option value="easy" selected>F&aacute;cil</option>
+          <option value="medium">Medio</option>
+          <option value="hard">Dif&iacute;cil (2-Back)</option>
         </select>
       </div>
       <div class="control-group">
@@ -142,7 +156,7 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
-        <p class="stimulus-instruction">Toca cuando el est&iacute;mulo coincida con el de <span class="n-indicator" id="nLabel">1</span> posiciones atr&aacute;s</p>
+        <p id="nbackInstruction" class="stimulus-instruction" style="color: var(--gris-300); line-height: 1.6;">Si la forma y color son IGUALES a la de hace <span class="n-indicator" id="nLabel">1</span> turnos, pulsa COINCIDE</p>
         <div id="nbackStimulus" class="nback-stimulus">
           <div class="shape" id="shapeDisplay"></div>
         </div>
@@ -160,6 +174,48 @@
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>N-Back Visual</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Gold standard del entrenamiento de <strong>memoria de trabajo</strong>. Debes detectar cu&aacute;ndo el est&iacute;mulo actual coincide con el de N posiciones atr&aacute;s. En nivel dif&iacute;cil, trabaja con dos dimensiones independientes (forma y color) &mdash; basta que UNA coincida.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Elige nivel: f&aacute;cil (1-Back, solo forma), medio (1-Back, forma+color), dif&iacute;cil (2-Back dual).</li>
+            <li>Pulsa START. Observa la secuencia de est&iacute;mulos.</li>
+            <li>Cuando el actual coincida con el de N turnos atr&aacute;s, pulsa COINCIDE.</li>
+            <li>El historial visual inferior ayuda a recordar la secuencia.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>El 1-Back f&aacute;cil es accesible para casi cualquier poblaci&oacute;n.</li>
+            <li>Combina con caminata, bicicleta est&aacute;tica o equilibrio para doble tarea.</li>
+            <li>El 2-Back dual es muy exigente: &uacute;salo solo con usuarios avanzados.</li>
+            <li>Monitoriza omisiones vs falsos positivos para ajustar dificultad.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Entrenamiento espec&iacute;fico de memoria de trabajo (evidencia cient&iacute;fica s&oacute;lida).</li>
+            <li>Doble tarea cognitivo-motora de alta demanda.</li>
+            <li>Evaluaci&oacute;n de capacidad cognitiva pre/post sesi&oacute;n.</li>
+            <li>Poblaci&oacute;n mayor: prevenci&oacute;n de deterioro cognitivo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="nback.js"></script>
 </body>
 </html>

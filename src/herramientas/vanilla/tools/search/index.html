@@ -3,26 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Búsqueda Visual - NeuroFit Dual</title>
+  <title>B&uacute;squeda Visual - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; width: 100%; max-width: 600px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow-two-layer-md); text-align: center;}
+    .search-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 4px; width: 100%; max-width: 600px; padding: 16px;
+      background: var(--gris-800); border-radius: 12px; text-align: center;
+    }
+    .search-item {
+      padding: 8px; font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: bold; color: var(--gris-400);
+      cursor: pointer; border-radius: 6px; transition: background 150ms;
+      user-select: none; min-width: 48px; min-height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .search-item:hover { background: rgba(255,255,255,0.05); }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
   </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
-      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">B&uacute;squeda Visual</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -30,12 +52,60 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runSearch()">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
         <p class="stimulus-instruction" id="searchTargetText">Busca la letra distinta</p>
         <div id="searchGrid" class="search-grid"></div>
+        <div class="stats-bar">
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+          <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
+        </div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>B&uacute;squeda Visual</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <p>Entrena la <strong>atenci&oacute;n selectiva visuoespacial</strong>. Localiza un elemento distinto (letra, s&iacute;mbolo) entre una cuadr&iacute;cula de distractores. Mide velocidad de rastreo visual y capacidad de filtrar informaci&oacute;n irrelevante.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Ajusta la cadencia (tiempo para encontrar el objetivo).</li>
+            <li>Pulsa START. Aparece una cuadr&iacute;cula con un intruso entre distractores.</li>
+            <li>Toca el elemento diferente lo m&aacute;s r&aacute;pido posible.</li>
+            <li>Se registran aciertos, errores y tiempo de reacci&oacute;n.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con cadencia lenta para que el usuario entienda el patr&oacute;n.</li>
+            <li>Combina con ejercicio aer&oacute;bico: buscar el intruso mientras se pedalea o camina.</li>
+            <li>En grupo: proyecta y que compitan por velocidad de detecci&oacute;n.</li>
+            <li>&Uacute;til para evaluar la fatiga visual durante sesiones largas.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Deportes con alta demanda visual: deportes de raqueta, porteros.</li>
+            <li>Doble tarea con carga visuoespacial sobre base motora.</li>
+            <li>Rehabilitaci&oacute;n de atenci&oacute;n tras lesi&oacute;n cerebral.</li>
+            <li>Calentamiento cognitivo antes de actividades de precisi&oacute;n.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="search.js"></script>
 </body>
 </html>

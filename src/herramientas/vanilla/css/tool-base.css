@@ -447,7 +447,7 @@ h1 {
   color: var(--gris-500);
 }
 .search-item.target {
-  color: var(--tulip-tree-400);
+  color: var(--gris-500);
 }
 .focus-text {
   color: var(--tulip-tree-400);
@@ -468,10 +468,158 @@ h1 {
   aspect-ratio: 1/1;
   border-radius: 16px;
   transition: all 150ms;
-  opacity: 0.2;
+  opacity: 0.45;
+  border: none;
+  cursor: pointer;
 }
 .simon-btn.lit {
   opacity: 1;
   transform: scale(1.05);
   box-shadow: 0 0 30px currentColor;
+}
+.simon-btn.error {
+  opacity: 1;
+  background-color: #e11d48 !important;
+  box-shadow: 0 0 30px #e11d48;
+  transform: scale(1.05);
+}
+
+/* --- INFO MODAL (Ayuda contextual) --- */
+.info-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+}
+.info-modal-overlay.active {
+  display: flex;
+}
+.info-modal {
+  background: var(--gris-800);
+  border: 2px solid var(--gris-600);
+  border-radius: 16px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  color: var(--gris-100);
+}
+.info-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--gris-700);
+  position: sticky;
+  top: 0;
+  background: var(--gris-800);
+  border-radius: 16px 16px 0 0;
+  z-index: 1;
+}
+.info-modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--turquesa-400);
+  margin: 0;
+}
+.info-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--gris-400);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  transition: color 200ms;
+}
+.info-modal-close:hover { color: white; }
+.info-modal-body {
+  padding: var(--space-2) var(--space-3) var(--space-3);
+}
+.info-section {
+  margin-bottom: var(--space-3);
+}
+.info-section:last-child { margin-bottom: 0; }
+.info-section h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--tulip-tree-400);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+}
+.info-section h4 .material-icons { font-size: 1.1rem; }
+.info-section p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--gris-200);
+}
+.info-section ul, .info-section ol {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--gris-200);
+  padding-left: 20px;
+}
+.info-section li { margin-bottom: 4px; }
+.btn-info {
+  background: transparent;
+  color: var(--gris-400);
+  border: 1px solid var(--gris-600);
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms;
+  flex-shrink: 0;
+}
+.btn-info:hover {
+  background: var(--gris-800);
+  color: var(--turquesa-400);
+  border-color: var(--turquesa-400);
+}
+.exec-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .info-modal-overlay { padding: var(--space-1); }
+  .info-modal { max-height: 90vh; border-radius: 12px; }
+  .info-modal-header { padding: var(--space-2) var(--space-2) var(--space-1); border-radius: 12px 12px 0 0; }
+  .info-modal-header h3 { font-size: 1.1rem; }
+  .info-modal-body { padding: var(--space-2); }
+  .info-section h4 { font-size: 0.85rem; }
+  .info-section p, .info-section ul, .info-section ol { font-size: 0.85rem; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .info-modal { max-height: 90vh; flex-direction: row; flex-wrap: wrap; }
+  .info-modal-header { flex: 0 0 100%; }
+  .info-modal-body { columns: 2; column-gap: var(--space-3); }
+  .info-section { break-inside: avoid; }
+}
+
+/* --- LANDSCAPE COMPACT --- */
+@media (orientation: landscape) and (max-height: 500px) {
+  .exec-header { padding: var(--space-1) var(--space-2); }
+  .exec-toolbar { padding: var(--space-1); gap: var(--space-2); }
+  .stimulus-area { padding: var(--space-2); }
+  .stimulus-instruction { margin-bottom: var(--space-2); font-size: 1rem; }
+  .stats-bar { margin-top: var(--space-1); padding: 4px var(--space-1); }
+  .stat-value { font-size: 1.2rem; }
+  .stat-label { font-size: 0.6rem; }
 }
