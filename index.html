@@ -6,6 +6,11 @@
   <meta name="description" content="NeuroFit Dual-Task Suite: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
   <title>NeuroFit: Entrenamiento Cognitivo-Motor Open Source</title>
   
+  <!-- Web App Manifest & Service Worker -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  
   <!-- Modern Fonts -> Odisea Antifragil Design System -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -286,5 +291,16 @@
     <p style="margin-top: 0.5rem; opacity: 0.5;">Uso no comercial exclusivo. Licencia CC BY-NC-SA 4.0.</p>
   </footer>
 
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(registration => {
+          console.log('SW registrado con éxito:', registration.scope);
+        }).catch(err => {
+          console.log('Error registrando SW:', err);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
