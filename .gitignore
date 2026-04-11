@@ -1,0 +1,7 @@
+# Secrets and agent configs
+.claude/
+.agent/
+
+# System files
+.DS_Store
+Thumbs.db

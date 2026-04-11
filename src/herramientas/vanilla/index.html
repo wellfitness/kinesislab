@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Dashboard - NeuroFit MPA</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="./css/dashboard.css">
+</head>
+<body>
+
+  <main id="view-menu" class="app-container">
+    
+    <header class="page-header">
+      <span class="material-icons header-icon">psychology</span>
+      <h1>NeuroFit Dual-Task</h1>
+      <p class="page-subtitle">
+        Batería de entrenamiento cognitivo-motor basado en evidencia clínica (≥40 años). 
+        Selecciona la tarea, ajusta la cadencia y ejecuta simultáneamente con ejercicios de propiocepción.
+      </p>
+    </header>
+
+    <section class="category-section">
+      <header class="category-header">
+        <span class="material-icons">bolt</span>
+        <h2>HERRAMIENTAS CLÍNICAS</h2>
+      </header>
+
+      <div class="tools-grid">
+        
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/d50/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">calculate</span></div>
+          <h3 class="tool-title">Decisión D50</h3>
+          <p class="tool-desc">Aritmética rápida bajo fatiga. Suma dos números e indica si el total es MAYOR a 50.</p>
+        </article>
+
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/fluency/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">record_voice_over</span></div>
+          <h3 class="tool-title">Fluencia Verbal</h3>
+          <p class="tool-desc">Nombra elementos sin perder el patrón motor ante categorías semánticas y fonémicas.</p>
+        </article>
+
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/stroop/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">palette</span></div>
+          <h3 class="tool-title">Test de Stroop</h3>
+          <p class="tool-desc">Control inhibitorio. Di en voz alta el COLOR de la tinta, ignorando la palabra.</p>
+        </article>
+
+        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/search/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">travel_explore</span></div>
+          <h3 class="tool-title">Búsqueda Visual</h3>
+          <p class="tool-desc">Identifica al intruso. Funciones visuoespaciales de alta discriminación.</p>
+        </article>
+
+        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/tracking/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">visibility</span></div>
+          <h3 class="tool-title">Tracking Continuo</h3>
+          <p class="tool-desc">Sigue el objetivo en movimiento con giros cervicales y estabilidad axial.</p>
+        </article>
+
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/matrix/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">grid_view</span></div>
+          <h3 class="tool-title">Matriz Visoespacial</h3>
+          <p class="tool-desc">Memoriza los recuadros iluminados momentáneamente (Memoria de Trabajo).</p>
+        </article>
+
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/clock/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">schedule</span></div>
+          <h3 class="tool-title">Reloj Auditivo (ACT)</h3>
+          <p class="tool-desc">Escucha una hora y decide si las dos agujas están del mismo lado o en lados opuestos.</p>
+        </article>
+
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/arrows/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">swap_horiz</span></div>
+          <h3 class="tool-title">Conflicto Audiovisual</h3>
+          <p class="tool-desc">Inhibición multisensorial. Recibe flecha visual y audio direccional incongruente.</p>
+        </article>
+
+        <article class="tool-card card-gris" onclick="window.location.href='./tools/timers/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">hourglass_empty</span></div>
+          <h3 class="tool-title">Temporizador Clínico</h3>
+          <p class="tool-desc">Reloj en pantalla plana y alto contraste para rutinas AMRAP, EMOM y pausas medidas.</p>
+        </article>
+        
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/simon/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">psychology</span></div>
+          <h3 class="tool-title">Secuencias Motoras</h3>
+          <p class="tool-desc">Memoria de secuenciación. Replica el orden exacto de los destellos visual-sonoros.</p>
+        </article>
+
+        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/sort/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">format_list_numbered</span></div>
+          <h3 class="tool-title">De Menor a Mayor</h3>
+          <p class="tool-desc">Manipulación de memoria de trabajo. Recibe números inconexos y ordénalos rápido en voz alta.</p>
+        </article>
+        
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/reactive/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">bolt</span></div>
+          <h3 class="tool-title">Señales Reactivas</h3>
+          <p class="tool-desc">Agilidad refleja total. Dispara amagos físicos aleatorios ante señales visuales/auditivas Go-NoGo.</p>
+        </article>
+
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/maze/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">route</span></div>
+          <h3 class="tool-title">Laberinto Motor</h3>
+          <p class="tool-desc">Trazado propioceptivo. Sigue el pasillo con el puntero láser sin tocar las paredes. Dificultad dinámica según cadencia.</p>
+        </article>
+
+        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/trace/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">gesture</span></div>
+          <h3 class="tool-title">Trazado Alfanumérico</h3>
+          <p class="tool-desc">Grafomanía láser. Resigue el contorno de la letra o número en pantalla con la articulación asignada.</p>
+        </article>
+
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/comba/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">fitness_center</span></div>
+          <h3 class="tool-title">Comba Fit</h3>
+          <p class="tool-desc">Salto guiado por voz. Cambia tus pies o la técnica según las órdenes a un ritmo exigente.</p>
+        </article>
+
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/boxing/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">sports_mma</span></div>
+          <h3 class="tool-title">Fit Boxing</h3>
+          <p class="tool-desc">Combos caóticos. Combina el ritmo respiratorio con golpes y esquivas bajo estrés verbal.</p>
+        </article>
+
+        <article class="tool-card card-amarillo" onclick="window.location.href='./tools/colores/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">palette</span></div>
+          <h3 class="tool-title">Colores Reactivos</h3>
+          <p class="tool-desc">Toma de decisiones basada en tono cromático. Estímulos flash a intervalos rítmicos.</p>
+        </article>
+
+        <article class="tool-card card-turquesa" onclick="window.location.href='./tools/sonidos/index.html'">
+          <div class="tool-icon-container"><span class="material-icons">hearing</span></div>
+          <h3 class="tool-title">Sonidos Audiomotores</h3>
+          <p class="tool-desc">Reacción auditiva pura. Discrimina la onda Hertz y ejecuta el bloqueo físico asimétrico.</p>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  </main>
+
+  <footer style="text-align: center; padding: var(--space-4); color: var(--gris-500); margin-top: var(--space-8);">
+    <p>© 2026 Movimiento Funcional - Arquitectura Modular</p>
+  </footer>
+
+</body>
+</html>
+
+</body>
+</html>

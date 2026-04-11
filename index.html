@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NeuroFit Dual-Task Suite: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
+  <title>NeuroFit: Entrenamiento Cognitivo-Motor Open Source</title>
+  
+  <!-- Modern Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-deepest: #0f1115;
+      --bg-container: #171a21;
+      --bg-interactive: #1f242e;
+      
+      --turquesa-main: #14b8a6;
+      --turquesa-hover: #0d9488;
+      --turquesa-glow: rgba(20, 184, 166, 0.3);
+      
+      --rosa-accent: #e11d48;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.5);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.6);
+      
+      font-family: 'Inter', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg-deepest);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: radial-gradient(circle at top, var(--bg-container) 0%, var(--bg-deepest) 70%);
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--turquesa-main), transparent);
+      opacity: 0.3;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: rgba(225, 29, 72, 0.1);
+      color: var(--rosa-accent);
+      border: 1px solid var(--rosa-accent);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(to right, var(--turquesa-main), #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    .btn-launch {
+      display: inline-block;
+      padding: 1.25rem 3rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      background-color: var(--turquesa-main);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px var(--turquesa-glow);
+    }
+
+    .btn-launch:hover {
+      background-color: var(--turquesa-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--turquesa-glow);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .features-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .grid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background-color: var(--bg-container);
+      padding: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(20, 184, 166, 0.3);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--turquesa-main);
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Documentation Section */
+    .tech-specs {
+      background-color: var(--bg-container);
+      padding: 6rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .tech-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tech-box {
+      background-color: var(--bg-deepest);
+      padding: 2rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--turquesa-main);
+      margin-top: 2rem;
+    }
+
+    .tech-box code {
+      color: var(--rosa-accent);
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    footer a { color: var(--turquesa-main); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      .hero { min-height: 70vh; padding-top: 6rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .btn-launch { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-badge">🧬 Open Source Clinic Tool</div>
+    <h1>NeuroFit <span>Dual-Task</span></h1>
+    <p>
+      La Suite de Entrenamiento Cognitivo-Motor definitiva. 18 herramientas de alto rendimiento diseñadas por entrenadores clínicos para maximizar neuroplasticidad, tiempos de reacción y prevención de caídas.<br><br>
+      Totalmente aisladas e independientes. 100% Offline para clínicas y Tablets.
+    </p>
+    <a href="src/herramientas/vanilla/index.html" class="btn-launch">Ejecutar la Suite (Web App)</a>
+  </section>
+
+  <section class="features">
+    <div class="features-header">
+      <h2>Módulos Científicamente Diseñados</h2>
+      <p style="color: var(--text-muted);">Estímulos programables para añadir "Double-Task" a entornos inestables.</p>
+    </div>
+    
+    <div class="grid-features">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>Conflicto y Control (Stroop)</h3>
+        <p>Trabajamos el control inhibitorio frontal a través de incongruencias visuales y auditivas bajo fatiga motora.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👁️</div>
+        <h3>Visuomotora (Tracking)</h3>
+        <p>Puntos de seguimiento cinético en pantalla para estabilización cervical e isométricos pélvicos. Cero latencias.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎙️</div>
+        <h3>Reconocimiento de Voz</h3>
+        <p>A través de la API Web Speech, el sistema canta instrucciones (Combos, Sonidos) mientras el usuario se somete al esfuerzo físico.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Performance Pura (MPA)</h3>
+        <p>Hemos desechado monolitos. Cada herramienta es una página puramente HTML/JS independiente. Garantizando 60fps en tablets de baja gama clínica.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tech-specs">
+    <div class="tech-container">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Filosofía Open Source</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+        NeuroFit es una herramienta abierta y moldeable. Su estructura en Vanilla JS permite que cualquier entrenador o programador adapte los intervalos, inserte sus lógicas o modifique la cadencia de la matriz visual sin lidiar con los pesados frameworks web.
+      </p>
+      
+      <div class="tech-box">
+        <h4 style="margin-bottom: 0.5rem; color: white;">Cero Dependencias</h4>
+        <p style="color: var(--text-muted);">Despliega el código abriendo el archivo local sin conexión a internet:</p>
+        <p style="margin-top: 1rem;"><code>src/herramientas/vanilla/index.html</code></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Desarrollado y Open-Sourced por Elena Cruces / <a href="https://github.com/movimientofuncional" target="_blank">Movimiento Funcional</a></p>
+    <p style="margin-top: 0.5rem; opacity: 0.5;">Uso no comercial exclusivo. Licencia CC BY-NC-SA 4.0.</p>
+  </footer>
+
+</body>
+</html>

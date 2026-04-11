@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda Visual - NeuroFit Dual</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .search-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; width: 100%; max-width: 600px; padding: 20px; background: white; border-radius: 12px; box-shadow: var(--shadow-two-layer-md); text-align: center;}
+  </style>
+</head>
+<body>
+  <section class="view-execution">
+    <header class="exec-header">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
+      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+    </header>
+    <div class="exec-toolbar">
+      <div id="cadenceGroup" class="control-group">
+        <span class="control-label">Cadencia:</span>
+        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+          <option value="6000">Lenta (6s)</option>
+          <option value="4000" selected>Media (4s)</option>
+          <option value="2000">Rápida (2s)</option>
+        </select>
+      </div>
+      <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
+        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+      </button>
+    </div>
+    <div id="stimulusContainer" class="stimulus-area">
+      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runSearch()">
+        <p class="stimulus-instruction" id="searchTargetText">Busca la letra distinta</p>
+        <div id="searchGrid" class="search-grid"></div>
+      </div>
+    </div>
+  </section>
+  <script src="search.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracking Continuo - NeuroFit Dual</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    #tracking-dot { position: absolute; width: 60px; height: 60px; background-color: var(--rosa-600); border-radius: 50%; box-shadow: var(--shadow-two-layer-lg); transition: all 1s ease-in-out; }
+  </style>
+</head>
+<body>
+  <section class="view-execution">
+    <header class="exec-header">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
+      <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+    </header>
+    <div class="exec-toolbar">
+      <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
+        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+      </button>
+    </div>
+    <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
+        <p class="stimulus-instruction" style="position: absolute; top: 10%; width: 100%; opacity: 0.5; z-index: 0; text-align: center;">Sigue el punto con la vista</p>
+        <div id="tracking-dot" style="left: 50%; top: 50%;"></div>
+    </div>
+  </section>
+  <script src="tracking.js"></script>
+</body>
+</html>
