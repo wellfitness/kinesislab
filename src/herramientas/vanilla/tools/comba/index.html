@@ -6,8 +6,78 @@
   <title>Comba Fit - NeuroFit Dual</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    /* Slider Range styling Odisea Antifrágil */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: var(--turquesa-600);
+      cursor: pointer;
+      margin-top: -8px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: var(--gris-600);
+      border-radius: 4px;
+    }
+
+    .status-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      width: 100%;
+    }
+
+    .countdown-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      border: 8px solid var(--gris-700);
+      position: relative;
+    }
+
+    .pulsing {
+      animation: pulseAlert 1s infinite;
+      border-color: var(--rosa-600) !important;
+      color: var(--rosa-600) !important;
+    }
+
+    @keyframes pulseAlert {
+      0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(225, 29, 72, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+    }
+
+    .seq-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      background: var(--gris-800);
+      color: var(--gris-400);
+    }
+    .seq-badge.active {
+      background: var(--turquesa-600);
+      color: white;
+    }
+  </style>
 </head>
-<body>
+<body style="background-color: var(--gris-900); color: white;">
 
   <section class="view-execution">
     <header class="exec-header">
@@ -19,29 +89,83 @@
       </button>
     </header>
 
-    <div class="exec-toolbar">
-      <div id="cadenceGroup" class="control-group">
-        <span class="control-label">Cadencia:</span>
-        <select id="speedSelect" class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
-        </select>
+    <div class="exec-toolbar" id="configPanel" style="flex-direction: column; align-items: stretch; gap: 1rem; padding: 1rem 2rem;">
+      <h3 style="color: var(--turquesa-400); font-family: var(--font-display);">Configuración Comba Fit</h3>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div>
+          <label style="font-size: 0.85rem; color: var(--gris-400);">Ejercicios por secuencia: <span id="lblExCount" style="color:white; font-weight:bold;">4</span></label>
+          <input type="range" id="exerciseCount" min="2" max="10" value="4">
+        </div>
+        
+        <div>
+          <label style="font-size: 0.85rem; color: var(--gris-400);">Duración por ejercicio: <span id="lblExDur" style="color:white; font-weight:bold;">10s</span></label>
+          <input type="range" id="exerciseDuration" min="10" max="40" step="5" value="10">
+        </div>
+
+        <div>
+          <label style="font-size: 0.85rem; color: var(--gris-400);">Velocidad de voz: <span id="lblSpeech" style="color:white; font-weight:bold;">1.0x</span></label>
+          <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
+        </div>
       </div>
 
-      <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-icons">play_arrow</span>
-        <span id="playText">START</span>
-      </button>
+      <div style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-start; margin-top: 0.5rem;">
+        <input type="checkbox" id="includeAdvanced" style="width: 20px; height: 20px; accent-color: var(--turquesa-600);">
+        <label for="includeAdvanced" style="font-size: 0.9rem;">Incluir ejercicios avanzados (cruce, doble salto)</label>
+      </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 1rem;">
+        <button id="btnPlayPause" class="btn-primary" onclick="tool.handleStartStop()" style="width: 100%; max-width: 300px; justify-content: center;">
+          <span id="playIcon" class="material-icons">play_arrow</span>
+          <span id="playText">EMPEZAR</span>
+        </button>
+      </div>
     </div>
 
-    <div id="stimulusContainer" class="stimulus-area">
-      <!-- Módulo Aislado Comba -->
-      <div class="stimulus-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-        <span class="material-icons" style="font-size: 4rem; color: var(--turquesa-400); margin-bottom: 1rem;">fitness_center</span>
-        <p class="stimulus-instruction" style="color: var(--turquesa-300);">A saltar...</p>
-        <div id="combaText" class="text-huge" style="transition: all 0.2s;">Técnica</div>
+    <!-- PANTALLA PRINCIPAL DE ENTRENAMIENTO -->
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      
+      <!-- ESTADO: IDLE -->
+      <div id="stateIdle" class="status-panel">
+        <span class="material-icons" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_gymnastics</span>
+        <p style="color: var(--gris-400); font-size: 1.2rem;">Configura y pulsa EMPEZAR para comenzar</p>
       </div>
+
+      <!-- ESTADO: PREPARING -->
+      <div id="statePreparing" class="status-panel" style="display: none;">
+        <span class="material-icons" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">timer</span>
+        <h2 style="font-family: var(--font-display); font-size: 3rem;">Prepárate...</h2>
+        <p id="lblSequenceCount" style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Secuencia #1</p>
+      </div>
+
+      <!-- ESTADO: EXERCISING -->
+      <div id="stateExercising" class="status-panel" style="display: none;">
+        <p id="lblExerciseIndex" style="color: var(--gris-400); font-size: 1rem; margin-bottom: 0.5rem;">Ejercicio 1 de 4</p>
+        <h2 id="lblCurrentExercise" style="font-family: var(--font-display); font-size: 3rem; color: white;">Salto Básico</h2>
+        
+        <div id="countdownCircle" class="countdown-circle">
+          <span id="lblCountdown" style="font-family: var(--font-display); font-size: 4rem; color: white;">10</span>
+        </div>
+
+        <div id="sequenceList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1rem; max-width: 600px;">
+          <!-- sequence badges inyectadas vi JS -->
+        </div>
+      </div>
+
+      <!-- ESTADO: RESTING -->
+      <div id="stateResting" class="status-panel" style="display: none;">
+        <span class="material-icons" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">swap_horiz</span>
+        <h2 style="font-family: var(--font-display); font-size: 3rem; color: #facc15;">¡Cambio!</h2>
+        <p style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Prepárate para el siguiente ejercicio</p>
+      </div>
+
+      <!-- ESTADO: COMPLETED (Fin de bloque) -->
+      <div id="stateCompleted" class="status-panel" style="display: none;">
+        <span class="material-icons" style="font-size: 5rem; color: var(--turquesa-400); margin-bottom: 1rem;">check_circle</span>
+        <h2 style="font-family: var(--font-display); font-size: 3rem; color: white;">Secuencia completada</h2>
+        <p style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Respirando...</p>
+      </div>
+
     </div>
   </section>
 
