@@ -1,22 +1,42 @@
 {
-  "name": "NeuroFit Dual-Task",
-  "short_name": "NeuroFit",
-  "description": "Batería pura de entrenamiento cognitivo-motor",
+  "name": "KinesisLab",
+  "short_name": "KinesisLab",
+  "description": "Batería pura de entrenamiento cognitivo-motor para prevención de caídas y neuroplasticidad en adultos.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#00bec8",
   "orientation": "any",
+  "categories": ["health", "fitness", "medical"],
+  "lang": "es",
   "icons": [
+    {
+      "src": "assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
     {
       "src": "assets/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "assets/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }

@@ -3,320 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="NeuroFit Dual-Task Suite: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
-  <title>NeuroFit: Entrenamiento Cognitivo-Motor Open Source</title>
+  <meta name="description" content="KinesisLab: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
+  <title>KinesisLab: Entrenamiento Cognitivo-Motor Open Source</title>
   
-  <!-- Web App Manifest & Service Worker -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#00bec8">
-  <link rel="apple-touch-icon" href="assets/icon-192.png">
-  
-  <!-- Modern Fonts -> Odisea Antifragil Design System -->
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+
+  <!-- SEO & Social -->
+  <link rel="canonical" href="https://kinesislab.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kinesislab.app/">
+  <meta property="og:title" content="KinesisLab: Entrenamiento Cognitivo-Motor Open Source">
+  <meta property="og:description" content="Herramientas open source para entrenamiento cognitivo-motor clínico. Prevención de caídas y neuroplasticidad en adultos.">
+  <meta property="og:image" content="https://kinesislab.app/assets/kinesislab_hero.png">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KinesisLab: Entrenamiento Cognitivo-Motor Open Source">
+  <meta name="twitter:description" content="Herramientas open source para entrenamiento cognitivo-motor clínico.">
+  <meta name="twitter:image" content="https://kinesislab.app/assets/kinesislab_hero.png">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Righteous&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   
-  <style>
-    :root {
-      --bg-deepest: #111827;
-      --bg-container: #1f2937;
-      --bg-interactive: #374151;
-      
-      --turquesa-main: #00bec8;
-      --turquesa-hover: #088b96;
-      --turquesa-glow: rgba(0, 190, 200, 0.3);
-      
-      --rosa-accent: #e11d48;
-      
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      
-      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.5);
-      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.6);
-      
-      --font-display: 'Righteous', Arial, sans-serif;
-      --font-sans: 'ABeeZee', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+  <link rel="stylesheet" href="assets/css/design-tokens.css">
+  <link rel="stylesheet" href="assets/css/landing.css">
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      background-color: var(--bg-deepest);
-      color: var(--text-main);
-      line-height: 1.6;
-      overflow-x: hidden;
-      font-family: var(--font-sans);
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
     }
+  </script>
 
-    /* Hero Section */
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
-      background: radial-gradient(circle at top, var(--bg-container) 0%, var(--bg-deepest) 70%);
-      position: relative;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--turquesa-main), transparent);
-      opacity: 0.3;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: rgba(225, 29, 72, 0.1);
-      color: var(--rosa-accent);
-      border: 1px solid var(--rosa-accent);
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      font-family: var(--font-sans);
-    }
-
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: 1px;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(to right, var(--turquesa-main), #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      max-width: 800px;
-      margin-bottom: 3rem;
-      font-weight: 300;
-    }
-
-    .btn-launch {
-      display: inline-block;
-      padding: 1.25rem 3rem;
-      font-size: 1.25rem;
-      font-weight: 600;
-      text-decoration: none;
-      color: white;
-      background-color: var(--turquesa-main);
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px var(--turquesa-glow);
-    }
-
-    .btn-launch:hover {
-      background-color: var(--turquesa-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px var(--turquesa-glow);
-    }
-
-    /* Features Section */
-    .features {
-      padding: 6rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .features-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .features-header h2 {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 400;
-      letter-spacing: 1px;
-    }
-
-    .grid-features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background-color: var(--bg-container);
-      padding: 2.5rem;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.05);
-      transition: transform 0.3s ease;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(20, 184, 166, 0.3);
-    }
-
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .feature-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-      color: var(--turquesa-main);
-      font-weight: 400;
-      letter-spacing: 1px;
-    }
-
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Documentation Section */
-    .tech-specs {
-      background-color: var(--bg-container);
-      padding: 6rem 2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .tech-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .tech-box {
-      background-color: var(--bg-deepest);
-      padding: 2rem;
-      border-radius: 8px;
-      border-left: 4px solid var(--turquesa-main);
-      margin-top: 2rem;
-    }
-
-    .tech-box code {
-      color: var(--rosa-accent);
-      font-family: monospace;
-      font-size: 1.1rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 3rem 2rem;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    footer a { color: var(--turquesa-main); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    @media (max-width: 768px) {
-      .hero { min-height: 70vh; padding-top: 6rem; }
-      .hero h1 { font-size: 2.5rem; }
-      .btn-launch { width: 100%; text-align: center; }
-    }
-
-    /* Science & Evidence Sections */
-    .science-section {
-      padding: 6rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .science-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    @media (max-width: 900px) {
-      .science-grid { grid-template-columns: 1fr; gap: 2rem; }
-    }
-
-    .evidence-tag {
-      background: rgba(0, 190, 200, 0.1);
-      color: var(--turquesa-main);
-      padding: 4px 12px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-
-    .sop-box {
-      background: var(--bg-container);
-      padding: 2rem;
-      border-radius: 12px;
-      border: 1px dashed var(--turquesa-main);
-    }
-
-    .bibliography {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-    
-    .bibliography h4 { color: var(--text-main); margin-bottom: 1rem; }
-    .bibliography ul { list-style: none; }
-    .bibliography li { margin-bottom: 0.75rem; border-left: 2px solid var(--bg-interactive); padding-left: 1rem; }
-
-    /* Neural Efficiency Chart Simulation */
-    .chart-box {
-      background: #0d1117;
-      padding: 1.5rem;
-      border-radius: 12px;
-      position: relative;
-      height: 200px;
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-    }
-    .bar {
-      flex: 1;
-      background: var(--bg-interactive);
-      border-radius: 4px 4px 0 0;
-      transition: height 1s;
-      position: relative;
-    }
-    .bar.active { background: var(--turquesa-main); box-shadow: 0 0 15px var(--turquesa-glow); }
-    .bar::after {
-      content: attr(data-label);
-      position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      white-space: nowrap;
-    }
-  </style>
+  <!--
+    CSS extraído a assets/css/landing.css
+    Variables: design-tokens.css es la fuente de verdad
+  -->
 </head>
 <body>
 
   <section class="hero">
-    <div class="hero-badge">🧬 Open Source Clinic Tool</div>
-    <h1>NeuroFit <span>Dual-Task</span></h1>
+    <div class="hero-badge"><span class="material-symbols-sharp" style="font-size: 1rem; vertical-align: middle;">science</span> Open Source Clinic Tool</div>
+    <h1>Kinesis<span>Lab</span></h1>
     <p>
       La Suite de Entrenamiento Cognitivo-Motor definitiva. 18 herramientas de alto rendimiento diseñadas por entrenadores clínicos para maximizar neuroplasticidad, tiempos de reacción y prevención de caídas.<br><br>
       Totalmente aisladas e independientes. 100% Offline para clínicas y Tablets.
     </p>
     <a href="src/herramientas/vanilla/index.html" class="btn-launch">Ejecutar la Suite (Web App)</a>
-    <img src="assets/neurofit_hero.png" alt="Mujer de más de 50 años esculpiendo su neuroplasticidad en estética Odisea Antifrágil" style="width: 100%; max-width: 900px; border-radius: 16px; margin-top: 4rem; box-shadow: 0 10px 40px rgba(0, 190, 200, 0.2); border: 1px solid rgba(255,255,255,0.1);">
+    <img src="assets/kinesislab_hero.png" alt="Mujer de más de 50 años esculpiendo su neuroplasticidad en estética Odisea Antifrágil" style="width: 100%; max-width: 900px; border-radius: 16px; margin-top: 4rem; box-shadow: 0 10px 40px rgba(0, 190, 200, 0.2); border: 1px solid rgba(255,255,255,0.1);">
   </section>
 
   <section class="features">
@@ -357,19 +98,19 @@
         <h2 style="font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 1.5rem;">Cero Hiperactivación: La Eficiencia Neuronal</h2>
         <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
           La evidencia neurobiológica indica que antes del entrenamiento, el cerebro sobrecarga la corteza prefrontal (PFC) para compensar la pérdida de automatismo. 
-          NeuroFit entrena la <strong>eficiencia metabólica</strong>: logramos que realices las mismas tareas con menor consumo de oxi-hemoglobina (oxy-Hb), re-automatizando el control postural.
+          KinesisLab entrena la <strong>eficiencia metabólica</strong>: logramos que realices las mismas tareas con menor consumo de oxi-hemoglobina (oxy-Hb), re-automatizando el control postural.
         </p>
         <div class="chart-box">
           <div class="bar" style="height: 90%;" data-label="Sin Entrenamiento"></div>
-          <div class="bar active" style="height: 40%;" data-label="Con NeuroFit"></div>
+          <div class="bar active" style="height: 40%;" data-label="Con KinesisLab"></div>
           <p style="position: absolute; right: 20px; bottom: 20px; font-size: 0.75rem; color: var(--turquesa-main);">▼ 55% Costo Neuronal</p>
         </div>
       </div>
       <div style="background: var(--bg-container); padding: 3rem; border-radius: 16px;">
-        <h3 style="font-family: var(--font-display); color: var(--rosa-accent); margin-bottom: 1rem;">La "Niebla Mental" y la Salud Ósea</h3>
+        <h3 style="font-family: var(--font-display); color: var(--dorado-accent); margin-bottom: 1rem;">La "Niebla Mental" y la Salud Ósea</h3>
         <p style="font-size: 0.95rem; line-height: 1.8;">
           Para mujeres en transición menopáusica (40-60 años), el declive de estrógenos altera la <strong>neuroprotección</strong> focalizada en las redes fronto-parietales. 
-          NeuroFit no solo activa la neuroplasticidad; su enfoque en <strong>baja tensión mecánica</strong> permite fortalecer la estabilidad y prevenir la sarcopenia incipiente sin comprometer la integridad articular.
+          KinesisLab no solo activa la neuroplasticidad; su enfoque en <strong>baja tensión mecánica</strong> permite fortalecer la estabilidad y prevenir la sarcopenia incipiente sin comprometer la integridad articular.
         </p>
       </div>
     </div>
@@ -385,7 +126,7 @@
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
       <div class="sop-box">
         <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
-          <span class="material-icons" style="color: var(--turquesa-main)">schedule</span> Dosis Óptima
+          <span class="material-symbols-sharp" style="color: var(--turquesa-main)">schedule</span> Dosis Óptima
         </h4>
         <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 1.25rem;">
           <li>Frecuencia: 2-3 sesiones por semana.</li>
@@ -394,9 +135,9 @@
           <li>Adherencia requerida: >95%.</li>
         </ul>
       </div>
-      <div class="sop-box" style="border-color: var(--rosa-accent);">
+      <div class="sop-box" style="border-color: var(--dorado-accent);">
         <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
-          <span class="material-icons" style="color: var(--rosa-accent)">fitness_center</span> Baja Tensión Mecánica
+          <span class="material-symbols-sharp" style="color: var(--dorado-accent)">fitness_center</span> Baja Tensión Mecánica
         </h4>
         <p style="font-size: 0.85rem; color: var(--text-muted);">
           Priorizar movimientos de coordinación y estabilidad (Sit-to-stand, Tándem, Reaching) sobre saltos balísticos. Desviamos el estrés hacia el <strong>Sistema Nervioso</strong>, no hacia las articulaciones.
@@ -411,31 +152,26 @@
       <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">Exige al paciente tomar decisiones rápidas bajo patrones de color incongruentes o cálculos aritméticos invertidos al mismo tiempo que compromete el equilibrio pélvico. Todo esto reduce radicalmente el riesgo de caídas en el mundo real.</p>
     </div>
     <div>
-      <img src="assets/neurofit_ui1.png" alt="Clinical Balance con Interfaz Turquesa" style="width: 100%; border-radius: 12px; border: 1px solid var(--turquesa-main); box-shadow: 0 0 40px var(--turquesa-glow);">
+      <img src="assets/kinesislab_ui1.png" alt="Clinical Balance con Interfaz Turquesa" style="width: 100%; border-radius: 12px; border: 1px solid var(--turquesa-main); box-shadow: 0 0 40px var(--turquesa-glow);">
     </div>
   </section>
 
   <section style="max-width: 1200px; margin: 6rem auto; display: grid; gap: 4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); padding: 0 2rem; align-items: center; direction: rtl;">
     <div style="direction: ltr;">
-      <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: var(--rosa-accent); margin-bottom: 1rem; letter-spacing: 1px;">Señales Reactivas de Estrés</h2>
-      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">No hay patrones repetitivos. El motor interno de NeuroFit escupe señales auditivas y lumínicas de Stop/Go configuradas por cadencia. Desafiamos la inercia del adulto obligándole a reclutar fibras rápidas en milésimas de segundo ante el caos dictado por la pantalla.</p>
+      <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: var(--dorado-accent); margin-bottom: 1rem; letter-spacing: 1px;">Señales Reactivas de Estrés</h2>
+      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">No hay patrones repetitivos. El motor interno de KinesisLab escupe señales auditivas y lumínicas de Stop/Go configuradas por cadencia. Desafiamos la inercia del adulto obligándole a reclutar fibras rápidas en milésimas de segundo ante el caos dictado por la pantalla.</p>
     </div>
     <div style="direction: ltr;">
-      <img src="assets/neurofit_ui2.png" alt="Entrenamiento dual task auditivo" style="width: 100%; border-radius: 12px; border: 1px solid var(--rosa-accent); box-shadow: 0 0 40px rgba(225, 29, 72, 0.15);">
+      <img src="assets/kinesislab_ui2.png" alt="Entrenamiento dual task auditivo" style="width: 100%; border-radius: 12px; border: 1px solid var(--rosa-accent); box-shadow: 0 0 40px rgba(225, 29, 72, 0.15);">
     </div>
   </section>
 
   <section class="tech-specs">
     <div class="tech-container">
-      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Filosofía Open Source</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
-        NeuroFit es una herramienta abierta y moldeable. Su estructura en Vanilla JS permite que cualquier entrenador o programador adapte los intervalos, inserte sus lógicas o modifique la cadencia de la matriz visual sin lidiar con los pesados frameworks web.
-      </p>
-      
       <div class="tech-box">
-        <h4 style="margin-bottom: 0.5rem; color: white;">Cero Dependencias</h4>
-        <p style="color: var(--text-muted);">Despliega el código abriendo el archivo local sin conexión a internet:</p>
-        <p style="margin-top: 1rem;"><code>src/herramientas/vanilla/index.html</code></p>
+        <h4 style="margin-bottom: 0.5rem; color: white;">Colabora en GitHub</h4>
+        <p style="color: var(--text-muted);">Reporta errores, sugiere mejoras o contribuye con nuevas herramientas:</p>
+        <p style="margin-top: 1rem;"><a href="https://github.com/movimientofuncional/kinesislab" target="_blank" rel="noopener" style="color: var(--dorado-accent); text-decoration: none; font-size: 1.1rem; font-family: monospace;">github.com/movimientofuncional/kinesislab &rarr;</a></p>
       </div>
 
       <div class="bibliography" style="margin-top: 4rem;">
@@ -454,6 +190,7 @@
   <footer>
     <p>Desarrollado y Open-Sourced por Elena Cruces / <a href="https://github.com/movimientofuncional" target="_blank">Movimiento Funcional</a></p>
     <p style="margin-top: 0.5rem; opacity: 0.5;">Uso no comercial exclusivo. Licencia CC BY-NC-SA 4.0.</p>
+    <p style="margin-top: 0.75rem;"><a href="legal.html">Aviso Legal</a> &middot; <a href="legal.html#privacidad">Privacidad</a> &middot; <a href="legal.html#disclaimer">Disclaimer Cl&iacute;nico</a></p>
   </footer>
 
   <script>

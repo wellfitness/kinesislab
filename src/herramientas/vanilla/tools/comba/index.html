@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comba Fit - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Comba Fit - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     /* Slider Range styling Odisea Antifrágil */
@@ -85,9 +88,9 @@
         Comba Fit
       </h2>
       <div class="exec-header-actions">
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
         <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../dashboard.html'">
-          <span class="material-icons">arrow_back</span> Volver
+          <span class="material-symbols-sharp">arrow_back</span> Volver
         </button>
       </div>
     </header>
@@ -119,7 +122,7 @@
 
       <div style="display: flex; justify-content: center; margin-top: 1rem;">
         <button id="btnPlayPause" class="btn-primary" onclick="tool.handleStartStop()" style="width: 100%; max-width: 300px; justify-content: center;">
-          <span id="playIcon" class="material-icons">play_arrow</span>
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
           <span id="playText">EMPEZAR</span>
         </button>
       </div>
@@ -130,13 +133,13 @@
       
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="status-panel">
-        <span class="material-icons" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_gymnastics</span>
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_gymnastics</span>
         <p style="color: var(--gris-400); font-size: 1.2rem;">Configura y pulsa EMPEZAR para comenzar</p>
       </div>
 
       <!-- ESTADO: PREPARING -->
       <div id="statePreparing" class="status-panel" style="display: none;">
-        <span class="material-icons" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">timer</span>
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">timer</span>
         <h2 style="font-family: var(--font-display); font-size: 3rem;">Prepárate...</h2>
         <p id="lblSequenceCount" style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Secuencia #1</p>
       </div>
@@ -157,14 +160,14 @@
 
       <!-- ESTADO: RESTING -->
       <div id="stateResting" class="status-panel" style="display: none;">
-        <span class="material-icons" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">swap_horiz</span>
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: #facc15; margin-bottom: 1rem;">swap_horiz</span>
         <h2 style="font-family: var(--font-display); font-size: 3rem; color: #facc15;">¡Cambio!</h2>
         <p style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Prepárate para el siguiente ejercicio</p>
       </div>
 
       <!-- ESTADO: COMPLETED (Fin de bloque) -->
       <div id="stateCompleted" class="status-panel" style="display: none;">
-        <span class="material-icons" style="font-size: 5rem; color: var(--turquesa-400); margin-bottom: 1rem;">check_circle</span>
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: var(--turquesa-400); margin-bottom: 1rem;">check_circle</span>
         <h2 style="font-family: var(--font-display); font-size: 3rem; color: white;">Secuencia completada</h2>
         <p style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Respirando...</p>
       </div>
@@ -176,15 +179,15 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Comba Fit</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Generador de <strong>secuencias de salto a la comba</strong> con indicaciones por voz. Cambia autom&aacute;ticamente entre t&eacute;cnicas de salto (pies juntos, alternos, cruces, dobles) a ritmo configurable. La voz libera la vista para centrarse en la cuerda.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Configura: n&uacute;mero de ejercicios por secuencia y duraci&oacute;n de cada uno.</li>
             <li>Activa &ldquo;ejercicios avanzados&rdquo; si el grupo tiene nivel.</li>
@@ -193,7 +196,7 @@
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Sin avanzados: perfecto para principiantes (salto b&aacute;sico, pies alternos, rodillas).</li>
             <li>Con avanzados: cruces y doble salto a&ntilde;aden dificultad motora real.</li>
@@ -202,7 +205,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Calentamiento cardiovascular din&aacute;mico.</li>
             <li>Trabajo de coordinaci&oacute;n y ritmo con carga cognitiva (escuchar + ejecutar).</li>

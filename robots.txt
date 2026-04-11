@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# No indexar archivos de referencia React ni herramientas de desarrollo
+Disallow: /src/herramientas/colores/
+Disallow: /src/herramientas/flechas/
+Disallow: /src/herramientas/sonidos/
+Disallow: /src/herramientas/stroop/
+Disallow: /src/herramientas/simon/
+Disallow: /src/herramientas/temporizadores/
+Disallow: /design-system/
+Disallow: /generate-icons.html
+Disallow: /.claude/
+
+Sitemap: https://kinesislab.app/sitemap.xml

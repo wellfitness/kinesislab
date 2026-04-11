@@ -11,6 +11,7 @@ class FluencyTool {
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.totalTrials = 0;
+    this.lastCategory = null;
     this.audioCtx = null;
     this.wakeLock = null;
   }
@@ -76,7 +77,11 @@ class FluencyTool {
   }
 
   runFluency() {
-    const cat = this.fluencyCategories[Math.floor(Math.random() * this.fluencyCategories.length)];
+    let cat;
+    do {
+      cat = this.fluencyCategories[Math.floor(Math.random() * this.fluencyCategories.length)];
+    } while (cat === this.lastCategory && this.fluencyCategories.length > 1);
+    this.lastCategory = cat;
     document.getElementById('fluencyText').textContent = cat;
 
     this.beep(600, 60);

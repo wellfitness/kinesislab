@@ -93,10 +93,10 @@ class MemoriaTool {
       el.innerHTML =
         '<div class="card-inner">' +
           '<div class="card-front">' +
-            '<span class="material-icons" style="font-size: 2rem; color: var(--gris-500);">help_outline</span>' +
+            '<span class="material-symbols-sharp" style="font-size: 2rem; color: var(--gris-500);">help_outline</span>' +
           '</div>' +
           '<div class="card-back">' +
-            '<span class="material-icons" style="font-size: ' + config.iconSize + '; color: ' + card.color + ';">' + card.icon + '</span>' +
+            '<span class="material-symbols-sharp" style="font-size: ' + config.iconSize + '; color: ' + card.color + ';">' + card.icon + '</span>' +
           '</div>' +
         '</div>';
       grid.appendChild(el);

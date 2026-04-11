@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sonidos - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Sonidos - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
@@ -75,8 +78,8 @@
     <header class="exec-header">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Sonidos Audiomotores</h2>
       <div class="exec-header-actions">
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
-        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
       </div>
     </header>
     <div class="exec-toolbar">
@@ -89,13 +92,13 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-         <span id="sonidosIcon" class="material-icons" style="font-size: clamp(8rem, 20vw, 12rem); color: var(--turquesa-400); transition: transform 0.2s;">graphic_eq</span>
-         <div id="sonidosText" class="text-huge" style="margin-top: 0.5rem;">Escucha</div>
+         <span id="sonidosIcon" class="material-symbols-sharp" style="font-size: clamp(3rem, 8vw, 5rem); color: var(--turquesa-400); transition: transform 0.2s;">graphic_eq</span>
+         <div id="sonidosText" style="font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-top: 0.25rem;">Escucha</div>
          <div id="sonidosAction" class="sonidos-action"></div>
          <div id="sonidosLegend" class="legend-panel">
            <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
@@ -113,15 +116,15 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Sonidos Audiomotores</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Entrenamiento de <strong>reacci&oacute;n auditiva</strong>. Asocia sonidos de distintas frecuencias (grave, agudo, medio) a acciones motoras espec&iacute;ficas. Trabaja la discriminaci&oacute;n auditiva y la velocidad de procesamiento sin est&iacute;mulo visual.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Configura las acciones: edita los campos de texto para asignar el movimiento que quieras a cada sonido.</li>
             <li>Pulsa START. Las primeras rondas muestran la acci&oacute;n (fase de aprendizaje).</li>
@@ -130,7 +133,7 @@
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Personaliza las acciones seg&uacute;n tu sesi&oacute;n: saltos, sentadillas, giros, palmadas...</li>
             <li>Ideal para trabajar sin mirar pantalla &mdash; el usuario puede estar de espaldas.</li>
@@ -139,7 +142,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Doble tarea: ejecutar ejercicio principal mientras se reacciona al sonido.</li>
             <li>Trabajo con personas con baja visi&oacute;n o entrenamiento sensorial auditivo.</li>

@@ -558,7 +558,7 @@ h1 {
   gap: 6px;
   letter-spacing: 0.5px;
 }
-.info-section h4 .material-icons { font-size: 1.1rem; }
+.info-section h4 .material-symbols-sharp { font-size: 1.1rem; }
 .info-section p {
   font-size: 0.9rem;
   line-height: 1.6;

@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fit Boxing - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Fit Boxing - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     /* Slider Range styling Odisea Antifrágil (Rosa Fuerte) */
@@ -79,9 +82,9 @@
         Fit Boxing
       </h2>
       <div class="exec-header-actions">
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
         <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../dashboard.html'">
-          <span class="material-icons">arrow_back</span> Volver
+          <span class="material-symbols-sharp">arrow_back</span> Volver
         </button>
       </div>
     </header>
@@ -108,7 +111,7 @@
 
       <div style="display: flex; justify-content: center; margin-top: 1rem;">
         <button id="btnPlayPause" class="btn-critical" onclick="tool.handleStartStop()" style="width: 100%; max-width: 300px; justify-content: center;">
-          <span id="playIcon" class="material-icons">play_arrow</span>
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
           <span id="playText">EMPEZAR</span>
         </button>
       </div>
@@ -119,7 +122,7 @@
       
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="status-panel">
-        <span class="material-icons" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_mma</span>
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_mma</span>
         <p style="color: var(--gris-400); font-size: 1.2rem;">Configura y pulsa EMPEZAR para comenzar</p>
       </div>
 
@@ -141,15 +144,15 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Fit Boxing</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Generador de <strong>combinaciones de boxeo fitness</strong> con indicaciones por voz. Anuncia secuencias ca&oacute;ticas de golpes (jab, cross, gancho, uppercut) y opcionalmente esquivas y bloqueos. Alta demanda de atenci&oacute;n auditiva y coordinaci&oacute;n.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Configura golpes por combinaci&oacute;n (2-20) y velocidad de voz.</li>
             <li>Activa &ldquo;movimientos defensivos&rdquo; para a&ntilde;adir esquivas y bloqueos.</li>
@@ -158,7 +161,7 @@
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Empieza con 3-4 golpes por combo para aprender los nombres.</li>
             <li>Con defensivos activados, mezcla esquivas entre golpes: m&aacute;s realista.</li>
@@ -167,7 +170,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Sesiones de boxeo fitness o cardio combat.</li>
             <li>Trabajo de coordinaci&oacute;n ojo-mano bajo estr&eacute;s verbal.</li>

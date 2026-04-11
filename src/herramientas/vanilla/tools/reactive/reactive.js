@@ -92,7 +92,7 @@ class ReactiveTool {
     el.innerHTML = this.stimuli.map((s, i) =>
       '<div class="legend-item">' +
         '<span class="legend-signal" style="color:' + s.hex + ';">' +
-          (s.type === 'beep' ? '<span class="material-icons" style="font-size:1rem;vertical-align:middle;">volume_up</span> ' : '') +
+          (s.type === 'beep' ? '<span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_up</span> ' : '') +
           s.name +
         '</span>' +
         '<span class="legend-arrow">&rarr;</span>' +
@@ -123,7 +123,7 @@ class ReactiveTool {
       this.updateStats();
 
       if (stim.type === 'beep') {
-        signalEl.innerHTML = '<span class="material-icons" style="font-size: clamp(4rem, 12vw, 7rem); color: white;">volume_up</span>';
+        signalEl.innerHTML = '<span class="material-symbols-sharp" style="font-size: clamp(4rem, 12vw, 7rem); color: white;">volume_up</span>';
         signalEl.style.display = 'flex';
         this.beep(900, 150);
       } else {

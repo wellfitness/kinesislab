@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flechas Reactivas - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Flechas Reactivas - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
@@ -80,10 +83,10 @@
       <div class="exec-header-actions">
         <div id="timerDisplay" class="timer-display" style="display: none;">05:00</div>
         <button class="fullscreen-btn" onclick="tool.toggleFullscreen()">
-          <span id="fullscreenIcon" class="material-icons">fullscreen</span>
+          <span id="fullscreenIcon" class="material-symbols-sharp">fullscreen</span>
         </button>
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
-        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
       </div>
     </header>
     <div class="exec-toolbar">
@@ -104,13 +107,13 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <p class="stimulus-instruction" style="color: var(--gris-300);">Mueve tu cuerpo en la direcci&oacute;n de la flecha</p>
-        <span id="arrowIcon" class="material-icons arrow-display" style="color: var(--tulip-tree-400);">directions</span>
+        <span id="arrowIcon" class="material-symbols-sharp arrow-display" style="color: var(--tulip-tree-400);">directions</span>
       </div>
     </div>
   </section>
@@ -118,15 +121,15 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Flechas Reactivas</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Herramienta de <strong>agilidad reactiva</strong>. Se muestra una flecha en 8 direcciones posibles (4 cardinales + 4 diagonales). El usuario debe reaccionar movi&eacute;ndose f&iacute;sicamente en la direcci&oacute;n que indica la flecha.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Configura duraci&oacute;n y velocidad de cambio.</li>
             <li>Pulsa START. Las flechas cambian de direcci&oacute;n autom&aacute;ticamente.</li>
@@ -135,7 +138,7 @@
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Proyecta en TV o pantalla grande para grupos.</li>
             <li>Combina con desplazamientos laterales, shuffles o cambios de direcci&oacute;n reales.</li>
@@ -144,7 +147,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Calentamiento din&aacute;mico con componente reactivo.</li>
             <li>Entrenamiento de agilidad en deportes de equipo.</li>

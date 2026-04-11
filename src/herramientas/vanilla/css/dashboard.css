@@ -526,7 +526,7 @@ h1 {
   margin-bottom: var(--space-3);
 }
 
-.hero-badge .material-icons {
+.hero-badge .material-symbols-sharp {
   font-size: 16px;
 }
 
@@ -569,7 +569,7 @@ h1 {
   font-size: 0.9rem;
 }
 
-.hero-meta-item .material-icons {
+.hero-meta-item .material-symbols-sharp {
   font-size: 18px;
   color: var(--turquesa-600);
 }
@@ -597,7 +597,7 @@ h1 {
   box-shadow: 0 6px 24px rgba(0, 190, 200, 0.4);
 }
 
-.hero-cta .material-icons {
+.hero-cta .material-symbols-sharp {
   font-size: 20px;
 }
 
@@ -844,7 +844,7 @@ h1 {
   text-align: left;
 }
 
-.evidence-disclaimer .material-icons {
+.evidence-disclaimer .material-symbols-sharp {
   color: var(--tulip-tree-400);
   font-size: 20px;
   flex-shrink: 0;
@@ -879,7 +879,7 @@ h1 {
   color: var(--gris-300);
 }
 
-.audience-tag .material-icons {
+.audience-tag .material-symbols-sharp {
   font-size: 16px;
 }
 

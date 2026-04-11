@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B&uacute;squeda Visual - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>B&uacute;squeda Visual - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
@@ -34,8 +37,8 @@
     <header class="exec-header">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">B&uacute;squeda Visual</h2>
       <div class="exec-header-actions">
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
-        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
       </div>
     </header>
     <div class="exec-toolbar">
@@ -48,7 +51,7 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
@@ -68,15 +71,15 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>B&uacute;squeda Visual</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Entrena la <strong>atenci&oacute;n selectiva visuoespacial</strong>. Localiza un elemento distinto (letra, s&iacute;mbolo) entre una cuadr&iacute;cula de distractores. Mide velocidad de rastreo visual y capacidad de filtrar informaci&oacute;n irrelevante.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Ajusta la cadencia (tiempo para encontrar el objetivo).</li>
             <li>Pulsa START. Aparece una cuadr&iacute;cula con un intruso entre distractores.</li>
@@ -85,7 +88,7 @@
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Empieza con cadencia lenta para que el usuario entienda el patr&oacute;n.</li>
             <li>Combina con ejercicio aer&oacute;bico: buscar el intruso mientras se pedalea o camina.</li>
@@ -94,7 +97,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Deportes con alta demanda visual: deportes de raqueta, porteros.</li>
             <li>Doble tarea con carga visuoespacial sobre base motora.</li>

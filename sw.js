@@ -1,42 +1,57 @@
-const CACHE_NAME = 'neurofit-cache-v1';
-const urlsToCache = [
+const CACHE_NAME = 'kinesislab-cache-v1';
+
+const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
+  './assets/icon.svg',
+  './assets/css/design-tokens.css',
   './src/herramientas/vanilla/index.html',
+  './src/herramientas/vanilla/dashboard.html',
   './src/herramientas/vanilla/css/dashboard.css',
   './src/herramientas/vanilla/css/tool-base.css'
-  // El resto de herramientas nativas JS se cargarán on-demand y se cachearán solas después
 ];
 
+// Install: cachear assets esenciales
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   );
 });
 
+// Activate: limpiar cachés de versiones anteriores
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames
+          .filter(name => name !== CACHE_NAME)
+          .map(name => caches.delete(name))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Fetch: cache-first con fallback a red, cacheo dinámico de nuevas rutas
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Devuelve validación cacheada o busca en red
-        return response || fetch(event.request).then(
-          function(networkResponse) {
-            // Guardar copias ocultas de las nuevas herramientas a medida que se navega offline
-            if(!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-              return networkResponse;
-            }
-            var responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                cache.put(event.request, responseToCache);
-              });
-            return networkResponse;
-          }
-        );
-      })
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return response;
+      });
+    })
   );
 });

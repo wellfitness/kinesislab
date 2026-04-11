@@ -1,12 +1,12 @@
-# NeuroFit Dual-Task Suite 🧠⚡
+# KinesisLab 🧠⚡
 
 <p align="center">
   <em>Batería Open Source de Entrenamiento Cognitivo-Motor para Prevención de Caídas y Neuroplasticidad.</em>
 </p>
 
-## ¿Qué es NeuroFit?
+## ¿Qué es KinesisLab?
 
-NeuroFit es una colección puramente nativa (HTML, CSS, JS) de **18 herramientas interactivas** diseñadas especialmente para uso clínico y de entrenamiento. 
+KinesisLab es una colección puramente nativa (HTML, CSS, JS) de **18 herramientas interactivas** diseñadas especialmente para uso clínico y de entrenamiento. 
 Al inyectar desafíos cognitivos severos de forma auditiva y visual mientras el sujeto se halla en tensión motora o marcha, inducimos escenarios de *Dual-Task* comprobados científicamente para preservar la masa gris en adultos de mediana y avanzada edad (mujeres +40).
 
 ### Características Destacadas
@@ -27,7 +27,7 @@ La suite aloja tres niveles de estimulación neurológica pura:
 
 1. Simplemente clona este repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/neurofit.git
+   git clone https://github.com/tu-usuario/kinesislab.git
    ```
 2. No hace falta compilar nada. 
 3. Dirígete a tu administrador de archivos y **haz doble clic** sobre:

@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reloj Auditivo - NeuroFit Dual</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Reloj Auditivo - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
@@ -36,8 +39,8 @@
     <header class="exec-header">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Reloj Auditivo</h2>
       <div class="exec-header-actions">
-        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-icons">help_outline</span></button>
-        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-icons">arrow_back</span> Volver</button>
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
       </div>
     </header>
     <div class="exec-toolbar">
@@ -50,24 +53,24 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div style="font-size: 6rem; margin-bottom: 1rem; color:var(--turquesa-400);"><span class="material-icons" style="font-size: inherit;">volume_up</span></div>
-        <div id="clockText" class="text-huge" style="margin-bottom: 1.5rem;">Preparada...</div>
+        <div style="font-size: 3rem; margin-bottom: 0.5rem; color:var(--turquesa-400);"><span class="material-symbols-sharp" style="font-size: inherit;">volume_up</span></div>
+        <div id="clockText" style="font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem;">Preparada...</div>
         <p style="color: var(--gris-400); font-size: 1.1rem; text-align: center; max-width: 500px; margin-bottom: var(--space-2);">
-          Las dos agujas est&aacute;n en la misma mitad del reloj o en mitades opuestas?
+          Imagina el reloj: las dos agujas est&aacute;n en el mismo lado (izquierda o derecha) o en lados opuestos?
         </p>
         <div class="clock-answers">
           <button class="clock-answer-btn" data-answer="mismo" onclick="tool.handleAnswer('mismo')" disabled>
-            <span class="material-icons" style="font-size: 2rem;">looks</span>
+            <span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span><span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
             Mismo lado
           </button>
           <button class="clock-answer-btn" data-answer="opuesto" onclick="tool.handleAnswer('opuesto')" disabled>
-            <span class="material-icons" style="font-size: 2rem;">unfold_more</span>
-            Opuestos
+            <span class="material-symbols-sharp" style="font-size: 2rem;">arrow_back</span><span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
+            Lados opuestos
           </button>
         </div>
         <div class="stats-bar">
@@ -83,24 +86,24 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Reloj Auditivo (ACT)</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-icons">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
-          <h4><span class="material-icons">info</span> Qu&eacute; es</h4>
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Basado en el <strong>Auditory Clock Test</strong>. Se anuncia una hora (ej. &ldquo;3:40&rdquo;) y el usuario debe visualizar mentalmente un reloj anal&oacute;gico para decidir si las agujas est&aacute;n del mismo lado o en lados opuestos. Trabaja rotaci&oacute;n mental y razonamiento espacial.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Ajusta la cadencia (este test necesita m&aacute;s tiempo que otros).</li>
             <li>Pulsa START. Se muestra y anuncia una hora.</li>
-            <li>Visualiza el reloj mentalmente: &iquest;las dos agujas caen en la misma mitad?</li>
+            <li>Imagina una l&iacute;nea vertical del 12 al 6: &iquest;las dos agujas caen en el mismo lado (izquierda o derecha)?</li>
             <li>Pulsa &ldquo;Mismo lado&rdquo; o &ldquo;Opuestos&rdquo;.</li>
           </ol>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">lightbulb</span> Consejos</h4>
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Es m&aacute;s dif&iacute;cil de lo que parece: muchos usuarios necesitan cadencia lenta al inicio.</li>
             <li>Pide al usuario que &ldquo;dibuje&rdquo; el reloj con el dedo en el aire como estrategia.</li>
@@ -109,7 +112,7 @@
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-icons">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
             <li>Trabajo de razonamiento espacial bajo carga motora.</li>
             <li>Evaluaci&oacute;n de funci&oacute;n ejecutiva (correlaciona con tests cl&iacute;nicos).</li>

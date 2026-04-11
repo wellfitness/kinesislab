@@ -99,7 +99,7 @@ class GoNoGoTool {
       document.getElementById('playText').textContent = 'START';
       const circle = document.getElementById('goCircle');
       circle.style.background = 'var(--gris-700)';
-      circle.querySelector('.material-icons').textContent = 'touch_app';
+      circle.querySelector('.material-symbols-sharp').textContent = 'touch_app';
       document.getElementById('goLabel').textContent = 'Preparado';
       document.getElementById('goLabel').style.color = 'var(--gris-500)';
     }
@@ -130,14 +130,14 @@ class GoNoGoTool {
     if (isGo) {
       this.currentTrial = 'go';
       circle.style.background = config.goColor.bg;
-      circle.querySelector('.material-icons').textContent = config.goColor.icon;
+      circle.querySelector('.material-symbols-sharp').textContent = config.goColor.icon;
       label.textContent = config.goColor.label;
       label.style.color = config.goColor.bg;
     } else {
       this.currentTrial = 'nogo';
       const nogo = config.nogoColors[Math.floor(Math.random() * config.nogoColors.length)];
       circle.style.background = nogo.bg;
-      circle.querySelector('.material-icons').textContent = nogo.icon;
+      circle.querySelector('.material-symbols-sharp').textContent = nogo.icon;
       label.textContent = nogo.label;
       label.style.color = nogo.bg;
     }
