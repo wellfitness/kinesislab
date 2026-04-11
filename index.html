@@ -6,30 +6,31 @@
   <meta name="description" content="NeuroFit Dual-Task Suite: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
   <title>NeuroFit: Entrenamiento Cognitivo-Motor Open Source</title>
   
-  <!-- Modern Inter Font -->
+  <!-- Modern Fonts -> Odisea Antifragil Design System -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Righteous&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-deepest: #0f1115;
-      --bg-container: #171a21;
-      --bg-interactive: #1f242e;
+      --bg-deepest: #111827;
+      --bg-container: #1f2937;
+      --bg-interactive: #374151;
       
-      --turquesa-main: #14b8a6;
-      --turquesa-hover: #0d9488;
-      --turquesa-glow: rgba(20, 184, 166, 0.3);
+      --turquesa-main: #00bec8;
+      --turquesa-hover: #088b96;
+      --turquesa-glow: rgba(0, 190, 200, 0.3);
       
       --rosa-accent: #e11d48;
       
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
       
       --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.5);
       --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.6);
       
-      font-family: 'Inter', sans-serif;
+      --font-display: 'Righteous', Arial, sans-serif;
+      --font-sans: 'ABeeZee', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,6 +40,7 @@
       color: var(--text-main);
       line-height: 1.6;
       overflow-x: hidden;
+      font-family: var(--font-sans);
     }
 
     /* Hero Section */
@@ -74,13 +76,15 @@
       letter-spacing: 1px;
       margin-bottom: 2rem;
       text-transform: uppercase;
+      font-family: var(--font-sans);
     }
 
     .hero h1 {
+      font-family: var(--font-display);
       font-size: clamp(3rem, 8vw, 5rem);
-      font-weight: 800;
+      font-weight: 400;
       line-height: 1.1;
-      letter-spacing: -1px;
+      letter-spacing: 1px;
       margin-bottom: 1.5rem;
     }
 
@@ -130,8 +134,11 @@
     }
 
     .features-header h2 {
+      font-family: var(--font-display);
       font-size: 2.5rem;
       margin-bottom: 1rem;
+      font-weight: 400;
+      letter-spacing: 1px;
     }
 
     .grid-features {
@@ -160,9 +167,12 @@
     }
 
     .feature-card h3 {
+      font-family: var(--font-display);
       font-size: 1.25rem;
       margin-bottom: 1rem;
       color: var(--turquesa-main);
+      font-weight: 400;
+      letter-spacing: 1px;
     }
 
     .feature-card p {
