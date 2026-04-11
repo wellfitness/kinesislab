@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flechas Reactivas - NeuroFit Dual</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .arrow-display {
+      font-size: clamp(12rem, 30vw, 24rem);
+      line-height: 1;
+      transition: all 250ms ease-out;
+      filter: drop-shadow(0 0 60px currentColor);
+    }
+    .arrow-display.flash {
+      transform: scale(1.1);
+    }
+    .timer-display {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: white;
+      background: rgba(0,0,0,0.4);
+      padding: 4px 16px;
+      border-radius: 8px;
+      min-width: 100px;
+      text-align: center;
+    }
+    .duration-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .duration-btn {
+      background: var(--gris-700);
+      color: white;
+      border: 1px solid var(--gris-600);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 150ms;
+    }
+    .duration-btn:hover { background: var(--gris-600); }
+    .duration-value {
+      color: white;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      min-width: 48px;
+      text-align: center;
+    }
+    .fullscreen-btn {
+      background: transparent;
+      color: var(--gris-400);
+      border: 1px solid var(--gris-700);
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: all 200ms;
+    }
+    .fullscreen-btn:hover { color: white; background: var(--gris-800); }
+    .speed-color-lento { color: var(--turquesa-400); }
+    .speed-color-medio { color: var(--tulip-tree-400); }
+    .speed-color-rapido { color: var(--rosa-400); }
+  </style>
+</head>
+<body>
+  <section class="view-execution">
+    <header class="exec-header">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">NEUROFIT<span style="color:var(--gris-400); font-weight: 300;">DUAL</span></h2>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div id="timerDisplay" class="timer-display" style="display: none;">05:00</div>
+        <button class="fullscreen-btn" onclick="tool.toggleFullscreen()">
+          <span id="fullscreenIcon" class="material-icons">fullscreen</span>
+        </button>
+        <button class="btn-secondary" onclick="window.location.href='../../index.html'"><span class="material-icons">arrow_back</span> Volver</button>
+      </div>
+    </header>
+    <div class="exec-toolbar">
+      <div class="control-group">
+        <span class="control-label">Duraci&oacute;n:</span>
+        <div class="duration-group">
+          <button class="duration-btn" onclick="tool.adjustDuration(-1)">&minus;</button>
+          <span id="durationValue" class="duration-value">5 min</span>
+          <button class="duration-btn" onclick="tool.adjustDuration(1)">+</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <span class="control-label">Velocidad:</span>
+        <select id="speedSelect" class="speed-select" onchange="tool.changeSpeed(this.value)">
+          <option value="3000">Lenta (3s)</option>
+          <option value="2000" selected>Media (2s)</option>
+          <option value="1000">R&aacute;pida (1s)</option>
+        </select>
+      </div>
+      <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
+        <span id="playIcon" class="material-icons">play_arrow</span><span id="playText">START</span>
+      </button>
+    </div>
+    <div id="stimulusContainer" class="stimulus-area">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <p class="stimulus-instruction" style="color: var(--gris-500);">Mueve tu cuerpo en la direcci&oacute;n de la flecha</p>
+        <span id="arrowIcon" class="material-icons arrow-display" style="color: var(--tulip-tree-400);">directions</span>
+      </div>
+    </div>
+  </section>
+  <script src="flechas.js"></script>
+</body>
+</html>
