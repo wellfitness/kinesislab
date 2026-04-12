@@ -188,4 +188,4 @@ class MemoriaTool {
 }
 
 const tool = new MemoriaTool();
-tool.buildBoard();
+document.addEventListener('DOMContentLoaded', () => tool.buildBoard());

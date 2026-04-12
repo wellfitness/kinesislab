@@ -71,13 +71,17 @@ class SonidosTool {
     this.renderLegend();
   }
 
+  escapeAttr(str) {
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   renderLegend() {
     const el = document.getElementById('sonidosLegend');
     el.innerHTML = this.sonidosData.map((s, i) =>
       '<div class="legend-item">' +
         '<span class="legend-sound">' + s.name + '</span>' +
         '<span class="legend-arrow">→</span>' +
-        '<input class="legend-action" value="' + s.action + '" ' +
+        '<input class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
           'onchange="tool.updateAction(' + i + ', this.value)" ' +
           'maxlength="20">' +
       '</div>'

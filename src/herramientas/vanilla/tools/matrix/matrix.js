@@ -8,6 +8,7 @@ class MatrixTool {
     this.currentLevel = '3';
     this.orderedMode = false;
     this.interval = null;
+    this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.hideTimeout = null;
@@ -124,7 +125,10 @@ class MatrixTool {
       this.beep(220, 200);
       if (navigator.vibrate) navigator.vibrate(100);
       this.stopEngine();
-      setTimeout(() => {
+      this.isPlaying = true;
+      ScreenWakeLock.request();
+      this.pendingRestart = setTimeout(() => {
+        this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
         this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
@@ -139,6 +143,8 @@ class MatrixTool {
     if (this.interval) clearInterval(this.interval);
     this.interval = null;
     clearTimeout(this.hideTimeout);
+    if (this.pendingRestart) clearTimeout(this.pendingRestart);
+    this.pendingRestart = null;
   }
 
   changeSpeed(ms) {
@@ -298,4 +304,4 @@ class MatrixTool {
 }
 
 const tool = new MatrixTool();
-tool.buildGrid();
+document.addEventListener('DOMContentLoaded', () => tool.buildGrid());

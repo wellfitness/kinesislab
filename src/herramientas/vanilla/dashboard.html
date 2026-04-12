@@ -214,5 +214,18 @@
     <p>&copy; 2026 Movimiento Funcional</p>
   </footer>
 
+  <script>
+    document.querySelectorAll('.tool-card[onclick]').forEach(card => {
+      card.setAttribute('role', 'link');
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

@@ -124,8 +124,9 @@ class SimonTool {
       this.setInstruction('Error — secuencia reiniciada');
       this.setButtonsClickable(false);
       this.flashError(id);
-      setTimeout(() => this.highlightCorrect(this.sequence[this.playerIndex]), 400);
+      const correctId = this.sequence[this.playerIndex];
       this.sequence = [];
+      setTimeout(() => this.highlightCorrect(correctId), 400);
       setTimeout(() => this.nextRound(), 1800);
     }
   }

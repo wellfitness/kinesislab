@@ -9,6 +9,8 @@ class TimersTool {
     this.isWorkPhase = true;
     this.afapTime = 0;
 
+    this.audioCtx = null;
+
     this.config = {
       emomInterval: 60,
       emomRounds: 10,
@@ -329,14 +331,17 @@ class TimersTool {
 
   // === Audio ===
 
+  getAudioCtx() {
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+    return this.audioCtx;
+  }
+
   playAlert() {
     if (!this.config.soundEnabled) return;
 
     try {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if (!Ctx) return;
-      const ctx = new Ctx();
-      if (ctx.state === 'suspended') ctx.resume();
+      const ctx = this.getAudioCtx();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);

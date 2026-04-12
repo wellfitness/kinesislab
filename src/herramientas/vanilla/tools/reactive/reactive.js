@@ -77,6 +77,10 @@ class ReactiveTool {
     this.renderLegend();
   }
 
+  escapeAttr(str) {
+    return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   renderLegend() {
     const el = document.getElementById('reactiveLegend');
     el.innerHTML = this.stimuli.map((s, i) =>
@@ -86,7 +90,7 @@ class ReactiveTool {
           s.name +
         '</span>' +
         '<span class="legend-arrow">&rarr;</span>' +
-        '<input class="legend-action" value="' + s.action + '" ' +
+        '<input class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
           'onchange="tool.updateAction(' + i + ', this.value)" ' +
           'maxlength="20">' +
       '</div>'

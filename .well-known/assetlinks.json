@@ -5,7 +5,7 @@
       "namespace": "android_app",
       "package_name": "app.movimientofuncional.kinesislab",
       "sha256_cert_fingerprints": [
-        "__SHA256_FINGERPRINT_AQUI__"
+        "TODO: Ejecuta 'keytool -list -v -keystore tu-keystore.jks' y pega aqui el SHA256"
       ]
     }
   }

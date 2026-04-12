@@ -1,15 +1,12 @@
 User-agent: *
 Allow: /
 
-# No indexar archivos de referencia React ni herramientas de desarrollo
-Disallow: /src/herramientas/colores/
-Disallow: /src/herramientas/flechas/
-Disallow: /src/herramientas/sonidos/
-Disallow: /src/herramientas/stroop/
-Disallow: /src/herramientas/simon/
-Disallow: /src/herramientas/temporizadores/
+# No indexar archivos internos ni artefactos de desarrollo
+Disallow: /android-twa/
 Disallow: /design-system/
-Disallow: /generate-icons.html
+Disallow: /docs/
+Disallow: /.well-known/
 Disallow: /.claude/
+Disallow: /generate-icons.html
 
-Sitemap: https://kinesislab.app/sitemap.xml
+Sitemap: https://kinesislab.movimientofuncional.app/sitemap.xml

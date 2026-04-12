@@ -12,6 +12,12 @@ class FlechasTool {
     this.timeLeft = 0;
     this.audioCtx = null;
     this.isFullscreen = false;
+
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+      document.getElementById('fullscreenIcon').textContent =
+        this.isFullscreen ? 'fullscreen_exit' : 'fullscreen';
+    });
   }
 
   getAudioCtx() {
@@ -152,14 +158,11 @@ class FlechasTool {
   }
 
   toggleFullscreen() {
-    if (!this.isFullscreen) {
+    if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen?.();
     } else {
       document.exitFullscreen?.();
     }
-    this.isFullscreen = !this.isFullscreen;
-    document.getElementById('fullscreenIcon').textContent =
-      this.isFullscreen ? 'fullscreen_exit' : 'fullscreen';
   }
 }
 

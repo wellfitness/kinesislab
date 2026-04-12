@@ -8,6 +8,7 @@ class StroopTool {
       { name: 'BLANCO', hex: '#ffffff' }
     ];
     this.interval = null;
+    this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.hits = 0;
@@ -65,6 +66,8 @@ class StroopTool {
     ScreenWakeLock.release();
     if (this.interval) clearInterval(this.interval);
     this.interval = null;
+    if (this.pendingRestart) clearTimeout(this.pendingRestart);
+    this.pendingRestart = null;
   }
 
   changeSpeed(ms) {
@@ -112,7 +115,10 @@ class StroopTool {
       this.showFeedbackOnButton(null);
       this.updateStats();
       this.stopEngine();
-      setTimeout(() => {
+      this.isPlaying = true;
+      ScreenWakeLock.request();
+      this.pendingRestart = setTimeout(() => {
+        this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
         this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);

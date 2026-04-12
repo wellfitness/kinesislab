@@ -128,13 +128,15 @@ class NBackTool {
           return { shape: otherShapes[Math.floor(Math.random() * otherShapes.length)], color: target.color };
         }
       }
-      const stim = {
-        shape: this.shapes[Math.floor(Math.random() * this.shapes.length)],
-        color: this.colors[Math.floor(Math.random() * this.colors.length)]
-      };
-      if (target && (stim.shape === target.shape || stim.color === target.color)) {
-        return this.pickStimulus();
-      }
+      let stim;
+      let attempts = 0;
+      do {
+        stim = {
+          shape: this.shapes[Math.floor(Math.random() * this.shapes.length)],
+          color: this.colors[Math.floor(Math.random() * this.colors.length)]
+        };
+        attempts++;
+      } while (target && (stim.shape === target.shape || stim.color === target.color) && attempts < 20);
       return stim;
     }
 

@@ -1,5 +1,14 @@
-# KinesisLab - Cache headers
+# KinesisLab - Security headers + Cache
 <IfModule mod_headers.c>
+  # ── Security headers ──
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+
+  # ── Cache headers ──
   # HTML: no cachear agresivamente (revalidar siempre)
   <FilesMatch "\.(html)$">
     Header set Cache-Control "no-cache, must-revalidate"
