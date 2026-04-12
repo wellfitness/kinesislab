@@ -1,18 +1,60 @@
-const CACHE_NAME = 'kinesislab-cache-v1';
+const CACHE_NAME = 'kinesislab-cache-v2';
 
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
   './assets/icon.svg',
+  './assets/js/wake-lock.js',
   './assets/css/design-tokens.css',
-  './src/herramientas/vanilla/index.html',
   './src/herramientas/vanilla/dashboard.html',
   './src/herramientas/vanilla/css/dashboard.css',
-  './src/herramientas/vanilla/css/tool-base.css'
+  './src/herramientas/vanilla/css/tool-base.css',
+  // Herramientas
+  './src/herramientas/vanilla/tools/arrows/index.html',
+  './src/herramientas/vanilla/tools/arrows/arrows.js',
+  './src/herramientas/vanilla/tools/boxing/index.html',
+  './src/herramientas/vanilla/tools/boxing/boxing.js',
+  './src/herramientas/vanilla/tools/clock/index.html',
+  './src/herramientas/vanilla/tools/clock/clock.js',
+  './src/herramientas/vanilla/tools/colores/index.html',
+  './src/herramientas/vanilla/tools/colores/colores.js',
+  './src/herramientas/vanilla/tools/comba/index.html',
+  './src/herramientas/vanilla/tools/comba/comba.js',
+  './src/herramientas/vanilla/tools/d50/index.html',
+  './src/herramientas/vanilla/tools/d50/d50.js',
+  './src/herramientas/vanilla/tools/flechas/index.html',
+  './src/herramientas/vanilla/tools/flechas/flechas.js',
+  './src/herramientas/vanilla/tools/fluency/index.html',
+  './src/herramientas/vanilla/tools/fluency/fluency.js',
+  './src/herramientas/vanilla/tools/go-nogo/index.html',
+  './src/herramientas/vanilla/tools/go-nogo/go-nogo.js',
+  './src/herramientas/vanilla/tools/matrix/index.html',
+  './src/herramientas/vanilla/tools/matrix/matrix.js',
+  './src/herramientas/vanilla/tools/memoria/index.html',
+  './src/herramientas/vanilla/tools/memoria/memoria.js',
+  './src/herramientas/vanilla/tools/nback/index.html',
+  './src/herramientas/vanilla/tools/nback/nback.js',
+  './src/herramientas/vanilla/tools/reactive/index.html',
+  './src/herramientas/vanilla/tools/reactive/reactive.js',
+  './src/herramientas/vanilla/tools/search/index.html',
+  './src/herramientas/vanilla/tools/search/search.js',
+  './src/herramientas/vanilla/tools/simon/index.html',
+  './src/herramientas/vanilla/tools/simon/simon.js',
+  './src/herramientas/vanilla/tools/sonidos/index.html',
+  './src/herramientas/vanilla/tools/sonidos/sonidos.js',
+  './src/herramientas/vanilla/tools/sort/index.html',
+  './src/herramientas/vanilla/tools/sort/sort.js',
+  './src/herramientas/vanilla/tools/stroop/index.html',
+  './src/herramientas/vanilla/tools/stroop/stroop.js',
+  './src/herramientas/vanilla/tools/timers/index.html',
+  './src/herramientas/vanilla/tools/timers/timers.js',
+  './src/herramientas/vanilla/tools/trace/index.html',
+  './src/herramientas/vanilla/tools/trace/trace.js',
+  './src/herramientas/vanilla/tools/tracking/index.html',
+  './src/herramientas/vanilla/tools/tracking/tracking.js'
 ];
 
-// Install: cachear assets esenciales
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -21,7 +63,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activate: limpiar cachés de versiones anteriores
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -34,24 +75,24 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: cache-first con fallback a red, cacheo dinámico de nuevas rutas
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  if (url.origin !== location.origin) return;
+
   event.respondWith(
     caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+      const networkFetch = fetch(event.request).then(response => {
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache);
-        });
-
         return response;
-      });
+      }).catch(() => cached);
+
+      return cached || networkFetch;
     })
   );
 });

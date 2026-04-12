@@ -11,7 +11,6 @@ class SonidosTool {
     this.totalTrials = 0;
     this.learningRounds = 6;
     this.audioCtx = null;
-    this.wakeLock = null;
   }
 
   getAudioCtx() {
@@ -33,16 +32,6 @@ class SonidosTool {
     osc.stop(ctx.currentTime + dur / 1000);
   }
 
-  async requestWakeLock() {
-    try {
-      if ('wakeLock' in navigator) this.wakeLock = await navigator.wakeLock.request('screen');
-    } catch (_) {}
-  }
-
-  releaseWakeLock() {
-    if (this.wakeLock) { this.wakeLock.release(); this.wakeLock = null; }
-  }
-
   togglePlay() {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
@@ -52,12 +41,12 @@ class SonidosTool {
       this.updateStats();
       this.renderLegend();
       this.startEngine();
-      this.requestWakeLock();
+      ScreenWakeLock.request();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
-      this.releaseWakeLock();
+      ScreenWakeLock.release();
     }
   }
 

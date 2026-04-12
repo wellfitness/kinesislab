@@ -53,6 +53,7 @@ class MemoriaTool {
     this.flipped = [];
     this.locked = false;
     this.gameStarted = false;
+    ScreenWakeLock.release();
     this.updateStats();
     document.getElementById('memoriaModal').style.display = 'none';
     this.buildBoard();
@@ -61,6 +62,7 @@ class MemoriaTool {
   start() {
     this.reset();
     this.gameStarted = true;
+    ScreenWakeLock.request();
     this.timer = setInterval(() => {
       this.elapsed++;
       this.updateStats();
@@ -157,6 +159,7 @@ class MemoriaTool {
   gameWon() {
     clearInterval(this.timer);
     this.gameStarted = false;
+    ScreenWakeLock.release();
     const modal = document.getElementById('memoriaModal');
     document.getElementById('modalAttempts').textContent = this.attempts;
     document.getElementById('modalTime').textContent = this.formatTime(this.elapsed);

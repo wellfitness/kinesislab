@@ -73,11 +73,13 @@ class GoNoGoTool {
   }
 
   startEngine() {
+    ScreenWakeLock.request();
     this.showTrial();
     this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
   }
 
   stopEngine() {
+    ScreenWakeLock.release();
     if (this.interval) clearInterval(this.interval);
     this.interval = null;
   }

@@ -76,6 +76,7 @@ class CombaTrainerVanilla {
 
   startEngine() {
     this.isRunning = true;
+    ScreenWakeLock.request();
     this.sequenceCount = 0;
     
     // UI Button Update
@@ -92,6 +93,7 @@ class CombaTrainerVanilla {
 
   stopEngine() {
     this.isRunning = false;
+    ScreenWakeLock.release();
     this.updateUIState('idle');
     if(this.activeTimer) clearInterval(this.activeTimer);
     window.speechSynthesis.cancel();

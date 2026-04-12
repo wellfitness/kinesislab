@@ -107,6 +107,7 @@ class MatrixTool {
   }
 
   startEngine() {
+    ScreenWakeLock.request();
     this.showTrial();
     this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
   }
@@ -133,6 +134,7 @@ class MatrixTool {
   }
 
   stopEngine() {
+    ScreenWakeLock.release();
     if (this.interval) clearInterval(this.interval);
     this.interval = null;
     clearTimeout(this.hideTimeout);

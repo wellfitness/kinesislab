@@ -41,11 +41,13 @@ class SimonTool {
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'stop';
       document.getElementById('playText').textContent = 'DETENER';
+      ScreenWakeLock.request();
       this.resetStats();
       this.nextRound();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'INICIAR';
+      ScreenWakeLock.release();
       this.phase = 'idle';
       this.setInstruction('Pulsa INICIAR para comenzar');
       this.setButtonsClickable(false);

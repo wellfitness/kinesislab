@@ -33,11 +33,13 @@ class ColoresTool {
 
   startEngine() {
     this.runColores();
+    ScreenWakeLock.request();
     this.interval = setInterval(() => this.runColores(), this.currentSpeed);
   }
 
   stopEngine() {
     if (this.interval) clearInterval(this.interval);
+    ScreenWakeLock.release();
   }
 
   changeSpeed(ms) {

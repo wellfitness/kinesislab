@@ -1,6 +1,8 @@
 # Secrets and agent configs
 .claude/
 .agent/
+.env*
+deploy.sh
 
 # System files
 .DS_Store

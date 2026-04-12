@@ -20,10 +20,12 @@ class TraceTool {
     }
   }
   startEngine() {
+    ScreenWakeLock.request();
     this.runTrace();
     this.interval = setInterval(() => this.runTrace(), this.currentSpeed * 2);
   }
   stopEngine() {
+    ScreenWakeLock.release();
     if (this.interval) clearInterval(this.interval);
   }
   changeSpeed(ms) {

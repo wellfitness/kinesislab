@@ -13,7 +13,6 @@ class FluencyTool {
     this.totalTrials = 0;
     this.lastCategory = null;
     this.audioCtx = null;
-    this.wakeLock = null;
   }
 
   getAudioCtx() {
@@ -34,16 +33,6 @@ class FluencyTool {
     osc.stop(ctx.currentTime + dur / 1000);
   }
 
-  async requestWakeLock() {
-    try {
-      if ('wakeLock' in navigator) this.wakeLock = await navigator.wakeLock.request('screen');
-    } catch (_) {}
-  }
-
-  releaseWakeLock() {
-    if (this.wakeLock) { this.wakeLock.release(); this.wakeLock = null; }
-  }
-
   togglePlay() {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
@@ -52,12 +41,12 @@ class FluencyTool {
       this.totalTrials = 0;
       this.updateStats();
       this.startEngine();
-      this.requestWakeLock();
+      ScreenWakeLock.request();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
-      this.releaseWakeLock();
+      ScreenWakeLock.release();
     }
   }
 

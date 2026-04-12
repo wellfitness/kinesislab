@@ -6,7 +6,6 @@ class SortTool {
     this.currentSpeed = 4000;
     this.totalTrials = 0;
     this.audioCtx = null;
-    this.wakeLock = null;
   }
 
   getAudioCtx() {
@@ -25,16 +24,6 @@ class SortTool {
     osc.start();
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
     osc.stop(ctx.currentTime + dur / 1000);
-  }
-
-  async requestWakeLock() {
-    try {
-      if ('wakeLock' in navigator) this.wakeLock = await navigator.wakeLock.request('screen');
-    } catch (_) {}
-  }
-
-  releaseWakeLock() {
-    if (this.wakeLock) { this.wakeLock.release(); this.wakeLock = null; }
   }
 
   changeLevel(level) {
@@ -66,12 +55,12 @@ class SortTool {
       this.totalTrials = 0;
       this.updateStats();
       this.startEngine();
-      this.requestWakeLock();
+      ScreenWakeLock.request();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
-      this.releaseWakeLock();
+      ScreenWakeLock.release();
     }
   }
 

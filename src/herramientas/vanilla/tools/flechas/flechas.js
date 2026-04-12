@@ -51,11 +51,13 @@ class FlechasTool {
 
   startEngine() {
     this.showArrow();
+    ScreenWakeLock.request();
     this.interval = setInterval(() => this.showArrow(), this.currentSpeed);
   }
 
   stopEngine() {
     if (this.interval) clearInterval(this.interval);
+    ScreenWakeLock.release();
     this.interval = null;
   }
 

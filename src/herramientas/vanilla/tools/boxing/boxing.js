@@ -51,6 +51,7 @@ class BoxingGeneratorVanilla {
 
   startEngine() {
     this.isRunning = true;
+    ScreenWakeLock.request();
     this.comboCount = 0;
     
     // UI Button Update
@@ -70,7 +71,8 @@ class BoxingGeneratorVanilla {
 
   stopEngine() {
     this.isRunning = false;
-    
+    ScreenWakeLock.release();
+
     document.getElementById('stateIdle').style.display = 'flex';
     document.getElementById('stateCombos').style.display = 'none';
 

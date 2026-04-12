@@ -21,10 +21,12 @@ class ArrowsTool {
   }
   startEngine() {
     this.runArrows();
+    ScreenWakeLock.request();
     this.interval = setInterval(() => this.runArrows(), this.currentSpeed);
   }
   stopEngine() {
     if (this.interval) clearInterval(this.interval);
+    ScreenWakeLock.release();
   }
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);

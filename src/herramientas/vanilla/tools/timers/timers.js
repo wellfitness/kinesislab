@@ -4,8 +4,6 @@ class TimersTool {
     this.phase = 'config';
     this.isPaused = false;
     this.interval = null;
-    this.wakeLock = null;
-
     this.timeLeft = 0;
     this.currentRound = 1;
     this.isWorkPhase = true;
@@ -77,7 +75,7 @@ class TimersTool {
 
     this.showTimerView();
     this.renderPrep();
-    this.requestWakeLock();
+    ScreenWakeLock.request();
 
     this.clearTick();
     this.interval = setInterval(() => this.tickPrep(), 1000);
@@ -199,7 +197,7 @@ class TimersTool {
     this.phase = 'config';
     this.isPaused = false;
     this.showConfigView();
-    this.releaseWakeLock();
+    ScreenWakeLock.release();
   }
 
   reset() {
@@ -217,7 +215,7 @@ class TimersTool {
     this.phase = 'config';
     this.isPaused = false;
     this.showConfigView();
-    this.releaseWakeLock();
+    ScreenWakeLock.release();
   }
 
   // === View Management ===
@@ -363,23 +361,6 @@ class TimersTool {
     } else {
       btn.innerHTML = '<span class="material-symbols-sharp">volume_off</span><span>Silencio</span>';
       btn.className = 'btn-sound btn-sound--off';
-    }
-  }
-
-  // === Wake Lock (prevent screen sleep) ===
-
-  async requestWakeLock() {
-    try {
-      if ('wakeLock' in navigator) {
-        this.wakeLock = await navigator.wakeLock.request('screen');
-      }
-    } catch (_) { /* not critical */ }
-  }
-
-  releaseWakeLock() {
-    if (this.wakeLock) {
-      this.wakeLock.release().catch(() => {});
-      this.wakeLock = null;
     }
   }
 
