@@ -1,10 +1,10 @@
 class ReactiveTool {
   constructor() {
     this.stimuli = [
-      { type: 'beep', color: null, hex: '#ffffff', name: 'PITIDO', action: 'SALTO' },
-      { type: 'color', color: 'var(--turquesa-400)', hex: '#18f8f6', name: 'TURQUESA', action: 'DERECHA' },
-      { type: 'color', color: 'var(--tulip-tree-400)', hex: '#eab308', name: 'AMARILLO', action: 'IZQUIERDA' },
-      { type: 'color', color: 'var(--rosa-400)', hex: '#e11d48', name: 'ROSA', action: 'ABAJO' }
+      { type: 'beep', freq: 900, color: null, hex: '#ffffff', name: 'AGUDO', action: 'SALTO' },
+      { type: 'beep', freq: 250, color: null, hex: '#ffffff', name: 'GRAVE', action: 'ABAJO' },
+      { type: 'color', freq: null, color: 'var(--turquesa-400)', hex: '#18f8f6', name: 'TURQUESA', action: 'DERECHA' },
+      { type: 'color', freq: null, color: 'var(--tulip-tree-400)', hex: '#eab308', name: 'DORADO', action: 'IZQUIERDA' }
     ];
     this.interval = null;
     this.pendingTimeout = null;
@@ -49,7 +49,7 @@ class ReactiveTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.totalTrials = 0;
       this.updateStats();
       this.renderLegend();
@@ -57,7 +57,7 @@ class ReactiveTool {
       this.requestWakeLock();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
       this.releaseWakeLock();
     }
@@ -92,7 +92,7 @@ class ReactiveTool {
     el.innerHTML = this.stimuli.map((s, i) =>
       '<div class="legend-item">' +
         '<span class="legend-signal" style="color:' + s.hex + ';">' +
-          (s.type === 'beep' ? '<span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_up</span> ' : '') +
+          (s.type === 'beep' ? '<span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">' + (s.freq >= 500 ? 'volume_up' : 'volume_down') + '</span> ' : '') +
           s.name +
         '</span>' +
         '<span class="legend-arrow">&rarr;</span>' +
@@ -123,9 +123,10 @@ class ReactiveTool {
       this.updateStats();
 
       if (stim.type === 'beep') {
-        signalEl.innerHTML = '<span class="material-symbols-sharp" style="font-size: clamp(4rem, 12vw, 7rem); color: white;">volume_up</span>';
+        const icon = stim.freq >= 500 ? 'volume_up' : 'volume_down';
+        signalEl.innerHTML = '<span class="material-symbols-sharp" style="font-size: clamp(4rem, 12vw, 7rem); color: white;">' + icon + '</span>';
         signalEl.style.display = 'flex';
-        this.beep(900, 150);
+        this.beep(stim.freq, 200);
       } else {
         bg.style.background = stim.color;
       }

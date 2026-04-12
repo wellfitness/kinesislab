@@ -35,13 +35,13 @@ class D50Tool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.resetStats();
       this.startEngine();
       this.setButtonsEnabled(true);
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
       this.setButtonsEnabled(false);
     }

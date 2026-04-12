@@ -94,6 +94,7 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Se&ntilde;ales Reactivas</h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -110,21 +111,21 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
       <div id="reactiveBg" style="position: absolute; top:0; left:0; right:0; bottom:0; background: var(--gris-900); z-index: 0; transition: background 150ms;"></div>
       <div style="display: flex; height: 100%; justify-content: center; align-items: center; position: relative; z-index: 1;">
-         <p id="reactiveIntro" class="stimulus-instruction" style="color: var(--gris-300);">Configura las acciones y pulsa START</p>
+         <p id="reactiveIntro" class="stimulus-instruction" style="color: var(--gris-300);">Configura las acciones y pulsa INICIAR</p>
       </div>
       <div id="reactiveSignal" class="reactive-signal"></div>
       <div id="reactiveAction" class="reactive-action" style="opacity: 0;"></div>
       <div id="reactiveLegend" class="legend-panel">
-        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_up</span> PITIDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">TURQUESA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">AMARILLO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROSA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_up</span> AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_down</span> GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">TURQUESA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">DORADO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
         <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
@@ -147,9 +148,9 @@
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Edita las acciones en la leyenda inferior: asigna movimientos a cada se&ntilde;al.</li>
-            <li>Pulsa START. Las primeras rondas muestran la acci&oacute;n (aprendizaje).</li>
+            <li>Pulsa INICIAR. Las primeras rondas muestran la acci&oacute;n (aprendizaje).</li>
             <li>Despu&eacute;s, solo aparece la se&ntilde;al y el usuario debe recordar qu&eacute; hacer.</li>
-            <li>Hay 4 est&iacute;mulos: pitido + 3 colores (turquesa, amarillo, rosa).</li>
+            <li>Hay 4 est&iacute;mulos: 2 sonidos (agudo y grave) + 2 colores (turquesa y dorado).</li>
           </ol>
         </div>
         <div class="info-section">

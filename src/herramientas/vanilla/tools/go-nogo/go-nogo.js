@@ -62,12 +62,12 @@ class GoNoGoTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.resetStats();
       this.startEngine();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
     }
   }
@@ -96,7 +96,7 @@ class GoNoGoTool {
       this.isPlaying = false;
       this.resetStats();
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
       const circle = document.getElementById('goCircle');
       circle.style.background = 'var(--gris-700)';
       circle.querySelector('.material-symbols-sharp').textContent = 'touch_app';

@@ -8,13 +8,78 @@
   <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
   <title>Colores - KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .color-action {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4rem);
+      letter-spacing: 4px;
+      color: white;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
+      margin-top: 1rem;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+    .color-action.visible { opacity: 1; }
+    .legend-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: var(--space-2);
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+      max-width: 280px;
+      position: absolute;
+      bottom: var(--space-2);
+      left: var(--space-2);
+      z-index: 2;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .legend-signal {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      min-width: 80px;
+      text-align: right;
+    }
+    .legend-arrow { color: var(--gris-500); font-size: 1.1rem; }
+    .legend-action {
+      background: var(--gris-800);
+      border: 1px solid var(--gris-600);
+      border-radius: 6px;
+      color: var(--tulip-tree-400);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      padding: 4px 8px;
+      width: 110px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .legend-action:focus { border-color: var(--turquesa-400); outline: none; }
+    .stats-bar {
+      display: flex; flex-direction: column; gap: var(--space-2); align-items: center;
+      padding: var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      position: absolute; bottom: var(--space-2); right: var(--space-2); z-index: 2;
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+  </style>
 </head>
 <body>
   <section class="view-execution">
     <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Colores Reactivos</h2>
-      <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
+      </div>
     </header>
     <div class="exec-toolbar">
       <div id="cadenceGroup" class="control-group">
@@ -26,15 +91,68 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area" style="padding:0;">
-      <div id="stimulus-colores" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; transition: background-color 0.1s;">
-         <div id="coloresText" style="font-size: 8rem; font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5);">Color</div>
+    <div id="stimulusContainer" class="stimulus-area" style="padding:0; position: relative;">
+      <div id="stimulus-colores" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: background-color 0.1s;">
+         <p id="coloresIntro" class="stimulus-instruction" style="color: rgba(255,255,255,0.7);">Configura las acciones y pulsa INICIAR</p>
+         <div id="coloresText" style="font-size: clamp(6rem, 18vw, 10rem); font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5);">Color</div>
+         <div id="coloresAction" class="color-action"></div>
+      </div>
+      <div id="coloresLegend" class="legend-panel">
+        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#3b82f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#10b981;">VERDE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">AMARILLO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
       </div>
     </div>
   </section>
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Colores Reactivos</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
+          <p>Tarea de <strong>reacci&oacute;n crom&aacute;tica</strong>. La pantalla cambia de color y el paciente debe ejecutar el movimiento asignado a cada color. Entrena la asociaci&oacute;n est&iacute;mulo-respuesta y la velocidad de procesamiento visual.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Asigna un movimiento a cada color (ej: rojo = sentadilla, azul = salto).</li>
+            <li>Selecciona la cadencia seg&uacute;n el nivel del grupo.</li>
+            <li>Pulsa INICIAR. La pantalla cambia de color aleatoriamente.</li>
+            <li>El paciente ejecuta el movimiento correspondiente lo m&aacute;s r&aacute;pido posible.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con 2-3 colores y a&ntilde;ade m&aacute;s a medida que dominan.</li>
+            <li>Escribe las asignaciones en una pizarra visible para todos.</li>
+            <li>Cambia las asignaciones entre series para evitar automatizaci&oacute;n.</li>
+            <li>Combina con equilibrio sobre superficie inestable.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Calentamiento din&aacute;mico con componente cognitivo.</li>
+            <li>Trabajo de doble tarea en adultos mayores.</li>
+            <li>Entrenamiento reactivo en deportes de equipo.</li>
+            <li>Rehabilitaci&oacute;n: discriminaci&oacute;n visual y asociaci&oacute;n motora.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="colores.js"></script>
 </body>
 </html>

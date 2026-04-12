@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#00bec8">
   <link rel="manifest" href="../../../../../manifest.json">
   <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
-  <title>Tracking Continuo - KinesisLab</title>
+  <title>Seguimiento Continuo - KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
@@ -30,7 +30,8 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
-      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Tracking Continuo</h2>
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Seguimiento Continuo</h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
         <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'"><span class="material-symbols-sharp">arrow_back</span> Volver</button>
@@ -46,7 +47,7 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
@@ -60,7 +61,7 @@
   <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
     <div class="info-modal">
       <div class="info-modal-header">
-        <h3>Tracking Continuo</h3>
+        <h3>Seguimiento Continuo</h3>
         <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
@@ -72,7 +73,7 @@
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Selecciona la velocidad de movimiento del punto.</li>
-            <li>Pulsa START. El punto se desplaza aleatoriamente por la pantalla.</li>
+            <li>Pulsa INICIAR. El punto se desplaza aleatoriamente por la pantalla.</li>
             <li>El usuario sigue el punto con la mirada (y giros de cabeza si est&aacute; lejos).</li>
             <li>Se contabilizan los movimientos realizados.</li>
           </ol>

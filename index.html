@@ -3,37 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="KinesisLab: Herramientas open source para entrenamiento cognitivo-motor clínico. Múltiples estímulos para prevención de caídas y neuroplasticidad en adultos.">
-  <title>KinesisLab: Entrenamiento Cognitivo-Motor Open Source</title>
-  
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
+  <meta name="description" content="KinesisLab: Herramientas open source para entrenamiento cognitivo-motor cl&iacute;nico. M&uacute;ltiples est&iacute;mulos para prevenci&oacute;n de ca&iacute;das y neuroplasticidad en adultos.">
   <meta name="theme-color" content="#00bec8">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+  <title>KinesisLab: Entrenamiento Cognitivo-Motor Open Source</title>
 
   <!-- SEO & Social -->
-  <link rel="canonical" href="https://kinesislab.app/">
+  <link rel="canonical" href="https://kinesislab.movimientofuncional.app/">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://kinesislab.app/">
+  <meta property="og:url" content="https://kinesislab.movimientofuncional.app/">
   <meta property="og:title" content="KinesisLab: Entrenamiento Cognitivo-Motor Open Source">
-  <meta property="og:description" content="Herramientas open source para entrenamiento cognitivo-motor clínico. Prevención de caídas y neuroplasticidad en adultos.">
-  <meta property="og:image" content="https://kinesislab.app/assets/kinesislab_hero.png">
+  <meta property="og:description" content="Herramientas open source para entrenamiento cognitivo-motor cl&iacute;nico. Prevenci&oacute;n de ca&iacute;das y neuroplasticidad en adultos.">
+  <meta property="og:image" content="https://kinesislab.movimientofuncional.app/assets/kinesislab_hero.png">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KinesisLab: Entrenamiento Cognitivo-Motor Open Source">
-  <meta name="twitter:description" content="Herramientas open source para entrenamiento cognitivo-motor clínico.">
-  <meta name="twitter:image" content="https://kinesislab.app/assets/kinesislab_hero.png">
+  <meta name="twitter:description" content="Herramientas open source para entrenamiento cognitivo-motor cl&iacute;nico.">
+  <meta name="twitter:image" content="https://kinesislab.movimientofuncional.app/assets/kinesislab_hero.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Righteous&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
-  
-  <link rel="stylesheet" href="assets/css/design-tokens.css">
-  <link rel="stylesheet" href="assets/css/landing.css">
+
+  <link rel="stylesheet" href="./src/herramientas/vanilla/css/dashboard.css">
 
   <!-- Service Worker -->
   <script>
@@ -41,169 +38,636 @@
       navigator.serviceWorker.register('./sw.js');
     }
   </script>
-
-  <!--
-    CSS extraído a assets/css/landing.css
-    Variables: design-tokens.css es la fuente de verdad
-  -->
 </head>
 <body>
 
-  <section class="hero">
-    <img src="assets/kinesislab-logo.png" alt="KinesisLab" class="hero-logo">
-    <h1>Kinesis<span>Lab</span></h1>
-    <div class="hero-badge"><span class="material-symbols-sharp" style="font-size: 1rem; vertical-align: middle;">science</span> Open Source Clinic Tool</div>
-    <p>
-      La Suite de Entrenamiento Cognitivo-Motor definitiva. 18 herramientas de alto rendimiento diseñadas por entrenadores clínicos para maximizar neuroplasticidad, tiempos de reacción y prevención de caídas.<br><br>
-      Totalmente aisladas e independientes. 100% Offline para clínicas y Tablets.
-    </p>
-    <a href="src/herramientas/vanilla/index.html" class="btn-launch">Ejecutar la Suite (Web App)</a>
-    <img src="assets/kinesislab_hero.png" alt="Mujer de más de 50 años esculpiendo su neuroplasticidad en estética Odisea Antifrágil" style="width: 100%; max-width: 900px; border-radius: 16px; margin-top: 4rem; box-shadow: 0 10px 40px rgba(0, 190, 200, 0.2); border: 1px solid rgba(255,255,255,0.1);">
-  </section>
+  <main id="view-menu" class="app-container">
 
-  <section class="features">
-    <div class="features-header">
-      <h2>Módulos Científicamente Diseñados</h2>
-      <p style="color: var(--text-muted);">Estímulos programables para añadir "Double-Task" a entornos inestables.</p>
-    </div>
-    
-    <div class="grid-features">
-      <div class="feature-card">
-        <div class="feature-icon"><span class="material-symbols-sharp">psychology</span></div>
-        <h3>Conflicto y Control (Stroop)</h3>
-        <p>Inhibición de respuestas automáticas prepotentes. Mejora la flexibilidad cognitiva y la resistencia a la interferencia cortical.</p>
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                       -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="landing-hero">
+      <img src="./assets/kinesislab-logo.png" alt="KinesisLab" style="width: 80px; height: 80px; margin-bottom: var(--space-2); border-radius: 16px;">
+      <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); color: white; margin-bottom: var(--space-3); letter-spacing: 2px;">Kinesis<span style="color: var(--turquesa-400);">Lab</span></h2>
+      <div class="hero-badge">
+        <span class="material-symbols-sharp">science</span>
+        Basado en evidencia cient&iacute;fica
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><span class="material-symbols-sharp">visibility</span></div>
-        <h3>Visuomotora (Eriksen Flanker)</h3>
-        <p>Resolución de conflictos de flancos. Entrenamiento crítico para la navegación en entornos urbanos y prevención de tropiezos.</p>
+      <h1 class="hero-title">
+        Entrena el cerebro<br>
+        <span class="hero-title-accent">mientras mueves el cuerpo</span>
+      </h1>
+      <p class="hero-subtitle">
+        21 herramientas de entrenamiento cognitivo-motor dise&ntilde;adas para entrenadores personales.
+        Mejora el equilibrio, la atenci&oacute;n y la autonom&iacute;a funcional de tus clientes mayores de 40 a&ntilde;os.
+      </p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">
+          <span class="material-symbols-sharp">devices</span>
+          PWA instalable
+        </span>
+        <span class="hero-meta-item">
+          <span class="material-symbols-sharp">wifi_off</span>
+          Funciona sin conexi&oacute;n
+        </span>
+        <span class="hero-meta-item">
+          <span class="material-symbols-sharp">payments</span>
+          Gratuita y sin registro
+        </span>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon"><span class="material-symbols-sharp">grid_view</span></div>
-        <h3>Memoria de Trabajo (N-Back)</h3>
-        <p>Actualización incesante de la memoria a corto plazo. Standard de oro para la manipulación rítmica de información bajo fatiga.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon"><span class="material-symbols-sharp">hearing</span></div>
-        <h3>Decisión Rápida (Auditory D50)</h3>
-        <p>Discriminación temporal y aritmética. Obligamos al cerebro a priorizar dinámicamente entre el equilibrio y el cálculo mental.</p>
-      </div>
-    </div>
-  </section>
+      <a href="./src/herramientas/vanilla/dashboard.html" class="hero-cta">
+        <span class="material-symbols-sharp">apps</span>
+        Abrir herramientas
+      </a>
+    </section>
 
-  <!-- CIENCIA: fNIRS & EFICIENCIA -->
-  <section class="science-section">
-    <div class="science-grid">
-      <div>
-        <span class="evidence-tag">Investigación fNIRS</span>
-        <h2 style="font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 1.5rem;">Cero Hiperactivación: La Eficiencia Neuronal</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
-          La evidencia neurobiológica indica que antes del entrenamiento, el cerebro sobrecarga la corteza prefrontal (PFC) para compensar la pérdida de automatismo. 
-          KinesisLab entrena la <strong>eficiencia metabólica</strong>: logramos que realices las mismas tareas con menor consumo de oxi-hemoglobina (oxy-Hb), re-automatizando el control postural.
-        </p>
-        <div class="chart-box">
-          <div class="bar" style="height: 90%;" data-label="Sin Entrenamiento"></div>
-          <div class="bar active" style="height: 40%;" data-label="Con KinesisLab"></div>
-          <p style="position: absolute; right: 20px; bottom: 20px; font-size: 0.75rem; color: var(--turquesa-main);">▼ 55% Costo Neuronal</p>
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- SHOWCASE: Doble Tarea Cognitiva                    -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="showcase-section">
+      <div class="showcase-text">
+        <h2 class="showcase-title" style="color: var(--turquesa-400);">Doble Tarea Cognitiva</h2>
+        <p class="showcase-desc">Exige al paciente tomar decisiones r&aacute;pidas bajo patrones de color incongruentes o c&aacute;lculos aritm&eacute;ticos invertidos al mismo tiempo que compromete el equilibrio p&eacute;lvico. Todo esto reduce radicalmente el riesgo de ca&iacute;das en el mundo real.</p>
+      </div>
+      <div class="showcase-image">
+        <img src="./assets/kinesislab_ui1.png" alt="Interfaz de entrenamiento dual-task cognitivo" class="showcase-img showcase-img--turquesa">
+      </div>
+    </section>
+
+    <section class="showcase-section showcase-section--reverse">
+      <div class="showcase-text">
+        <h2 class="showcase-title" style="color: var(--rosa-400);">Se&ntilde;ales Reactivas de Estr&eacute;s</h2>
+        <p class="showcase-desc">No hay patrones repetitivos. El motor interno de KinesisLab escupe se&ntilde;ales auditivas y lum&iacute;nicas de Stop/Go configuradas por cadencia. Desafiamos la inercia del adulto oblig&aacute;ndole a reclutar fibras r&aacute;pidas ante el caos dictado por la pantalla.</p>
+      </div>
+      <div class="showcase-image">
+        <img src="./assets/kinesislab_ui2.png" alt="Entrenamiento dual-task auditivo" class="showcase-img showcase-img--rosa">
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- BENEFITS SECTION                                   -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-benefits" aria-labelledby="benefits-title">
+      <h2 id="benefits-title" class="landing-section-title">Por qu&eacute; dual-task</h2>
+      <p class="landing-section-subtitle">
+        Combinar ejercicio f&iacute;sico con tareas cognitivas produce beneficios que ninguno logra por separado.
+      </p>
+
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--turquesa">
+            <span class="material-symbols-sharp">balance</span>
+          </div>
+          <h3 class="benefit-title">Mejor equilibrio, menos ca&iacute;das</h3>
+          <p class="benefit-text">
+            Los estudios sugieren que el entrenamiento dual-task puede mejorar el equilibrio y reducir el riesgo de ca&iacute;das en adultos mayores.
+          </p>
+          <p class="benefit-cite">Khan et al. 2025, Eur Geriatr Med &mdash; 44 ensayos, 2782 participantes</p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--rosa">
+            <span class="material-symbols-sharp">neurology</span>
+          </div>
+          <h3 class="benefit-title">Superior al ejercicio solo</h3>
+          <p class="benefit-text">
+            El entrenamiento combinado muestra resultados significativamente mejores que el ejercicio o la estimulaci&oacute;n cognitiva por separado.
+          </p>
+          <p class="benefit-cite">Gavelin et al. 2020, Ageing Res Rev &mdash; Network meta-analysis, g=0.22</p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--amarillo">
+            <span class="material-symbols-sharp">psychology_alt</span>
+          </div>
+          <h3 class="benefit-title">Combate el declive cognitivo</h3>
+          <p class="benefit-text">
+            Desde los 40, la memoria de trabajo, la atenci&oacute;n y la funci&oacute;n ejecutiva pueden deteriorarse. El entrenamiento dual-task puede ayudar a mitigarlo.
+          </p>
+          <p class="benefit-cite">Khadilkar et al. 2026, Int J Gynaecol Obstet &mdash; Evidencia sobre menopausia y cognici&oacute;n</p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--gris">
+            <span class="material-symbols-sharp">speed</span>
+          </div>
+          <h3 class="benefit-title">Mayor eficiencia neural</h3>
+          <p class="benefit-text">
+            Las investigaciones indican que el entrenamiento puede reducir la hiperactivaci&oacute;n prefrontal, logrando un procesamiento cerebral m&aacute;s eficiente.
+          </p>
+          <p class="benefit-cite">Maidan et al. 2018, Neurorehabil Neural Repair &mdash; Neuroimagen funcional</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- IMPACT CHARTS                                      -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-charts" aria-labelledby="charts-title">
+      <h2 id="charts-title" class="landing-section-title">Impacto cognitivo medido</h2>
+      <p class="landing-section-subtitle">
+        Tama&ntilde;os de efecto (Hedges' g) reportados en meta-an&aacute;lisis recientes. Mayor barra = mayor mejora.
+      </p>
+
+      <!-- Chart 1: Dual-Task vs Solo ejercicio (Gavelin 2020) -->
+      <div class="chart-block">
+        <h3 class="chart-title">Dual-Task vs Ejercicio Solo</h3>
+        <p class="chart-source">Gavelin et al. 2020, Ageing Research Reviews &mdash; Network meta-analysis</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Cognici&oacute;n global</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 44%;" data-value="g = 0.22"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Atenci&oacute;n</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 56%;" data-value="g = 0.28"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Funci&oacute;n ejecutiva</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 60%;" data-value="g = 0.30"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Memoria de trabajo</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 50%;" data-value="g = 0.25"></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="background: var(--bg-container); padding: 3rem; border-radius: 16px;">
-        <h3 style="font-family: var(--font-display); color: var(--dorado-accent); margin-bottom: 1rem;">La "Niebla Mental" y la Salud Ósea</h3>
-        <p style="font-size: 0.95rem; line-height: 1.8;">
-          Para mujeres en transición menopáusica (40-60 años), el declive de estrógenos altera la <strong>neuroprotección</strong> focalizada en las redes fronto-parietales. 
-          KinesisLab no solo activa la neuroplasticidad; su enfoque en <strong>baja tensión mecánica</strong> permite fortalecer la estabilidad y prevenir la sarcopenia incipiente sin comprometer la integridad articular.
+
+      <!-- Chart 2: Reducción de caídas (Khan 2025) -->
+      <div class="chart-block">
+        <h3 class="chart-title">Reducci&oacute;n de ca&iacute;das y mejora de equilibrio</h3>
+        <p class="chart-source">Khan et al. 2025, Eur Geriatr Med &mdash; 44 ensayos, 2782 participantes</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Equilibrio est&aacute;tico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 72%;" data-value="SMD = 0.72"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Equilibrio din&aacute;mico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 65%;" data-value="SMD = 0.65"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Timed Up &amp; Go</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 58%;" data-value="SMD = 0.58"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Riesgo de ca&iacute;das</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--rosa" style="width: 45%;" data-value="-30%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 3: Dosis-Respuesta -->
+      <div class="chart-block">
+        <h3 class="chart-title">Dosis &oacute;ptima de entrenamiento</h3>
+        <p class="chart-source">S&iacute;ntesis de m&uacute;ltiples revisiones sistem&aacute;ticas (2018&ndash;2026)</p>
+        <div class="dose-cards">
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--turquesa-400);">3x</div>
+            <div class="dose-label">sesiones/semana</div>
+            <div class="dose-detail">frecuencia &oacute;ptima</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--tulip-tree-400);">30</div>
+            <div class="dose-label">min/sesi&oacute;n</div>
+            <div class="dose-detail">duraci&oacute;n m&iacute;nima eficaz</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--rosa-400);">12</div>
+            <div class="dose-label">semanas</div>
+            <div class="dose-detail">para resultados &oacute;ptimos</div>
+          </div>
+          <div class="dose-card">
+            <div class="dose-number" style="color: var(--turquesa-400);">4</div>
+            <div class="dose-label">semanas</div>
+            <div class="dose-detail">mejoras detectables</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 4: Comparativa de intervenciones -->
+      <div class="chart-block">
+        <h3 class="chart-title">Comparativa: tipos de intervenci&oacute;n</h3>
+        <p class="chart-source">Gavelin et al. 2020 &mdash; Tama&ntilde;o de efecto sobre cognici&oacute;n global</p>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Solo ejercicio aer&oacute;bico</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--gris" style="width: 20%;" data-value="g = 0.10"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Solo estimulaci&oacute;n cognitiva</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--amarillo" style="width: 30%;" data-value="g = 0.15"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Ejercicio + cognitivo secuencial</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--amarillo" style="width: 36%;" data-value="g = 0.18"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Dual-Task simult&aacute;neo</span>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--turquesa" style="width: 44%;" data-value="g = 0.22"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- HOW IT WORKS                                       -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-how" aria-labelledby="how-title">
+      <h2 id="how-title" class="landing-section-title">C&oacute;mo funciona</h2>
+      <p class="landing-section-subtitle">
+        Tres pasos para integrar dual-task en cualquier sesi&oacute;n de entrenamiento.
+      </p>
+
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="how-step-number">1</span>
+          <span class="material-symbols-sharp how-step-icon">touch_app</span>
+          <h3 class="how-step-title">Elige la herramienta</h3>
+          <p class="how-step-text">Selecciona la tarea cognitiva adecuada al objetivo de la sesi&oacute;n: inhibici&oacute;n, memoria, atenci&oacute;n o c&aacute;lculo.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-step-number">2</span>
+          <span class="material-symbols-sharp how-step-icon">tune</span>
+          <h3 class="how-step-title">Ajusta la cadencia</h3>
+          <p class="how-step-text">Configura la velocidad de los est&iacute;mulos seg&uacute;n el nivel del cliente. Dosis &oacute;ptima: 30 min, 3x/semana, intensidad moderada.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-step-number">3</span>
+          <span class="material-symbols-sharp how-step-icon">directions_run</span>
+          <h3 class="how-step-title">Mueve mientras piensas</h3>
+          <p class="how-step-text">El cliente ejecuta ejercicios de propiocepci&oacute;n o movilidad mientras responde a los est&iacute;mulos cognitivos en pantalla.</p>
+        </div>
+      </div>
+
+      <div class="audience-tags">
+        <span class="audience-tag"><span class="material-symbols-sharp">person</span> Adultos +40</span>
+        <span class="audience-tag"><span class="material-symbols-sharp">fitness_center</span> Entrenadores personales</span>
+        <span class="audience-tag"><span class="material-symbols-sharp">groups</span> Clases grupales</span>
+        <span class="audience-tag"><span class="material-symbols-sharp">elderly</span> Prevenci&oacute;n de ca&iacute;das</span>
+        <span class="audience-tag"><span class="material-symbols-sharp">self_improvement</span> Autonom&iacute;a funcional</span>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- EVIDENCE SECTION                                   -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title" class="landing-section-title">Respaldado por la investigaci&oacute;n</h2>
+      <p class="landing-section-subtitle">
+        Datos de revisiones sistem&aacute;ticas y meta-an&aacute;lisis publicados en PubMed (2018&ndash;2026).
+      </p>
+
+      <div class="evidence-stats">
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">44</div>
+          <div class="evidence-stat-label">Ensayos cl&iacute;nicos<br>aleatorizados</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">2782</div>
+          <div class="evidence-stat-label">Participantes<br>adultos mayores</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">4</div>
+          <div class="evidence-stat-label">Semanas para<br>mejoras medibles</div>
+        </div>
+        <div class="evidence-stat">
+          <div class="evidence-stat-number">17</div>
+          <div class="evidence-stat-label">Herramientas<br>disponibles</div>
+        </div>
+      </div>
+
+      <div class="evidence-disclaimer">
+        <span class="material-symbols-sharp">info</span>
+        <p class="evidence-disclaimer-text">
+          <strong>Nota sobre la evidencia:</strong> La calidad de la evidencia var&iacute;a de muy baja a moderada seg&uacute;n las escalas GRADE (Cochrane 2024).
+          Esta herramienta no diagnostica, trata ni cura ninguna condici&oacute;n. Consulta siempre a un profesional sanitario.
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- METODOLOGÍA SOP (Entrenadores) -->
-  <section class="science-section">
-    <div class="features-header">
-      <h2>Prescripción Clínica (SOP)</h2>
-      <p style="font-size: 0.9rem; color: var(--text-muted);">Protocolos basados en revisiones sistemáticas y meta-análisis (2016-2026).</p>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-      <div class="sop-box">
-        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
-          <span class="material-symbols-sharp" style="color: var(--turquesa-main)">schedule</span> Dosis Óptima
-        </h4>
-        <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 1.25rem;">
-          <li>Frecuencia: 2-3 sesiones por semana.</li>
-          <li>Duración: 30-60 minutos totales.</li>
-          <li>Ciclo: 12 a 16 semanas para adaptaciones estructurales.</li>
-          <li>Adherencia requerida: >95%.</li>
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- MODULES: Científicamente Diseñados                 -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-benefits" aria-labelledby="modules-title">
+      <h2 id="modules-title" class="landing-section-title">M&oacute;dulos cient&iacute;ficamente dise&ntilde;ados</h2>
+      <p class="landing-section-subtitle">
+        Est&iacute;mulos programables para a&ntilde;adir doble tarea a entornos inestables.
+      </p>
+
+      <div class="benefits-grid">
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--rosa">
+            <span class="material-symbols-sharp">psychology</span>
+          </div>
+          <h3 class="benefit-title">Conflicto y Control (Stroop)</h3>
+          <p class="benefit-text">
+            Inhibici&oacute;n de respuestas autom&aacute;ticas prepotentes. Mejora la flexibilidad cognitiva y la resistencia a la interferencia cortical.
+          </p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--turquesa">
+            <span class="material-symbols-sharp">visibility</span>
+          </div>
+          <h3 class="benefit-title">Visuomotora (Eriksen Flanker)</h3>
+          <p class="benefit-text">
+            Resoluci&oacute;n de conflictos de flancos. Entrenamiento cr&iacute;tico para la navegaci&oacute;n en entornos urbanos y prevenci&oacute;n de tropiezos.
+          </p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--amarillo">
+            <span class="material-symbols-sharp">grid_view</span>
+          </div>
+          <h3 class="benefit-title">Memoria de Trabajo (N-Back)</h3>
+          <p class="benefit-text">
+            Actualizaci&oacute;n incesante de la memoria a corto plazo. Est&aacute;ndar de oro para la manipulaci&oacute;n r&iacute;tmica de informaci&oacute;n bajo fatiga.
+          </p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--gris">
+            <span class="material-symbols-sharp">hearing</span>
+          </div>
+          <h3 class="benefit-title">Decisi&oacute;n R&aacute;pida (Auditory D50)</h3>
+          <p class="benefit-text">
+            Discriminaci&oacute;n temporal y aritm&eacute;tica. Obligamos al cerebro a priorizar din&aacute;micamente entre el equilibrio y el c&aacute;lculo mental.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- NEURAL EFFICIENCY (fNIRS)                          -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-benefits" aria-labelledby="fnirs-title">
+      <h2 id="fnirs-title" class="landing-section-title">Eficiencia neuronal</h2>
+      <p class="landing-section-subtitle">
+        La evidencia fNIRS muestra que el entrenamiento dual-task reduce la hiperactivaci&oacute;n prefrontal.
+      </p>
+
+      <div class="benefits-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--turquesa">
+            <span class="material-symbols-sharp">neurology</span>
+          </div>
+          <h3 class="benefit-title">Cero hiperactivaci&oacute;n: la eficiencia metab&oacute;lica</h3>
+          <p class="benefit-text">
+            Antes del entrenamiento, el cerebro sobrecarga la corteza prefrontal (PFC) para compensar la p&eacute;rdida de automatismo.
+            KinesisLab entrena la eficiencia metab&oacute;lica: logramos que realices las mismas tareas con menor consumo de oxi-hemoglobina (oxy-Hb), re-automatizando el control postural.
+          </p>
+          <p class="benefit-cite">Maidan et al. 2018, Neurorehabil Neural Repair</p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--rosa">
+            <span class="material-symbols-sharp">female</span>
+          </div>
+          <h3 class="benefit-title">La &ldquo;niebla mental&rdquo; y la salud &oacute;sea</h3>
+          <p class="benefit-text">
+            Para mujeres en transici&oacute;n menop&aacute;usica (40-60 a&ntilde;os), el declive de estr&oacute;genos altera la neuroprotecci&oacute;n focalizada en las redes fronto-parietales.
+            KinesisLab no solo activa la neuroplasticidad; su enfoque en baja tensi&oacute;n mec&aacute;nica permite fortalecer la estabilidad y prevenir la sarcopenia incipiente sin comprometer la integridad articular.
+          </p>
+          <p class="benefit-cite">Khadilkar et al. 2026, Int J Gynaecol Obstet</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- SOP: Prescripción Clínica                          -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-benefits" aria-labelledby="sop-title">
+      <h2 id="sop-title" class="landing-section-title">Prescripci&oacute;n cl&iacute;nica (SOP)</h2>
+      <p class="landing-section-subtitle">
+        Protocolos basados en revisiones sistem&aacute;ticas y meta-an&aacute;lisis (2016&ndash;2026).
+      </p>
+
+      <div class="benefits-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--turquesa">
+            <span class="material-symbols-sharp">schedule</span>
+          </div>
+          <h3 class="benefit-title">Dosis &oacute;ptima</h3>
+          <p class="benefit-text">
+            Frecuencia: 2-3 sesiones por semana. Duraci&oacute;n: 30-60 minutos totales.
+            Ciclo: 12 a 16 semanas para adaptaciones estructurales. Adherencia requerida: &gt;95%.
+          </p>
+        </article>
+
+        <article class="benefit-card">
+          <div class="benefit-icon benefit-icon--amarillo">
+            <span class="material-symbols-sharp">fitness_center</span>
+          </div>
+          <h3 class="benefit-title">Baja tensi&oacute;n mec&aacute;nica</h3>
+          <p class="benefit-text">
+            Priorizar movimientos de coordinaci&oacute;n y estabilidad (Sit-to-stand, T&aacute;ndem, Reaching) sobre saltos bal&iacute;sticos.
+            Desviamos el estr&eacute;s hacia el sistema nervioso, no hacia las articulaciones.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- BIBLIOGRAPHY & GITHUB                              -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <hr class="landing-divider">
+
+    <section class="landing-evidence" aria-labelledby="refs-title">
+      <h2 id="refs-title" class="landing-section-title">Referencias seleccionadas</h2>
+      <p class="landing-section-subtitle">
+        Evidencia publicada en PubMed (2016&ndash;2026).
+      </p>
+
+      <div style="max-width: 800px; margin: 0 auto var(--space-4); padding: var(--space-3); background-color: var(--layer-bg-container); border: 1px solid var(--gris-700); border-radius: 16px;">
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px;">
+          <li style="font-size: 0.85rem; color: var(--gris-400); line-height: 1.5; padding-bottom: 12px; border-bottom: 1px solid var(--gris-700);">
+            <strong style="color: var(--gris-200);">Khan MJ et al. (2025).</strong> Effectiveness of dual-task exercise in improving balance and preventing falls: systematic review with meta-analysis. <em>Eur Geriatr Med.</em>
+          </li>
+          <li style="font-size: 0.85rem; color: var(--gris-400); line-height: 1.5; padding-bottom: 12px; border-bottom: 1px solid var(--gris-700);">
+            <strong style="color: var(--gris-200);">Almutairi JS et al. (2025).</strong> Ranking the difficulty of the cognitive tasks in Dual-Tasks during walking in healthy adults. <em>Neurosciences.</em>
+          </li>
+          <li style="font-size: 0.85rem; color: var(--gris-400); line-height: 1.5; padding-bottom: 12px; border-bottom: 1px solid var(--gris-700);">
+            <strong style="color: var(--gris-200);">Nayak A et al. (2021).</strong> Dual-Task Training Program for Older Adults: Blending Gait, Visuomotor and Cognitive Training. <em>Front Netw Physiol.</em>
+          </li>
+          <li style="font-size: 0.85rem; color: var(--gris-400); line-height: 1.5; padding-bottom: 12px; border-bottom: 1px solid var(--gris-700);">
+            <strong style="color: var(--gris-200);">Liao Y-Y et al. (2019).</strong> VR-based physical and cognitive training in older adults with MCI: RCT. <em>Front Aging Neurosci.</em>
+          </li>
+          <li style="font-size: 0.85rem; color: var(--gris-400); line-height: 1.5;">
+            <strong style="color: var(--gris-200);">Wollesen B et al. (2017).</strong> Does dual task training improve walking performance of older adults with concern of falling? <em>BMC Geriatr.</em>
+          </li>
         </ul>
       </div>
-      <div class="sop-box" style="border-color: var(--dorado-accent);">
-        <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
-          <span class="material-symbols-sharp" style="color: var(--dorado-accent)">fitness_center</span> Baja Tensión Mecánica
-        </h4>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">
-          Priorizar movimientos de coordinación y estabilidad (Sit-to-stand, Tándem, Reaching) sobre saltos balísticos. Desviamos el estrés hacia el <strong>Sistema Nervioso</strong>, no hacia las articulaciones.
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════ -->
+    <!-- FINAL CTA                                          -->
+    <!-- ══════════════════════════════════════════════════ -->
+    <section class="landing-final-cta">
+      <h2 class="landing-section-title">Empieza hoy</h2>
+      <p class="landing-section-subtitle">Sin registro, sin coste, directamente en tu navegador.</p>
+      <a href="./src/herramientas/vanilla/dashboard.html" class="hero-cta">
+        <span class="material-symbols-sharp">apps</span>
+        Abrir herramientas
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+
+      <!-- Columna 1: Tarjeta Elena -->
+      <div class="footer-elena-card">
+        <div class="footer-elena-header">
+          <img src="./assets/mi-foto.webp" alt="Elena Cruces" class="footer-elena-avatar" width="70" height="70">
+          <div>
+            <h4>Elena Cruces</h4>
+            <p class="footer-elena-title">Entrenadora de fuerza para mujeres +40 - Prevenci&oacute;n y salud &oacute;sea</p>
+            <p class="footer-elena-location">Vigo, Galicia - Online y Presencial</p>
+            <span class="footer-elena-badge">
+              <span class="material-symbols-sharp">workspace_premium</span>
+              Certificada N.&ordm; 038020
+            </span>
+          </div>
+        </div>
+        <p class="footer-elena-bio">
+          M&aacute;s de 8 a&ntilde;os ayudando a mujeres +40 a recuperar su fuerza, funcionalidad y confianza.<br>
+          <strong>Metodolog&iacute;a cient&iacute;fica + experiencia personal.</strong>
         </p>
-      </div>
-    </div>
-  </section>
-
-  <section style="max-width: 1200px; margin: 6rem auto; display: grid; gap: 4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); padding: 0 2rem; align-items: center;">
-    <div>
-      <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: var(--turquesa-main); margin-bottom: 1rem; letter-spacing: 1px;">Doble Tarea Cognitiva</h2>
-      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">Exige al paciente tomar decisiones rápidas bajo patrones de color incongruentes o cálculos aritméticos invertidos al mismo tiempo que compromete el equilibrio pélvico. Todo esto reduce radicalmente el riesgo de caídas en el mundo real.</p>
-    </div>
-    <div>
-      <img src="assets/kinesislab_ui1.png" alt="Clinical Balance con Interfaz Turquesa" style="width: 100%; border-radius: 12px; border: 1px solid var(--turquesa-main); box-shadow: 0 0 40px var(--turquesa-glow);">
-    </div>
-  </section>
-
-  <section style="max-width: 1200px; margin: 6rem auto; display: grid; gap: 4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); padding: 0 2rem; align-items: center; direction: rtl;">
-    <div style="direction: ltr;">
-      <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: var(--dorado-accent); margin-bottom: 1rem; letter-spacing: 1px;">Señales Reactivas de Estrés</h2>
-      <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.8;">No hay patrones repetitivos. El motor interno de KinesisLab escupe señales auditivas y lumínicas de Stop/Go configuradas por cadencia. Desafiamos la inercia del adulto obligándole a reclutar fibras rápidas en milésimas de segundo ante el caos dictado por la pantalla.</p>
-    </div>
-    <div style="direction: ltr;">
-      <img src="assets/kinesislab_ui2.png" alt="Entrenamiento dual task auditivo" style="width: 100%; border-radius: 12px; border: 1px solid var(--rosa-accent); box-shadow: 0 0 40px rgba(225, 29, 72, 0.15);">
-    </div>
-  </section>
-
-  <section class="tech-specs">
-    <div class="tech-container">
-      <div class="tech-box">
-        <h4 style="margin-bottom: 0.5rem; color: white;">Colabora en GitHub</h4>
-        <p style="color: var(--text-muted);">Reporta errores, sugiere mejoras o contribuye con nuevas herramientas:</p>
-        <p style="margin-top: 1rem;"><a href="https://github.com/movimientofuncional/kinesislab" target="_blank" rel="noopener" style="color: var(--dorado-accent); text-decoration: none; font-size: 1.1rem; font-family: monospace;">github.com/movimientofuncional/kinesislab &rarr;</a></p>
+        <div class="footer-social">
+          <a href="https://t.me/movimientofuncional" aria-label="Telegram">
+            <span class="material-symbols-sharp">send</span>
+          </a>
+          <a href="https://youtube.com/@movimientofuncional" aria-label="YouTube">
+            <span class="material-symbols-sharp">play_circle</span>
+          </a>
+          <a href="https://www.linkedin.com/in/elena-cruces-movimientofuncional-net/" aria-label="LinkedIn">
+            <span class="material-symbols-sharp">work</span>
+          </a>
+          <a href="https://www.instagram.com/movimientofuncional.es/" aria-label="Instagram">
+            <span class="material-symbols-sharp">photo_camera</span>
+          </a>
+        </div>
       </div>
 
-      <div class="bibliography" style="margin-top: 4rem;">
-        <h4>Evidencia y Referencias Seleccionadas (2016-2026)</h4>
-        <ul>
-          <li><strong>Khan MJ et al. (2025).</strong> Effectiveness of dual-task exercise in improving balance and preventing falls: systematic review with meta-analysis. Eur Geriatr Med.</li>
-          <li><strong>Almutairi JS et al. (2025).</strong> Ranking the difficulty of the cognitive tasks in Dual-Tasks during walking in healthy adults. Neurosciences.</li>
-          <li><strong>Nayak A et al. (2021).</strong> Dual-Task Training Program for Older Adults: Blending Gait, Visuomotor and Cognitive Training. Front Netw Physiol.</li>
-          <li><strong>Liao Y-Y et al. (2019).</strong> VR-based physical and cognitive training in older adults with MCI: RCT. Front Aging Neurosci.</li>
-          <li><strong>Wollesen B et al. (2017).</strong> Does dual task training improve walking performance of older adults with concern of falling? BMC Geriatr.</li>
-        </ul>
+      <!-- Columna 2: Navegaci&oacute;n -->
+      <div class="footer-links">
+        <h4>
+          <span class="material-symbols-sharp">link</span>
+          Navegaci&oacute;n
+        </h4>
+        <div class="footer-nav-cards">
+          <a href="https://academia.movimientofuncional.app" class="footer-nav-card footer-nav-card--principal" target="_blank" rel="noopener">
+            <span class="material-symbols-sharp">fitness_center</span>
+            <div>
+              <strong>Odisea Antifr&aacute;gil</strong>
+              <span>Tu academia de entrenamiento funcional</span>
+            </div>
+            <span class="material-symbols-sharp footer-nav-arrow">arrow_forward</span>
+          </a>
+          <a href="https://academia.movimientofuncional.app/entrena-tus-huesos" class="footer-nav-card" target="_blank" rel="noopener">
+            <span class="material-symbols-sharp">directions_run</span>
+            <div>
+              <strong>Entrena tu Hueso</strong>
+              <span>Gu&iacute;a pr&aacute;ctica: impacto progresivo en casa</span>
+            </div>
+            <span class="footer-nav-badge footer-nav-badge--rosa">Gratis</span>
+          </a>
+          <a href="https://academia.movimientofuncional.app/curso-menopausia" class="footer-nav-card" target="_blank" rel="noopener">
+            <span class="material-symbols-sharp">school</span>
+            <div>
+              <strong>Recupera tu Vitalidad</strong>
+              <span>Curso gratuito: menopausia y entrenamiento</span>
+            </div>
+            <span class="footer-nav-badge footer-nav-badge--turquesa">Gratis</span>
+          </a>
+          <a href="https://movimientofuncional.app/proyecto-genesis" class="footer-nav-card" target="_blank" rel="noopener">
+            <span class="material-symbols-sharp">star</span>
+            <div>
+              <strong>Proyecto G&eacute;nesis</strong>
+              <span>Tu punto de partida personalizado</span>
+            </div>
+            <span class="footer-nav-badge footer-nav-badge--dorado">Premium</span>
+          </a>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <footer>
-    <p>Desarrollado y Open-Sourced por Elena Cruces / <a href="https://github.com/movimientofuncional" target="_blank">Movimiento Funcional</a></p>
-    <p style="margin-top: 0.5rem; opacity: 0.5;">Uso no comercial exclusivo. Licencia CC BY-NC-SA 4.0.</p>
-    <p style="margin-top: 0.75rem;"><a href="legal.html">Aviso Legal</a> &middot; <a href="legal.html#privacidad">Privacidad</a> &middot; <a href="legal.html#disclaimer">Disclaimer Cl&iacute;nico</a></p>
+      <!-- Columna 3: Legal y Proyecto -->
+      <div class="footer-links footer-legal">
+        <h4>Legal</h4>
+        <a href="./legal.html">Aviso Legal</a>
+        <a href="./legal.html#privacidad">Pol&iacute;tica de Privacidad</a>
+        <a href="./legal.html#cookies">Cookies</a>
+        <a href="https://t.me/movimientofuncional" target="_blank" rel="noopener">Contacto</a>
+
+        <h4 style="margin-top: var(--space-3);">Proyecto</h4>
+        <a href="https://github.com/movimientofuncional/kinesislab" target="_blank" rel="noopener">
+          <span class="material-symbols-sharp" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">code</span>
+          GitHub
+        </a>
+        <a href="https://github.com/movimientofuncional/kinesislab/blob/main/LICENSE" target="_blank" rel="noopener">
+          <span class="material-symbols-sharp" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">license</span>
+          Licencia MIT
+        </a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 MOVIMIENTO FUNCIONAL. C&oacute;digo abierto bajo Licencia MIT.</p>
+    </div>
   </footer>
 
+  <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span class="material-symbols-sharp">arrow_upward</span>
+  </button>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(registration => {
-          console.log('SW registrado con éxito:', registration.scope);
-        }).catch(err => {
-          console.log('Error registrando SW:', err);
-        });
-      });
-    }
+    window.addEventListener('scroll', function() {
+      document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 400);
+    });
   </script>
+
 </body>
 </html>

@@ -49,7 +49,7 @@ class SortTool {
       this.stopEngine();
       this.isPlaying = false;
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
     }
     this.totalTrials = 0;
     this.updateStats();
@@ -62,14 +62,14 @@ class SortTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.totalTrials = 0;
       this.updateStats();
       this.startEngine();
       this.requestWakeLock();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
       this.releaseWakeLock();
     }

@@ -6,33 +6,10 @@
   <meta name="theme-color" content="#00bec8">
   <link rel="manifest" href="../../../../../manifest.json">
   <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
-  <title>Fit Boxing - KinesisLab</title>
+  <title>Boxeo Reactivo - KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    /* Slider Range styling Odisea Antifrágil (Rosa Fuerte) */
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      background: transparent;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      height: 20px;
-      width: 20px;
-      border-radius: 50%;
-      background: var(--rosa-600);
-      cursor: pointer;
-      margin-top: -8px;
-    }
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%;
-      height: 4px;
-      cursor: pointer;
-      background: var(--gris-600);
-      border-radius: 4px;
-    }
-
     .status-panel {
       display: flex;
       flex-direction: column;
@@ -78,8 +55,9 @@
 
   <section class="view-execution">
     <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;">
-        Fit Boxing
+        Boxeo Reactivo
       </h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -89,31 +67,20 @@
       </div>
     </header>
 
-    <div class="exec-toolbar" id="configPanel" style="flex-direction: column; align-items: stretch; gap: 1rem; padding: 1rem 2rem;">
-      <h3 style="color: var(--rosa-400); font-family: var(--font-display);">Configuración Fit Boxing</h3>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-        <div>
-          <label style="font-size: 0.85rem; color: var(--gris-400);">Golpes por combinación: <span id="lblPunch" style="color:white; font-weight:bold;">4</span></label>
+    <div class="exec-toolbar config-panel config-panel--rosa" id="configPanel">
+      <div class="config-panel__controls">
+        <div class="config-panel__slider-group">
+          <label>Golpes: <span id="lblPunch">4</span></label>
           <input type="range" id="punchCount" min="2" max="20" value="4">
         </div>
-
-        <div>
-          <label style="font-size: 0.85rem; color: var(--gris-400);">Velocidad de voz: <span id="lblSpeech" style="color:white; font-weight:bold;">1.0x</span></label>
+        <div class="config-panel__slider-group">
+          <label>Voz: <span id="lblSpeech">1.0x</span></label>
           <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
         </div>
-      </div>
-
-      <div style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-start; margin-top: 0.5rem;">
-        <input type="checkbox" id="includeDefensive" style="width: 20px; height: 20px; accent-color: var(--rosa-600);">
-        <label for="includeDefensive" style="font-size: 0.9rem;">Incluir movimientos defensivos (esquivas, bloqueos)</label>
-      </div>
-
-      <div style="display: flex; justify-content: center; margin-top: 1rem;">
-        <button id="btnPlayPause" class="btn-critical" onclick="tool.handleStartStop()" style="width: 100%; max-width: 300px; justify-content: center;">
-          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
-          <span id="playText">EMPEZAR</span>
-        </button>
+        <div class="config-panel__checkbox">
+          <input type="checkbox" id="includeDefensive">
+          <label for="includeDefensive">Defensivos</label>
+        </div>
       </div>
     </div>
 
@@ -121,9 +88,12 @@
     <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
       
       <!-- ESTADO: IDLE -->
-      <div id="stateIdle" class="status-panel">
-        <span class="material-symbols-sharp" style="font-size: 5rem; color: var(--gris-600); margin-bottom: 1rem;">sports_mma</span>
-        <p style="color: var(--gris-400); font-size: 1.2rem;">Configura y pulsa EMPEZAR para comenzar</p>
+      <div id="stateIdle" class="idle-cta">
+        <p class="idle-cta__hint">Ajusta la configuracion y comienza</p>
+        <button id="btnPlayPause" class="btn-start btn-start--rosa" onclick="tool.handleStartStop()">
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
+          <span id="playText">EMPEZAR</span>
+        </button>
       </div>
 
       <!-- ESTADO: COMBOS -->
@@ -143,7 +113,7 @@
   <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
     <div class="info-modal">
       <div class="info-modal-header">
-        <h3>Fit Boxing</h3>
+        <h3>Boxeo Reactivo</h3>
         <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">

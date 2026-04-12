@@ -10,12 +10,12 @@ class TraceTool {
     if (this.isPlaying) {
       btn.classList.add('active');
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.startEngine();
     } else {
       btn.classList.remove('active');
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
     }
   }

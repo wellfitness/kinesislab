@@ -42,6 +42,7 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Go / No-Go</h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -66,7 +67,7 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" onclick="tool.handleTap()">
@@ -101,7 +102,7 @@
           <ol>
             <li>Elige nivel: b&aacute;sico, con distractores o invertido.</li>
             <li>Ajusta la cadencia seg&uacute;n el grupo.</li>
-            <li>Pulsa START. Aparece un c&iacute;rculo verde (toca) o rojo (no toques).</li>
+            <li>Pulsa INICIAR. Aparece un c&iacute;rculo verde (toca) o rojo (no toques).</li>
             <li>El modo <strong>invertido</strong> invierte las reglas: rojo = toca, verde = frena.</li>
           </ol>
         </div>

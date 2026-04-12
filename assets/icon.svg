@@ -1,9 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#111827"/>
-  <circle cx="256" cy="220" r="120" fill="none" stroke="#00bec8" stroke-width="28"/>
-  <line x1="256" y1="220" x2="256" y2="140" stroke="#00bec8" stroke-width="20" stroke-linecap="round"/>
-  <line x1="256" y1="220" x2="316" y2="250" stroke="#e11d48" stroke-width="16" stroke-linecap="round"/>
-  <circle cx="256" cy="220" r="14" fill="#00bec8"/>
-  <path d="M180 370 h152 l-20 60 H200 Z" fill="#00bec8" opacity="0.9"/>
-  <rect x="220" y="430" width="72" height="16" rx="8" fill="#00bec8" opacity="0.6"/>
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+  <!-- Infinity left half (rosa/cognitive) - crosses over center -->
+  <path d="M256 256
+    C230 200 190 160 150 160
+    C100 160 64 200 64 256
+    C64 312 100 352 150 352
+    C190 352 230 312 256 256Z"
+    fill="none" stroke="#e11d48" stroke-width="38" stroke-linecap="round"/>
+  <!-- Infinity right half (turquesa/motor) - crosses over center -->
+  <path d="M256 256
+    C282 312 322 352 362 352
+    C412 352 448 312 448 256
+    C448 200 412 160 362 160
+    C322 160 282 200 256 256Z"
+    fill="none" stroke="#00bec8" stroke-width="38" stroke-linecap="round"/>
+  <!-- Center glow point -->
+  <circle cx="256" cy="256" r="14" fill="#eab308" opacity="0.95"/>
 </svg>

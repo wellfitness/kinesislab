@@ -40,14 +40,14 @@ class SimonTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'stop';
-      document.getElementById('playText').textContent = 'STOP';
+      document.getElementById('playText').textContent = 'DETENER';
       this.resetStats();
       this.nextRound();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
       this.phase = 'idle';
-      this.setInstruction('Pulsa START para comenzar');
+      this.setInstruction('Pulsa INICIAR para comenzar');
       this.setButtonsClickable(false);
     }
   }

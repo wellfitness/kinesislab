@@ -48,6 +48,7 @@
 <body>
   <section class="view-execution">
     <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Test de Stroop</h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -64,7 +65,7 @@
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
-        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">START</span>
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
@@ -102,7 +103,7 @@
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Selecciona la cadencia (velocidad entre est&iacute;mulos).</li>
-            <li>Pulsa START. Aparecer&aacute; una palabra de color escrita en otra tinta.</li>
+            <li>Pulsa INICIAR. Aparecer&aacute; una palabra de color escrita en otra tinta.</li>
             <li>Toca el bot&oacute;n que corresponde al <strong>color de la tinta</strong>, no al texto.</li>
             <li>El marcador registra aciertos, errores y tiempo de reacci&oacute;n medio.</li>
           </ol>

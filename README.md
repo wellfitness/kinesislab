@@ -41,7 +41,7 @@ Cada nueva herramienta que incluyas se programa sencillamente creando una carpet
 ## 👩‍⚕️ Autoría y Licencia
 Proyecto documentado, purgado y diseñado por Elena Cruces / [Movimiento Funcional], entregando software limpio para frenar la fragilidad motora.
 
-Este software se encuentra bajo licencia **CC BY-NC-SA 4.0** (Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0). Puedes modificar el código y aportar mejoras libremente, pero **está estrictamente prohibida la comercialización, venta o inclusión de este software en productos de pago sin autorización**.
+Este software se distribuye bajo la **Licencia MIT**. Puedes usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del software libremente, siempre que incluyas la nota de copyright y la licencia en todas las copias.
 
 ---
 *"El estímulo inestable es el padre de la longevidad estructural"*

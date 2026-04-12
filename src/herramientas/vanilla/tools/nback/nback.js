@@ -52,12 +52,12 @@ class NBackTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.resetStats();
       this.startEngine();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
       document.getElementById('matchBtn').disabled = true;
     }
@@ -92,7 +92,7 @@ class NBackTool {
       this.stopEngine();
       this.isPlaying = false;
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
       document.getElementById('matchBtn').disabled = true;
     }
     this.resetStats();

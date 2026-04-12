@@ -68,7 +68,7 @@ class MatrixTool {
       this.stopEngine();
       this.isPlaying = false;
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
     }
     this.buildGrid();
     this.resetStats();
@@ -82,7 +82,7 @@ class MatrixTool {
       this.stopEngine();
       this.isPlaying = false;
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
     }
     this.resetStats();
     this.clearMatrix();
@@ -96,12 +96,12 @@ class MatrixTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
-      document.getElementById('playText').textContent = 'PAUSE';
+      document.getElementById('playText').textContent = 'PAUSA';
       this.resetStats();
       this.startEngine();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'RESUME';
+      document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
     }
   }

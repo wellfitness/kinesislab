@@ -37,13 +37,13 @@ class FlechasTool {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'stop';
-      document.getElementById('playText').textContent = 'STOP';
+      document.getElementById('playText').textContent = 'DETENER';
       this.timeLeft = this.duration * 60;
       this.startEngine();
       this.startTimer();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
-      document.getElementById('playText').textContent = 'START';
+      document.getElementById('playText').textContent = 'INICIAR';
       this.stopEngine();
       this.stopTimer();
     }
@@ -84,7 +84,7 @@ class FlechasTool {
     this.stopEngine();
     this.stopTimer();
     document.getElementById('playIcon').textContent = 'play_arrow';
-    document.getElementById('playText').textContent = 'START';
+    document.getElementById('playText').textContent = 'INICIAR';
 
     const arrow = document.getElementById('arrowIcon');
     arrow.textContent = 'check_circle';
