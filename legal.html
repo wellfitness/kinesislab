@@ -116,6 +116,11 @@
 
     .legal-section strong { color: var(--gris-200); }
 
+    .data-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .data-table {
       width: 100%;
       border-collapse: collapse;
@@ -152,14 +157,25 @@
     }
 
     .back-link {
-      display: inline-block;
-      color: var(--turquesa-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background-color: var(--gris-800);
+      border: 1px solid var(--gris-700);
+      color: var(--gris-300);
       text-decoration: none;
       font-size: 0.9rem;
       margin-bottom: 2rem;
+      transition: all 200ms;
     }
 
-    .back-link:hover { text-decoration: underline; }
+    .back-link:hover {
+      background-color: var(--gris-700);
+      color: white;
+    }
 
     .site-footer {
       background: var(--gris-900);
@@ -194,7 +210,7 @@
     .footer-elena-bio { font-size: 0.85rem; color: var(--gris-300); line-height: 1.6; margin-bottom: 1rem; }
     .footer-elena-bio strong { color: white; }
     .footer-social { display: flex; gap: 8px; }
-    .footer-social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--gris-700); border-radius: 50%; color: var(--turquesa-400); transition: all 0.2s; text-decoration: none; }
+    .footer-social a { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--gris-700); border-radius: 50%; color: var(--turquesa-400); transition: all 0.2s; text-decoration: none; }
     .footer-social a:hover { background: rgba(255,255,255,0.1); border-color: var(--turquesa-600); }
     .footer-social a .material-symbols-sharp { font-size: 18px; }
     .footer-links h4 { display: flex; align-items: center; gap: 8px; color: white; font-family: 'ABeeZee', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
@@ -220,7 +236,7 @@
     .footer-nav-badge--rosa { color: var(--rosa-400); background: rgba(219,39,119,0.15); }
     .footer-nav-badge--turquesa { color: var(--turquesa-400); background: rgba(0,190,200,0.15); }
     .footer-nav-badge--dorado { color: var(--gris-900); background: linear-gradient(135deg, var(--tulip-tree-400) 0%, var(--tulip-tree-500) 100%); font-weight: 600; }
-    .footer-legal a { display: block; color: var(--gris-400); font-size: 0.9rem; padding: 4px 0; transition: color 0.2s; text-decoration: none; }
+    .footer-legal a { display: block; color: var(--gris-400); font-size: 0.9rem; padding: 10px 0; min-height: 44px; transition: color 0.2s; text-decoration: none; }
     .footer-legal a:hover { color: var(--turquesa-400); }
     .footer-bottom { border-top: 1px solid var(--turquesa-400); padding-top: 1.5rem; margin-top: 1.5rem; text-align: center; max-width: 1200px; margin-left: auto; margin-right: auto; }
     .footer-bottom p { color: white; font-size: 0.85rem; }
@@ -234,7 +250,7 @@
 <body>
 
   <header class="legal-header">
-    <a href="index.html" class="back-link">&larr; Volver a KinesisLab</a>
+    <a href="index.html" class="back-link" aria-label="Volver a KinesisLab"><span class="material-symbols-sharp">arrow_back</span></a>
     <h1>Aviso Legal <span>&</span> Privacidad</h1>
     <nav class="legal-nav">
       <a href="#aviso-legal">Aviso Legal</a>
@@ -254,13 +270,15 @@
 
       <p>En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Informaci&oacute;n y de Comercio Electr&oacute;nico (LSSI-CE), se facilitan los siguientes datos identificativos del titular de este sitio web:</p>
 
-      <table class="data-table">
-        <tr><th>Titular</th><td>Elena C. D. (MOVIMIENTO FUNCIONAL)</td></tr>
-        <tr><th>Domicilio</th><td>36210 &mdash; Vigo, Pontevedra</td></tr>
-        <tr><th>Actividad</th><td>Entrenamiento personal, consultor&iacute;a y herramientas digitales de entrenamiento cognitivo-motor</td></tr>
-        <tr><th>Email</th><td><a href="mailto:info@movimientofuncional.com">info@movimientofuncional.com</a></td></tr>
-        <tr><th>Sitio web</th><td><a href="https://kinesislab.movimientofuncional.app">kinesislab.movimientofuncional.app</a></td></tr>
-      </table>
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <tr><th>Titular</th><td>Elena C. D. (MOVIMIENTO FUNCIONAL)</td></tr>
+          <tr><th>Domicilio</th><td>36210 &mdash; Vigo, Pontevedra</td></tr>
+          <tr><th>Actividad</th><td>Entrenamiento personal, consultor&iacute;a y herramientas digitales de entrenamiento cognitivo-motor</td></tr>
+          <tr><th>Email</th><td><a href="mailto:info@movimientofuncional.com">info@movimientofuncional.com</a></td></tr>
+          <tr><th>Sitio web</th><td><a href="https://kinesislab.movimientofuncional.app">kinesislab.movimientofuncional.app</a></td></tr>
+        </table>
+      </div>
 
       <h3>Objeto del sitio</h3>
       <p><strong>KinesisLab</strong> es una herramienta digital gratuita y de c&oacute;digo abierto que ofrece ejercicios interactivos de entrenamiento cognitivo-motor. Est&aacute; dise&ntilde;ada como recurso complementario para profesionales del entrenamiento y la rehabilitaci&oacute;n.</p>
@@ -284,11 +302,13 @@
       <p>En cumplimiento del Reglamento (UE) 2016/679 (RGPD) y la Ley Org&aacute;nica 3/2018 (LOPDGDD), te informamos sobre el tratamiento de datos personales en este sitio.</p>
 
       <h3>Responsable del tratamiento</h3>
-      <table class="data-table">
-        <tr><th>Responsable</th><td>Elena C. D. (MOVIMIENTO FUNCIONAL)</td></tr>
-        <tr><th>Domicilio</th><td>36210 &mdash; Vigo, Pontevedra</td></tr>
-        <tr><th>Email</th><td><a href="mailto:info@movimientofuncional.com">info@movimientofuncional.com</a></td></tr>
-      </table>
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <tr><th>Responsable</th><td>Elena C. D. (MOVIMIENTO FUNCIONAL)</td></tr>
+          <tr><th>Domicilio</th><td>36210 &mdash; Vigo, Pontevedra</td></tr>
+          <tr><th>Email</th><td><a href="mailto:info@movimientofuncional.com">info@movimientofuncional.com</a></td></tr>
+        </table>
+      </div>
 
       <h3>Datos que NO recogemos</h3>
       <p>KinesisLab <strong>no recoge, almacena ni transmite ning&uacute;n dato personal</strong>. Espec&iacute;ficamente:</p>

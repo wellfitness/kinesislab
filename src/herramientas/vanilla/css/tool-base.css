@@ -246,18 +246,27 @@ h1 {
   flex-shrink: 0;
 }
 
+@media (max-width: 600px) {
+  .exec-header-logo {
+    display: none;
+  }
+}
+
 .btn-secondary {
   background: transparent;
   color: var(--gris-300);
   border: 1px solid var(--gris-600);
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 0;
   transition: all 200ms;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .btn-secondary:hover {
@@ -285,6 +294,7 @@ h1 {
   border: 1px solid var(--gris-700);
   border-radius: 8px;
   padding: 4px 12px;
+  min-height: 44px;
 }
 
 .control-label {
@@ -301,7 +311,8 @@ h1 {
   border: none;
   font-family: inherit;
   font-size: 1rem;
-  padding: 4px;
+  padding: 8px 4px;
+  min-height: 44px;
   outline: none;
   cursor: pointer;
 }
