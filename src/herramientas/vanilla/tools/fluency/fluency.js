@@ -17,6 +17,7 @@ class FluencyTool {
 
   getAudioCtx() {
     if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
     return this.audioCtx;
   }
 

@@ -336,6 +336,7 @@ class TimersTool {
       const Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) return;
       const ctx = new Ctx();
+      if (ctx.state === 'suspended') ctx.resume();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.connect(gain);
