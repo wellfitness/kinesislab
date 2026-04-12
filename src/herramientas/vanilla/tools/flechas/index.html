@@ -71,6 +71,14 @@
       transition: all 200ms;
     }
     .fullscreen-btn:hover { color: white; background: var(--gris-800); }
+    @media (max-width: 480px) {
+      .timer-display {
+        font-size: 1.3rem;
+        padding: 4px 10px;
+        min-width: 70px;
+      }
+      .fullscreen-btn { display: none; }
+    }
     .speed-color-lento { color: var(--turquesa-400); }
     .speed-color-medio { color: var(--tulip-tree-400); }
     .speed-color-rapido { color: var(--rosa-400); }

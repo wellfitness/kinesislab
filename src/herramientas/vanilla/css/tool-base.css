@@ -250,6 +250,65 @@ h1 {
   .exec-header-logo {
     display: none;
   }
+  .exec-header h2 {
+    font-size: 1rem !important;
+    white-space: nowrap;
+  }
+  .exec-header {
+    padding: var(--space-1) var(--space-2);
+  }
+  .exec-toolbar {
+    padding: 6px var(--space-2);
+    gap: 6px;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+  .control-group {
+    padding: 4px 8px;
+    min-height: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+  .control-label {
+    font-size: 0.6rem;
+    margin-right: 0;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .speed-select {
+    font-size: 0.8rem;
+    padding: 2px 0;
+    min-height: 28px;
+    min-width: 0;
+    width: 100%;
+  }
+  .btn-primary,
+  .btn-critical {
+    padding: 8px;
+    font-size: 0;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+  .btn-primary .material-symbols-sharp,
+  .btn-critical .material-symbols-sharp {
+    font-size: 1.5rem;
+  }
+  .exec-toolbar .btn-primary > span:not(.material-symbols-sharp),
+  .exec-toolbar .btn-critical > span:not(.material-symbols-sharp) {
+    display: none;
+  }
+  .stimulus-area {
+    padding: 0;
+  }
+  .stimulus-instruction {
+    font-size: 0.95rem;
+    margin-bottom: var(--space-1);
+  }
 }
 
 .btn-secondary {

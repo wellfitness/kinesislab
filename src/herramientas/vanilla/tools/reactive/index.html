@@ -48,6 +48,35 @@
       left: var(--space-2);
       z-index: 2;
     }
+    @media (max-width: 480px) {
+      .legend-panel {
+        max-width: 240px;
+        padding: var(--space-1);
+        gap: 4px;
+      }
+      .legend-action {
+        width: 80px;
+        font-size: 0.75rem;
+        padding: 4px 6px;
+      }
+      .legend-signal {
+        font-size: 0.75rem;
+        min-width: 65px;
+      }
+      .stats-bar {
+        max-width: 100px;
+        text-align: center;
+      }
+      .stats-bar .stat-value {
+        font-size: 1rem;
+      }
+      .stats-bar .stat-label {
+        font-size: 0.6rem;
+      }
+      .legend-panel {
+        max-width: 220px;
+      }
+    }
     .legend-item {
       display: flex;
       align-items: center;

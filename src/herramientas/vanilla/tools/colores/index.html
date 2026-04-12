@@ -69,6 +69,14 @@
     .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    @media (max-width: 480px) {
+      .legend-panel { max-width: 220px; padding: var(--space-1); gap: 4px; }
+      .legend-action { width: 90px; font-size: 0.75rem; padding: 4px 6px; }
+      .legend-signal { font-size: 0.75rem; min-width: 55px; }
+      .stats-bar { max-width: 80px; text-align: center; }
+      .stat-value { font-size: 1rem; }
+      .stat-label { font-size: 0.6rem; }
+    }
   </style>
 </head>
 <body>

@@ -145,7 +145,10 @@ class ReactiveTool {
 
   updateStats() {
     document.getElementById('statRounds').textContent = this.totalTrials;
-    const phase = this.totalTrials <= this.learningRounds ? 'APRENDIZAJE' : 'MEMORIA';
+    const isMobile = window.innerWidth < 480;
+    const phase = this.totalTrials <= this.learningRounds
+      ? (isMobile ? 'APRENDE' : 'APRENDIZAJE')
+      : 'MEMORIA';
     document.getElementById('statPhase').textContent = phase;
   }
 }
