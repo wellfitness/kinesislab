@@ -601,6 +601,24 @@ h1 {
   font-size: 20px;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.hero-cta--android {
+  background: #3ddc84;
+  color: #0a0a0a;
+  box-shadow: 0 4px 16px rgba(61, 220, 132, 0.3);
+}
+
+.hero-cta--android:hover {
+  background: #2bc46e;
+  box-shadow: 0 6px 24px rgba(61, 220, 132, 0.4);
+}
+
 /* Divider */
 .landing-divider {
   width: 80px;

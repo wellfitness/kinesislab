@@ -7,3 +7,10 @@ deploy.sh
 # System files
 .DS_Store
 Thumbs.db
+
+# Android TWA build artifacts
+android-twa/build/
+android-twa/app/build/
+android-twa/.gradle/
+android-twa/local.properties
+*.keystore

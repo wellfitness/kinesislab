@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'app.movimientofuncional.kinesislab'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "app.movimientofuncional.kinesislab"
+        minSdk 21
+        targetSdk 35
+        versionCode 1
+        versionName "1.0.0"
+
+        manifestPlaceholders = [
+            hostName    : "kinesislab.movimientofuncional.app",
+            defaultUrl  : "https://kinesislab.movimientofuncional.app",
+            launcherName: "KinesisLab",
+            assetStatements: '[{ "relation": ["delegate_permission/common.handle_all_urls"],' +
+                ' "target": { "namespace": "web", "site": "https://kinesislab.movimientofuncional.app" } }]'
+        ]
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('KEYSTORE_FILE')) {
+                storeFile file(KEYSTORE_FILE)
+                storePassword KEYSTORE_PASSWORD
+                keyAlias KEY_ALIAS
+                keyPassword KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            if (project.hasProperty('KEYSTORE_FILE')) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            // Debug uses default debug keystore
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.22'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22'
+        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22'
+    }
+}
+
+dependencies {
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}
