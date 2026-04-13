@@ -6,7 +6,7 @@ class SortTool {
     this.phase = 'idle';
     this.timer = null;
     this.currentItems = [];
-    this.proposalCorrect = false;
+    this.displayedAscending = false;
     this.roundStart = 0;
     this.hits = 0;
     this.misses = 0;
@@ -139,7 +139,8 @@ class SortTool {
   showIdle() {
     this.phase = 'idle';
     document.getElementById('memPhase').style.display = '';
-    document.getElementById('decidePhase').style.display = 'none';
+    document.getElementById('questionPhase').style.display = 'none';
+    document.getElementById('feedbackPhase').style.display = 'none';
     document.getElementById('feedbackIcon').style.display = 'none';
     const els = document.querySelectorAll('.sort-item');
     els.forEach(el => { el.textContent = '--'; });
@@ -155,13 +156,31 @@ class SortTool {
     this.phase = 'memorize';
     this.currentItems = this.generateItems();
 
+    // 50% de las veces se muestran en orden ascendente, 50% desordenados
+    this.displayedAscending = Math.random() < 0.5;
+
+    let displayed;
+    if (this.displayedAscending) {
+      displayed = [...this.currentItems].sort((a, b) => a.value - b.value);
+    } else {
+      // Barajar hasta que NO estén en orden ascendente
+      displayed = [...this.currentItems];
+      do {
+        for (let i = displayed.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [displayed[i], displayed[j]] = [displayed[j], displayed[i]];
+        }
+      } while (this.isAscending(displayed));
+    }
+
     document.getElementById('memPhase').style.display = '';
-    document.getElementById('decidePhase').style.display = 'none';
+    document.getElementById('questionPhase').style.display = 'none';
+    document.getElementById('feedbackPhase').style.display = 'none';
     document.getElementById('feedbackIcon').style.display = 'none';
 
-    document.getElementById('sort-0').textContent = this.currentItems[0].display;
-    document.getElementById('sort-1').textContent = this.currentItems[1].display;
-    document.getElementById('sort-2').textContent = this.currentItems[2].display;
+    document.getElementById('sort-0').textContent = displayed[0].display;
+    document.getElementById('sort-1').textContent = displayed[1].display;
+    document.getElementById('sort-2').textContent = displayed[2].display;
 
     document.getElementById('sortInstruction').textContent =
       this.currentLevel === 'easy' ? 'Memoriza...' : 'Calcula y memoriza...';
@@ -173,41 +192,33 @@ class SortTool {
     this.timer = setTimeout(() => this.showBlank(), this.currentSpeed);
   }
 
+  isAscending(items) {
+    for (let i = 1; i < items.length; i++) {
+      if (items[i].value <= items[i - 1].value) return false;
+    }
+    return true;
+  }
+
   showBlank() {
     if (!this.isPlaying) return;
     this.phase = 'blank';
     document.getElementById('memPhase').style.display = 'none';
-    document.getElementById('decidePhase').style.display = 'none';
+    document.getElementById('questionPhase').style.display = 'none';
+    document.getElementById('feedbackPhase').style.display = 'none';
     document.getElementById('sortInstruction').textContent = '¡Recuerda!';
-    this.timer = setTimeout(() => this.showProposal(), 1000);
+    this.timer = setTimeout(() => this.showQuestion(), 1000);
   }
 
-  showProposal() {
+  showQuestion() {
     if (!this.isPlaying) return;
     this.phase = 'decide';
 
-    const sorted = [...this.currentItems].sort((a, b) => a.value - b.value);
-    this.proposalCorrect = Math.random() < 0.5;
-
-    let proposal;
-    if (this.proposalCorrect) {
-      proposal = sorted;
-    } else {
-      proposal = [...sorted];
-      const i = Math.floor(Math.random() * 2);
-      const tmp = proposal[i];
-      proposal[i] = proposal[i + 1];
-      proposal[i + 1] = tmp;
-    }
-
+    // Solo mostrar la pregunta y los botones — SIN números
     document.getElementById('memPhase').style.display = 'none';
-    document.getElementById('decidePhase').style.display = '';
+    document.getElementById('feedbackPhase').style.display = 'none';
+    document.getElementById('questionPhase').style.display = '';
 
-    document.getElementById('prop-0').textContent = proposal[0].value;
-    document.getElementById('prop-1').textContent = proposal[1].value;
-    document.getElementById('prop-2').textContent = proposal[2].value;
-
-    document.getElementById('sortInstruction').textContent = '¿Orden correcto?';
+    document.getElementById('sortInstruction').textContent = '¿Estaban de menor a mayor?';
     this.setBtnState(true);
     this.roundStart = performance.now();
   }
@@ -218,7 +229,7 @@ class SortTool {
     this.setBtnState(false);
 
     const rt = performance.now() - this.roundStart;
-    const correct = (answer === 'true') === this.proposalCorrect;
+    const correct = (answer === 'true') === this.displayedAscending;
 
     this.rounds++;
     if (correct) {
@@ -238,9 +249,12 @@ class SortTool {
   showFeedback(correct) {
     const icon = document.getElementById('feedbackIcon');
     icon.style.display = '';
+    document.getElementById('questionPhase').style.display = 'none';
+
     if (correct) {
       icon.textContent = 'check_circle';
       icon.style.color = '#10b981';
+      document.getElementById('feedbackPhase').style.display = 'none';
     } else {
       icon.textContent = 'cancel';
       icon.style.color = 'var(--rosa-400)';
@@ -255,9 +269,10 @@ class SortTool {
   showCorrectOrder() {
     const sorted = [...this.currentItems].sort((a, b) => a.value - b.value);
     document.getElementById('sortInstruction').textContent = 'Orden correcto:';
-    document.getElementById('prop-0').textContent = sorted[0].value;
-    document.getElementById('prop-1').textContent = sorted[1].value;
-    document.getElementById('prop-2').textContent = sorted[2].value;
+    document.getElementById('feedbackPhase').style.display = '';
+    document.getElementById('fb-0').textContent = sorted[0].value;
+    document.getElementById('fb-1').textContent = sorted[1].value;
+    document.getElementById('fb-2').textContent = sorted[2].value;
   }
 
   setBtnState(enabled) {

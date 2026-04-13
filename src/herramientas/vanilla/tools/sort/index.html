@@ -55,7 +55,8 @@
 
     /* Fases: ocupan ancho completo para centrado correcto */
     #memPhase,
-    #decidePhase {
+    #questionPhase,
+    #feedbackPhase {
       width: 100%;
     }
 
@@ -82,7 +83,19 @@
       flex-shrink: 0;
     }
 
-    /* === FASE DECISIÓN: propuesta con flechas === */
+    /* === FASE PREGUNTA: icono interrogación === */
+    .question-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .question-icon {
+      font-size: clamp(4rem, 12vw, 8rem);
+      color: var(--tulip-tree-400);
+      text-shadow: 0 0 40px rgba(234, 179, 8, 0.3);
+    }
+
+    /* === FASE FEEDBACK ERROR: orden correcto con flechas === */
     .proposal-numbers {
       display: flex;
       gap: var(--space-2);
@@ -272,6 +285,7 @@
         <p id="sortInstruction" class="sort-instruction">Memoriza los n&uacute;meros</p>
 
         <div class="sort-main">
+          <!-- Fase 1: Memorización — muestra los números -->
           <div id="memPhase">
             <div class="sort-numbers">
               <div id="sort-0" class="sort-item">--</div>
@@ -282,13 +296,21 @@
             </div>
           </div>
 
-          <div id="decidePhase" style="display:none;">
+          <!-- Fase 2: Pregunta — solo botones V/F, SIN números -->
+          <div id="questionPhase" style="display:none;">
+            <div class="question-prompt">
+              <span class="material-symbols-sharp question-icon">help</span>
+            </div>
+          </div>
+
+          <!-- Fase 3: Feedback error — muestra orden correcto -->
+          <div id="feedbackPhase" style="display:none;">
             <div class="proposal-numbers">
-              <span id="prop-0" class="prop-item">--</span>
+              <span id="fb-0" class="prop-item">--</span>
               <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
-              <span id="prop-1" class="prop-item">--</span>
+              <span id="fb-1" class="prop-item">--</span>
               <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
-              <span id="prop-2" class="prop-item">--</span>
+              <span id="fb-2" class="prop-item">--</span>
             </div>
           </div>
 
@@ -331,7 +353,8 @@
             <li>Elige nivel: n&uacute;meros simples, sumas/restas o multiplicaciones.</li>
             <li>Ajusta la cadencia (tiempo de memorizaci&oacute;n).</li>
             <li>Pulsa INICIAR. Aparecen 3 valores &mdash; mem&oacute;rizalos.</li>
-            <li>Se muestra una propuesta de orden. Pulsa VERDADERO si est&aacute; de menor a mayor, o FALSO si no.</li>
+            <li>Los valores desaparecen. Decide si estaban ordenados de menor a mayor.</li>
+            <li>Pulsa VERDADERO si estaban en orden ascendente, o FALSO si no.</li>
           </ol>
         </div>
         <div class="info-section">
