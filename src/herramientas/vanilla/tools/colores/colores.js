@@ -11,6 +11,7 @@ class ColoresTool {
     this.currentSpeed = 4000;
     this.rounds = 0;
     this.learningRounds = 6;
+    this.level = 2;
   }
 
   togglePlay() {
@@ -47,22 +48,44 @@ class ColoresTool {
     if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
   }
 
+  changeLevel(val) {
+    this.level = parseInt(val, 10);
+    const legend = document.getElementById('coloresLegend');
+    if (legend) legend.style.display = this.level === 1 ? 'none' : '';
+  }
+
   updateAction(index, value) {
     this.coloresData[index].action = value.toUpperCase();
   }
 
+  getDistractorName(excludeIndex) {
+    let idx;
+    do { idx = Math.floor(Math.random() * this.coloresData.length); }
+    while (idx === excludeIndex);
+    return this.coloresData[idx].name;
+  }
+
   runColores() {
-    const col = this.coloresData[Math.floor(Math.random() * this.coloresData.length)];
+    const colorIndex = Math.floor(Math.random() * this.coloresData.length);
+    const col = this.coloresData[colorIndex];
     const bg = document.getElementById('stimulus-colores');
+    const textEl = document.getElementById('coloresText');
     const actionEl = document.getElementById('coloresAction');
 
     bg.style.backgroundColor = col.hex;
-    document.getElementById('coloresText').textContent = col.name;
+
+    if (this.level === 1 || this.level === 3) {
+      textEl.textContent = this.getDistractorName(colorIndex);
+    } else {
+      textEl.textContent = col.name;
+    }
 
     this.rounds++;
     document.getElementById('statRounds').textContent = this.rounds;
 
-    if (this.rounds <= this.learningRounds) {
+    if (this.level === 1) {
+      actionEl.classList.remove('visible');
+    } else if (this.rounds <= this.learningRounds) {
       actionEl.textContent = col.action;
       actionEl.classList.add('visible');
     } else {

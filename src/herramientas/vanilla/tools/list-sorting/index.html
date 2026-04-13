@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Listas de Objetos - KinesisLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    /* Contenedor principal dentro de stimulus-area */
+    .ls-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      align-self: stretch;
+      padding: var(--space-2) var(--space-2) var(--space-1);
+    }
+
+    /* Fase de presentación */
+    .present-zone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+    }
+    .present-item {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 4px 8px rgba(0,0,0,0.5);
+      letter-spacing: 2px;
+      opacity: 0;
+      transition: opacity 250ms ease;
+      line-height: 1.1;
+    }
+    .present-item.fade-in { opacity: 1; }
+    .present-cat {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: var(--space-1);
+      opacity: 0.8;
+    }
+    .present-counter {
+      font-size: 0.85rem;
+      color: var(--gris-400);
+      margin-top: var(--space-2);
+    }
+    .cat-animal { color: var(--turquesa-400); }
+    .cat-food { color: var(--tulip-tree-400); }
+
+    /* Fase de respuesta */
+    .response-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-1);
+      width: 100%;
+      flex: 1;
+      justify-content: center;
+      min-height: 0;
+    }
+    .response-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      max-width: 480px;
+      width: 100%;
+    }
+    .response-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 3px solid var(--gris-600);
+      background: var(--gris-800);
+      cursor: pointer;
+      min-width: 100px;
+      min-height: 56px;
+      transition: all 150ms;
+    }
+    .response-btn:active { transform: scale(0.95); }
+    .response-btn:disabled { opacity: 0.25; cursor: default; transform: none; }
+    .response-btn.cat-animal { border-color: rgba(0, 190, 200, 0.4); }
+    .response-btn.cat-food { border-color: rgba(234, 179, 8, 0.4); }
+    .response-btn.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
+    .response-btn.wrong { border-color: var(--rosa-400); background: rgba(225, 29, 72, 0.2); }
+    .rb-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+    .rb-cat {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
+    .response-btn.cat-animal .rb-cat { color: var(--turquesa-400); }
+    .response-btn.cat-food .rb-cat { color: var(--tulip-tree-400); }
+
+    /* Secuencia del usuario */
+    .sequence-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      min-height: 28px;
+      padding: 4px 0;
+    }
+    .seq-tag {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+    }
+    .seq-tag.correct { background: rgba(16, 185, 129, 0.3); color: #10b981; }
+    .seq-tag.wrong { background: rgba(225, 29, 72, 0.3); color: var(--rosa-400); }
+    .seq-tag.hint.cat-animal { background: rgba(0, 190, 200, 0.2); color: var(--turquesa-400); }
+    .seq-tag.hint.cat-food { background: rgba(234, 179, 8, 0.2); color: var(--tulip-tree-400); }
+
+    /* Stats */
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto;
+      flex-shrink: 0;
+      width: 100%;
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Instrucción en respuesta: más compacta */
+    .ls-instruction {
+      color: var(--turquesa-400);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: var(--space-1);
+      flex-shrink: 0;
+    }
+
+    /* MOBILE */
+    @media (max-width: 480px) {
+      .response-btn { min-width: 90px; padding: 12px 14px; min-height: 52px; }
+      .rb-name { font-size: 1rem; }
+      .stat-value { font-size: 1.1rem; }
+      .ls-instruction { font-size: 0.95rem; letter-spacing: 1px; }
+      .present-item { font-size: clamp(3rem, 14vw, 5rem); }
+    }
+
+    /* TABLET */
+    @media (min-width: 768px) {
+      .response-btn { min-width: 130px; min-height: 64px; padding: 16px 22px; }
+      .rb-name { font-size: 1.3rem; }
+      .rb-cat { font-size: 0.75rem; }
+      .response-grid { max-width: 560px; gap: 14px; }
+      .present-item { font-size: clamp(5rem, 10vw, 8rem); }
+      .present-cat { font-size: 1.15rem; }
+      .seq-tag { font-size: 0.9rem; padding: 6px 14px; }
+    }
+
+    /* LANDSCAPE COMPACT */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .ls-content { padding: 0 var(--space-1); }
+      .present-item { font-size: clamp(2rem, 8vw, 3.5rem); }
+      .response-btn { min-height: 44px; padding: 8px 12px; }
+      .stats-bar { padding: 4px var(--space-1); }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <section class="view-execution">
+    <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Listas de Objetos</h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button class="btn-secondary" onclick="window.location.href='../../dashboard.html'" aria-label="Volver"><span class="material-symbols-sharp">arrow_back</span></button>
+      </div>
+    </header>
+    <div class="exec-toolbar">
+      <div class="control-group">
+        <span class="control-label">Nivel:</span>
+        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+          <option value="1" selected>1 Lista</option>
+          <option value="2">2 Listas</option>
+          <option value="3">Inverso</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <span class="control-label">&Iacute;tems:</span>
+        <select class="speed-select" onchange="tool.changeCount(this.value)">
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <span class="control-label">Cadencia:</span>
+        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+          <option value="3000">Lenta (3s)</option>
+          <option value="2000" selected>Media (2s)</option>
+          <option value="1500">R&aacute;pida (1.5s)</option>
+        </select>
+      </div>
+      <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
+        <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
+      </button>
+    </div>
+    <div id="stimulusContainer" class="stimulus-area">
+      <div class="ls-content">
+        <p id="instruction" class="ls-instruction">Memoriza los objetos y ord&eacute;nalos por tama&ntilde;o</p>
+
+        <div id="presentZone" class="present-zone">
+          <div id="presentItem" class="present-item" style="display:none;"></div>
+          <div id="presentCat" class="present-cat" style="display:none;"></div>
+          <div id="presentCounter" class="present-counter" style="display:none;"></div>
+        </div>
+
+        <div id="responseArea" class="response-area" style="display:none;">
+          <div id="userSequence" class="sequence-bar"></div>
+          <div id="responseGrid" class="response-grid"></div>
+          <div id="correctSequence" class="sequence-bar"></div>
+        </div>
+
+        <div class="stats-bar" aria-live="polite" role="status">
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+          <div class="stat-item"><span id="statBest" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Span</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Listas de Objetos</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
+          <p>Adaptaci&oacute;n del <strong>List Sorting Working Memory Test</strong> (NIH Toolbox). Se presentan objetos de una o dos categor&iacute;as (animales y alimentos) y el usuario debe ordenarlos mentalmente por tama&ntilde;o. Trabaja retenci&oacute;n temporal, reorganizaci&oacute;n y categorizaci&oacute;n.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">trending_up</span> Niveles</h4>
+          <ul>
+            <li><strong>1 Lista:</strong> Objetos de una sola categor&iacute;a (solo animales o solo alimentos). Ord&eacute;nalos de menor a mayor tama&ntilde;o.</li>
+            <li><strong>2 Listas:</strong> Objetos mezclados de ambas categor&iacute;as. Primero ordena los alimentos por tama&ntilde;o, luego los animales por tama&ntilde;o.</li>
+            <li><strong>Inverso:</strong> Como 2 Listas, pero ordena de mayor a menor tama&ntilde;o.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <ol>
+            <li>Elige nivel, cantidad de &iacute;tems (3-5) y cadencia.</li>
+            <li>Pulsa INICIAR. Los objetos aparecen uno a uno.</li>
+            <li>Cuando termine la presentaci&oacute;n, toca los objetos en el orden correcto.</li>
+            <li>El color indica la categor&iacute;a: <span style="color: var(--turquesa-400);">turquesa</span> = animal, <span style="color: var(--tulip-tree-400);">amarillo</span> = alimento.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con 1 Lista y 3 &iacute;tems para establecer l&iacute;nea base.</li>
+            <li>2 Listas a&ntilde;ade categorizaci&oacute;n a la ordenaci&oacute;n: doble carga cognitiva.</li>
+            <li>El modo Inverso es el m&aacute;s exigente: categorizaci&oacute;n + orden invertido.</li>
+            <li>Combina con marcha, equilibrio o sentadillas isom&eacute;tricas durante la memorizaci&oacute;n.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>Evaluaci&oacute;n de memoria de trabajo (an&aacute;logo al LSWM del NIH Toolbox).</li>
+            <li>Doble tarea con carga de memoria durante ejercicio aer&oacute;bico.</li>
+            <li>Adultos mayores: estimulaci&oacute;n de retenci&oacute;n y reorganizaci&oacute;n.</li>
+            <li>Rehabilitaci&oacute;n cognitiva: span de memoria y categorizaci&oacute;n sem&aacute;ntica.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="list-sorting.js"></script>
+</body>
+</html>

@@ -13,13 +13,16 @@
   <style>
     .color-action {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 6vw, 4rem);
+      font-size: clamp(2.5rem, 8vw, 5rem);
       letter-spacing: 4px;
       color: white;
       text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
       margin-top: 1rem;
       opacity: 0;
       transition: opacity 300ms ease;
+      padding: 0 var(--space-2);
+      word-break: break-word;
+      text-align: center;
     }
     .color-action.visible { opacity: 1; }
     .legend-panel {
@@ -70,6 +73,7 @@
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
     @media (max-width: 480px) {
+      .color-action { letter-spacing: 2px; }
       .legend-panel { max-width: 220px; padding: var(--space-1); gap: 4px; }
       .legend-action { width: 90px; font-size: 0.75rem; padding: 4px 6px; }
       .legend-signal { font-size: 0.75rem; min-width: 55px; }
@@ -90,12 +94,20 @@
       </div>
     </header>
     <div class="exec-toolbar">
+      <div class="control-group">
+        <span class="control-label">Nivel:</span>
+        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+          <option value="1">Stroop</option>
+          <option value="2" selected>Color + Acci&oacute;n</option>
+          <option value="3">Stroop + Acci&oacute;n</option>
+        </select>
+      </div>
       <div id="cadenceGroup" class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="6000">Lenta (6s)</option>
           <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
@@ -103,10 +115,12 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="padding:0; position: relative;">
-      <div id="stimulus-colores" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: background-color 0.1s;">
-         <p id="coloresIntro" class="stimulus-instruction" style="color: rgba(255,255,255,0.7);">Configura las acciones y pulsa INICIAR</p>
-         <div id="coloresText" style="font-size: clamp(6rem, 18vw, 10rem); font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5);">Color</div>
-         <div id="coloresAction" class="color-action"></div>
+      <div id="stimulus-colores" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; transition: background-color 0.1s; padding: 0 var(--space-2);">
+         <p id="coloresIntro" class="stimulus-instruction" style="color: rgba(255,255,255,0.7); text-align: center; flex-shrink: 0; margin: var(--space-1) 0 0; font-size: clamp(0.75rem, 2.5vw, 1.25rem);">Elige nivel, configura acciones y pulsa INICIAR</p>
+         <div id="coloresTextWrap" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 0; padding-bottom: min(22vh, 180px);">
+           <div id="coloresText" style="font-size: clamp(4rem, 18vw, 14rem); font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5); line-height: 1.1; text-align: center; max-width: 100%; overflow-wrap: break-word;">Color</div>
+           <div id="coloresAction" class="color-action"></div>
+         </div>
       </div>
       <div id="coloresLegend" class="legend-panel">
         <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
@@ -128,23 +142,31 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Tarea de <strong>reacci&oacute;n crom&aacute;tica</strong>. La pantalla cambia de color y el paciente debe ejecutar el movimiento asignado a cada color. Entrena la asociaci&oacute;n est&iacute;mulo-respuesta y la velocidad de procesamiento visual.</p>
+          <p>Herramienta de <strong>reacci&oacute;n crom&aacute;tica e inhibici&oacute;n</strong> con 3 niveles de dificultad progresiva. Combina el efecto Stroop con asociaciones color-acci&oacute;n motora.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">trending_up</span> Niveles</h4>
+          <ul>
+            <li><strong>Stroop:</strong> La pantalla cambia de color y muestra el nombre de OTRO color. El usuario debe decir en voz alta el color del FONDO, ignorando la palabra. Trabaja inhibici&oacute;n.</li>
+            <li><strong>Color + Acci&oacute;n:</strong> La pantalla cambia de color con su nombre correcto. El usuario ejecuta la acci&oacute;n asignada a ese color. Trabaja asociaci&oacute;n + ejecuci&oacute;n motora.</li>
+            <li><strong>Stroop + Acci&oacute;n:</strong> La pantalla cambia de color y muestra otro nombre. El usuario debe ejecutar la acci&oacute;n del COLOR DEL FONDO, ignorando la palabra. Triple carga: inhibici&oacute;n + asociaci&oacute;n + ejecuci&oacute;n.</li>
+          </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
-            <li>Asigna un movimiento a cada color (ej: rojo = sentadilla, azul = salto).</li>
-            <li>Selecciona la cadencia seg&uacute;n el nivel del grupo.</li>
-            <li>Pulsa INICIAR. La pantalla cambia de color aleatoriamente.</li>
-            <li>El paciente ejecuta el movimiento correspondiente lo m&aacute;s r&aacute;pido posible.</li>
+            <li>Elige el nivel seg&uacute;n la capacidad del grupo.</li>
+            <li>En niveles 2 y 3, asigna un movimiento a cada color.</li>
+            <li>Selecciona la cadencia y pulsa INICIAR.</li>
+            <li>Las primeras rondas muestran la acci&oacute;n como ayuda (fase de aprendizaje).</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Empieza con 2-3 colores y a&ntilde;ade m&aacute;s a medida que dominan.</li>
-            <li>Escribe las asignaciones en una pizarra visible para todos.</li>
-            <li>Cambia las asignaciones entre series para evitar automatizaci&oacute;n.</li>
+            <li>Empieza en nivel Stroop para calentar la inhibici&oacute;n.</li>
+            <li>Sube a Color + Acci&oacute;n cuando dominen las asociaciones.</li>
+            <li>Stroop + Acci&oacute;n es un reto real incluso para deportistas j&oacute;venes.</li>
             <li>Combina con equilibrio sobre superficie inestable.</li>
           </ul>
         </div>
