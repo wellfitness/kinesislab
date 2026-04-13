@@ -11,7 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: min(340px, 90vh); }
+    .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 340px; }
+    @media (min-width: 600px) { .simon-grid { max-width: 440px; gap: 24px; } }
     .simon-btn {
       aspect-ratio: 1/1; border-radius: 20px; opacity: 0.45;
       transition: all 0.15s; box-shadow: 0 4px 6px rgba(0,0,0,0.3);

@@ -19,58 +19,87 @@ personales y de grupos.
 
 ## Estado actual
 
-Los archivos en `src/herramientas/` son los **originales en React/TSX** de SWD-nextjs.
-Sirven como **referencia de lógica y diseño** para la migración a vanilla HTML.
+**Migración completada.** Todas las herramientas están en vanilla HTML/CSS/JS.
 
-### Herramientas a migrar (12)
+- `src/herramientas/vanilla/` — Herramientas migradas (producción)
+- `src/herramientas/` — Originales React/TSX (solo referencia, NO editar)
 
-#### Temporizadores y reactivas
-- `temporizadores/` — EMOM, Intervalos, AMRAP, AFAP
-- `flechas/` — Flechas Reactivas (cambios de dirección)
-- `colores/` — Colores Reactivos (toma de decisiones)
-- `sonidos/` — Sonidos Reactivos (reacción auditiva)
+### Herramientas (21)
 
-#### Cognitivas
+#### Atención y Velocidad de Procesamiento (amarillo)
+- `go-nogo/` — Go / No-Go (toca verde, frena rojo)
+- `flechas/` — Flechas Reactivas (cambios de dirección en 8 ejes)
+- `colores/` — Colores Reactivos (toma de decisiones visual)
+- `sonidos/` — Sonidos Audiomotores (reacción auditiva)
+- `reactive/` — Señales Reactivas (agilidad multimodal)
+- `search/` — Búsqueda Visual (atención selectiva visuoespacial)
+- `tracking/` — Seguimiento Continuo (seguir objetivo en movimiento)
+- `arrows/` — Conflicto Audiovisual (estímulos incongruentes)
+- `trace/` — Trazado Alfanumérico (coordinación visomotora)
+
+#### Memoria de Trabajo (turquesa)
+- `sort/` — De Menor a Mayor (ordenar números)
 - `stroop/` — Test de Stroop (función ejecutiva e inhibición)
-- `dual-task/` — Tarea Doble (coordinación cognitivo-motora)
-- `simon/` — Simon Dice (memoria de secuencias)
-- `minisopa/` — Minisopa (encuentra palabras)
-- `pagos-exactos/` — Pagos Exactos (cálculo con monedas)
-- `numeros-ocultos/` — Números Ocultos (memoriza posiciones)
-- `de-menor-a-mayor/` — Ordena números
+- `nback/` — N-Back Visual (memoria de trabajo)
+- `simon/` — Secuencias Simon (memoria de secuencias)
+- `matrix/` — Matriz Visoespacial (memorizar posiciones)
 - `memoria/` — Memoria Visual (emparejar cartas)
+
+#### Razonamiento y Cálculo (turquesa)
+- `d50/` — Decisión D50 (¿mayor o menor que 50?)
+- `fluency/` — Fluencia Verbal (categorías semánticas y fonémicas)
+- `clock/` — Reloj Auditivo ACT (posición de agujas)
+
+#### Herramientas de Soporte (gris)
+- `timers/` — Temporizador Clínico (AMRAP, EMOM, pausas)
+- `comba/` — Comba Funcional (salto guiado por voz)
+- `boxing/` — Boxeo Reactivo (combos bajo estrés verbal)
 
 ---
 
-## Estructura objetivo del proyecto
+## Estructura del proyecto
 
 ```
 ECM-cognitivo-motor/
-├── index.html              ← Menú principal con las 12 herramientas
-├── manifest.json           ← PWA config
-├── sw.js                   ← Service Worker (offline support)
+├── index.html                          ← Landing page pública
+├── manifest.json                       ← PWA config
+├── sw.js                               ← Service Worker (offline support)
+├── legal.html / privacy.html           ← Páginas legales
 ├── assets/
 │   ├── css/
-│   │   ├── design-tokens.css   ← Variables CSS (colores, tipografía, etc.)
-│   │   ├── base.css            ← Reset + estilos globales
-│   │   └── components.css      ← Componentes reutilizables (botones, cards)
-│   ├── js/
-│   │   └── utils.js            ← Helpers compartidos
-│   └── icons/                  ← Iconos PWA (192x192, 512x512)
-├── tools/
-│   ├── temporizadores/index.html
-│   ├── flechas/index.html
-│   ├── colores/index.html
-│   ├── sonidos/index.html
-│   ├── stroop/index.html
-│   ├── dual-task/index.html
-│   ├── simon/index.html
-│   ├── minisopa/index.html
-│   ├── pagos-exactos/index.html
-│   ├── numeros-ocultos/index.html
-│   ├── de-menor-a-mayor/index.html
-│   └── memoria/index.html
-└── src/herramientas/       ← Originales React/TSX (solo referencia, NO editar)
+│   │   ├── design-tokens.css           ← Variables CSS
+│   │   └── landing.css                 ← Estilos landing page
+│   ├── js/                             ← Helpers compartidos
+│   └── (iconos PWA, imágenes, APK)
+├── src/herramientas/
+│   ├── vanilla/                        ← HERRAMIENTAS MIGRADAS (producción)
+│   │   ├── dashboard.html              ← Menú principal con las 21 herramientas
+│   │   ├── css/
+│   │   │   ├── dashboard.css           ← Estilos del dashboard
+│   │   │   └── tool-base.css           ← CSS base compartido por todas las herramientas
+│   │   └── tools/
+│   │       ├── go-nogo/index.html
+│   │       ├── flechas/index.html
+│   │       ├── colores/index.html
+│   │       ├── sonidos/index.html
+│   │       ├── reactive/index.html
+│   │       ├── search/index.html
+│   │       ├── tracking/index.html
+│   │       ├── arrows/index.html
+│   │       ├── trace/index.html
+│   │       ├── sort/index.html
+│   │       ├── stroop/index.html
+│   │       ├── nback/index.html
+│   │       ├── simon/index.html
+│   │       ├── matrix/index.html
+│   │       ├── memoria/index.html
+│   │       ├── d50/index.html
+│   │       ├── fluency/index.html
+│   │       ├── clock/index.html
+│   │       ├── timers/index.html
+│   │       ├── comba/index.html
+│   │       └── boxing/index.html
+│   └── (originales React/TSX — solo referencia, NO editar)
 ```
 
 ---
@@ -108,15 +137,13 @@ Mismos tokens que SWD-nextjs. Archivo: `assets/css/design-tokens.css`
 
 ---
 
-## Cómo migrar una herramienta
+## Cómo crear/modificar una herramienta
 
-1. Leer el `.tsx` de referencia en `src/herramientas/<nombre>/page.tsx`
-2. Extraer la lógica de estado (useState → variables JS)
-3. Convertir el JSX a HTML semántico
-4. Reemplazar imports de React por lógica vanilla
+1. Cada herramienta es un archivo `src/herramientas/vanilla/tools/<nombre>/index.html` autocontenido
+2. Importa `../../css/tool-base.css` para estilos base compartidos
+3. Usa la estructura: exec-header → exec-toolbar → stimulus-area → stats-bar
+4. Las herramientas originales React/TSX en `src/herramientas/` sirven de referencia de lógica
 5. Reemplazar `<MaterialIcon name="x" />` por `<span class="material-symbols-sharp">x</span>`
-6. Eliminar dependencias de `NavigationMenu` y `DashboardHomeButton` (crear nav simple)
-7. Guardar en `tools/<nombre>/index.html`
 
 ---
 

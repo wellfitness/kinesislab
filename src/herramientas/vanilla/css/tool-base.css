@@ -514,6 +514,8 @@ h1 {
 }
 @media (min-width: 768px) {
   .search-grid { grid-template-columns: repeat(8, 1fr); }
+  .simon-grid { max-width: 420px; gap: 20px; }
+  .matrix-grid { max-width: 420px; gap: 12px; }
 }
 .search-item {
   display: flex;

@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     .go-circle {
-      width: clamp(160px, 40vw, 280px);
-      height: clamp(160px, 40vw, 280px);
+      width: clamp(200px, 30vh, 360px);
+      height: clamp(200px, 30vh, 360px);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -22,21 +22,30 @@
       box-shadow: 0 0 40px rgba(0,0,0,0.4);
     }
     .go-circle.flash { transform: scale(1.08); }
-    .go-circle .material-symbols-sharp { font-size: clamp(64px, 12vw, 100px); color: white; }
+    .go-circle .material-symbols-sharp { font-size: clamp(72px, 12vh, 130px); color: white; }
     .go-label {
       font-family: var(--font-display);
       font-size: clamp(1.5rem, 4vw, 2.5rem);
       text-transform: uppercase;
       letter-spacing: 4px;
-      margin-top: var(--space-3);
+      margin-top: var(--space-2);
+    }
+    .stimulus-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-2) var(--space-2) 0;
     }
     .stats-bar {
       display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto;
+      margin-bottom: var(--space-2);
     }
     .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stimulus-instruction { margin-bottom: var(--space-1); }
   </style>
 </head>
 <body>

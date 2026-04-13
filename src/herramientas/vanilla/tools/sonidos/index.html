@@ -13,18 +13,23 @@
   <style>
     .sonidos-action {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
       letter-spacing: 4px;
       color: var(--tulip-tree-400);
       margin-top: var(--space-2);
       transition: opacity 400ms ease;
       min-height: 3.5rem;
     }
+    .stimulus-area {
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-2);
+    }
     .legend-panel {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: var(--space-3);
+      margin-top: auto;
       padding: var(--space-2);
       background: rgba(0,0,0,0.3);
       border-radius: 12px;
@@ -66,7 +71,8 @@
     }
     .stats-bar {
       display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-1);
+      margin-bottom: var(--space-2);
     }
     .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
@@ -97,8 +103,8 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-         <span id="sonidosIcon" class="material-symbols-sharp" style="font-size: clamp(3rem, 8vw, 5rem); color: var(--turquesa-400); transition: transform 0.2s;">graphic_eq</span>
-         <div id="sonidosText" style="font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-top: 0.25rem;">Escucha</div>
+         <span id="sonidosIcon" class="material-symbols-sharp" style="font-size: clamp(5rem, 15vw, 10rem); color: var(--turquesa-400); transition: transform 0.2s;">graphic_eq</span>
+         <div id="sonidosText" style="font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-top: 0.25rem;">Escucha</div>
          <div id="sonidosAction" class="sonidos-action"></div>
          <div id="sonidosLegend" class="legend-panel">
            <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
