@@ -29,7 +29,7 @@ personales y de grupos.
 #### Atención y Velocidad de Procesamiento (amarillo)
 - `go-nogo/` — Go / No-Go (toca verde, frena rojo)
 - `flechas/` — Flechas Reactivas (cambios de dirección en 8 ejes)
-- `colores/` — Colores Reactivos (toma de decisiones visual)
+- `colores/` — Colores Reactivos (3 niveles: Stroop, Color+Acción, Stroop+Acción)
 - `sonidos/` — Sonidos Audiomotores (reacción auditiva)
 - `reactive/` — Señales Reactivas (agilidad multimodal)
 - `search/` — Búsqueda Visual (atención selectiva visuoespacial)
@@ -38,8 +38,8 @@ personales y de grupos.
 - `trace/` — Trazado Alfanumérico (coordinación visomotora)
 
 #### Memoria de Trabajo (turquesa)
-- `sort/` — De Menor a Mayor (ordenar números)
-- `stroop/` — Test de Stroop (función ejecutiva e inhibición)
+- `sort/` — De Menor a Mayor (memorizar números, decidir si estaban ordenados)
+- `list-sorting/` — Listas de Objetos (NIH Toolbox List Sorting adaptado)
 - `nback/` — N-Back Visual (memoria de trabajo)
 - `simon/` — Secuencias Simon (memoria de secuencias)
 - `matrix/` — Matriz Visoespacial (memorizar posiciones)
@@ -88,7 +88,7 @@ ECM-cognitivo-motor/
 │   │       ├── arrows/index.html
 │   │       ├── trace/index.html
 │   │       ├── sort/index.html
-│   │       ├── stroop/index.html
+│   │       ├── list-sorting/index.html
 │   │       ├── nback/index.html
 │   │       ├── simon/index.html
 │   │       ├── matrix/index.html
