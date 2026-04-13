@@ -11,19 +11,229 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
+    /* === LAYOUT: stimulus-area como columna completa === */
+    #stimulusContainer.stimulus-area {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
+    }
+
+    .sort-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      padding: var(--space-2);
+    }
+
+    /* Instruccion superior */
+    .sort-instruction {
+      color: var(--turquesa-400);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      flex-shrink: 0;
+      padding: var(--space-1) 0;
+    }
+
+    /* Area central: ocupa todo el espacio disponible y centra verticalmente */
+    .sort-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 0;
+      gap: var(--space-3);
+      position: relative;
+    }
+
+    /* Fases: ocupan ancho completo para centrado correcto */
+    #memPhase,
+    #decidePhase {
+      width: 100%;
+    }
+
+    /* === FASE MEMORIZACIÓN: numeros con separadores === */
+    .sort-numbers {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      text-align: center;
+      max-width: 100%;
+      padding: 0 var(--space-1);
+    }
     .sort-item {
       font-family: var(--font-display);
       font-weight: bold;
       color: white;
+      white-space: nowrap;
     }
-    .sort-separator { color: var(--gris-500); }
+    .sort-separator {
+      color: var(--gris-500);
+      flex-shrink: 0;
+    }
+
+    /* === FASE DECISIÓN: propuesta con flechas === */
+    .proposal-numbers {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      text-align: center;
+      max-width: 100%;
+      padding: 0 var(--space-1);
+    }
+    .prop-item {
+      font-family: var(--font-display);
+      font-weight: bold;
+      color: var(--tulip-tree-400);
+      white-space: nowrap;
+    }
+    .prop-arrow {
+      color: var(--gris-500);
+      font-size: 0.5em;
+      flex-shrink: 0;
+    }
+
+    /* === BOTONES VERDADERO / FALSO === */
+    .answer-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      width: 100%;
+      padding: 0 var(--space-2);
+    }
+    .answer-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      border-radius: 14px;
+      border: 3px solid;
+      background: var(--gris-800);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      flex: 1;
+      max-width: 220px;
+      min-height: 56px;
+      justify-content: center;
+      transition: all 150ms;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .answer-btn:active { transform: scale(0.95); }
+    .answer-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+    .answer-btn:focus-visible {
+      outline: 3px solid var(--turquesa-400);
+      outline-offset: 2px;
+    }
+    .btn-true {
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #10b981;
+    }
+    .btn-true:not(:disabled):hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+    }
+    .btn-false {
+      border-color: rgba(225, 29, 72, 0.5);
+      color: var(--rosa-400);
+    }
+    .btn-false:not(:disabled):hover {
+      background: rgba(225, 29, 72, 0.1);
+      border-color: var(--rosa-400);
+    }
+
+    /* === FEEDBACK ICON: posicionado absoluto para no desplazar nada === */
+    .feedback-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      z-index: 5;
+      pointer-events: none;
+      text-shadow: 0 0 40px currentColor;
+    }
+
+    /* === STATS BAR: anclada al fondo === */
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2);
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      margin-top: auto;
+      flex-shrink: 0;
+      width: 100%;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* === MOBILE (<480px) === */
+    @media (max-width: 480px) {
+      .sort-instruction { font-size: 0.9rem; letter-spacing: 1px; }
+      .sort-numbers { font-size: clamp(2rem, 10vw, 3.5rem); gap: var(--space-1); }
+      .proposal-numbers { font-size: clamp(2rem, 10vw, 3.5rem); gap: var(--space-1); }
+      .answer-btn { padding: 14px 16px; font-size: 1rem; min-height: 52px; }
+      .answer-btns { gap: 12px; }
+      .feedback-icon { font-size: 4rem; }
+      .stat-value { font-size: 1.1rem; }
+      .sort-content { padding: var(--space-1); }
+    }
+
+    /* === TABLET (768px+) === */
+    @media (min-width: 768px) {
+      .answer-btn {
+        max-width: 240px;
+        min-height: 68px;
+        padding: 20px 40px;
+        font-size: 1.5rem;
+        border-radius: 16px;
+      }
+      .answer-btns { gap: 24px; }
+      .proposal-numbers { font-size: clamp(3.5rem, 7vw, 5.5rem); }
+      .sort-numbers { font-size: clamp(3rem, 6vw, 5rem); }
+      .sort-instruction { font-size: 1.2rem; }
+      .feedback-icon { font-size: 6rem; }
+    }
+
+    /* === DESKTOP (1024px+) === */
+    @media (min-width: 1024px) {
+      .answer-btn { max-width: 260px; min-height: 72px; font-size: 1.6rem; }
+      .proposal-numbers { font-size: clamp(4rem, 6vw, 6rem); }
+      .sort-numbers { font-size: clamp(3.5rem, 5vw, 5.5rem); }
+    }
+
+    /* === LANDSCAPE COMPACTO === */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .sort-content { padding: 0 var(--space-2); }
+      .sort-instruction { padding: 2px 0; font-size: 0.85rem; }
+      .sort-main { gap: var(--space-1); }
+      .sort-numbers { font-size: clamp(2rem, 6vw, 3rem); }
+      .proposal-numbers { font-size: clamp(2rem, 6vw, 3rem); }
+      .answer-btn { min-height: 44px; padding: 8px 20px; font-size: 1rem; }
+      .answer-btns { gap: 12px; }
+      .feedback-icon { font-size: 2.5rem; }
+      .stats-bar { padding: 4px var(--space-1); margin-top: var(--space-1); }
+      .stat-value { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -58,21 +268,52 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <p id="sortInstruction" class="stimulus-instruction" style="color: var(--gris-300);">D&iacute;los en voz alta de menor a mayor</p>
-        <div id="sortDisplay" style="display: flex; gap: var(--space-3); margin-top: var(--space-4); align-items: center; justify-content: center; font-size: clamp(3.1rem, 8.5vw, 5.8rem);">
-          <div id="sort-0" class="sort-item">00</div>
-          <div class="sort-separator" style="color: var(--gris-500);">-</div>
-          <div id="sort-1" class="sort-item">00</div>
-          <div class="sort-separator" style="color: var(--gris-500);">-</div>
-          <div id="sort-2" class="sort-item">00</div>
+      <div class="sort-content">
+        <p id="sortInstruction" class="sort-instruction">Memoriza los n&uacute;meros</p>
+
+        <div class="sort-main">
+          <div id="memPhase">
+            <div class="sort-numbers">
+              <div id="sort-0" class="sort-item">--</div>
+              <div class="sort-separator">-</div>
+              <div id="sort-1" class="sort-item">--</div>
+              <div class="sort-separator">-</div>
+              <div id="sort-2" class="sort-item">--</div>
+            </div>
+          </div>
+
+          <div id="decidePhase" style="display:none;">
+            <div class="proposal-numbers">
+              <span id="prop-0" class="prop-item">--</span>
+              <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
+              <span id="prop-1" class="prop-item">--</span>
+              <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
+              <span id="prop-2" class="prop-item">--</span>
+            </div>
+          </div>
+
+          <span id="feedbackIcon" class="material-symbols-sharp feedback-icon" style="display:none;"></span>
+
+          <div class="answer-btns">
+            <button id="btnTrue" class="answer-btn btn-true" onclick="tool.handleAnswer('true')" disabled>
+              <span class="material-symbols-sharp">check</span> VERDADERO
+            </button>
+            <button id="btnFalse" class="answer-btn btn-false" onclick="tool.handleAnswer('false')" disabled>
+              <span class="material-symbols-sharp">close</span> FALSO
+            </button>
+          </div>
         </div>
+
         <div class="stats-bar" aria-live="polite" role="status">
+          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
           <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+          <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
         </div>
       </div>
     </div>
   </section>
+
   <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
     <div class="info-modal">
       <div class="info-modal-header">
@@ -82,24 +323,24 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Ejercicio de <strong>memoria de trabajo y ordenaci&oacute;n mental</strong>. Aparecen 3 n&uacute;meros (o operaciones) y el usuario debe ordenarlos de menor a mayor en voz alta. Trabaja la manipulaci&oacute;n mental de informaci&oacute;n num&eacute;rica.</p>
+          <p>Ejercicio de <strong>memoria de trabajo y ordenaci&oacute;n mental</strong>. Aparecen 3 valores (n&uacute;meros u operaciones) que debes memorizar. Luego se propone un orden y debes decidir si es correcto o no. Trabaja retenci&oacute;n, c&aacute;lculo mental e inhibici&oacute;n de respuesta.</p>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Elige nivel: n&uacute;meros simples, sumas/restas o multiplicaciones.</li>
-            <li>Ajusta la cadencia seg&uacute;n la poblaci&oacute;n.</li>
-            <li>Pulsa INICIAR. Aparecen 3 valores.</li>
-            <li>El usuario los dice en voz alta ordenados de menor a mayor.</li>
+            <li>Ajusta la cadencia (tiempo de memorizaci&oacute;n).</li>
+            <li>Pulsa INICIAR. Aparecen 3 valores &mdash; mem&oacute;rizalos.</li>
+            <li>Se muestra una propuesta de orden. Pulsa VERDADERO si est&aacute; de menor a mayor, o FALSO si no.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>N&uacute;meros simples es accesible para casi cualquier poblaci&oacute;n.</li>
-            <li>Las operaciones a&ntilde;aden carga de c&aacute;lculo: el usuario debe resolver Y ordenar.</li>
-            <li>No hay bot&oacute;n de respuesta &mdash; el usuario verbaliza. T&uacute; validas.</li>
-            <li>En grupo: &ldquo;quien lo diga primero&rdquo; a&ntilde;ade competitividad.</li>
+            <li>Las operaciones a&ntilde;aden carga de c&aacute;lculo: resolver Y retener Y comparar.</li>
+            <li>Usa el tiempo de reacci&oacute;n medio como m&eacute;trica de progresi&oacute;n.</li>
+            <li>En grupo: proyecta y que todos respondan simult&aacute;neamente con gestos.</li>
           </ul>
         </div>
         <div class="info-section">
