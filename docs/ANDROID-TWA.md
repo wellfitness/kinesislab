@@ -90,7 +90,7 @@ la salud.
 
 CARACTERÍSTICAS PRINCIPALES:
 
-• 21+ herramientas de entrenamiento cognitivo-motor
+• 20+ herramientas de entrenamiento cognitivo-motor
 • Temporizadores profesionales (EMOM, Intervalos, AMRAP, AFAP)
 • Tests cognitivos validados (Stroop, Go/No-Go, N-Back, Simon)
 • Herramientas reactivas con estímulos visuales y auditivos

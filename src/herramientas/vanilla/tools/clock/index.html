@@ -46,6 +46,15 @@
     </header>
     <div class="exec-toolbar">
       <div class="control-group">
+        <span class="control-label">Modo:</span>
+        <select class="speed-select" onchange="tool.changeVariant(this.value)">
+          <option value="lr-text">Texto &#x2194;</option>
+          <option value="tb-text">Texto &#x2195;</option>
+          <option value="lr-24h">24h &#x2194;</option>
+          <option value="tb-24h">24h &#x2195;</option>
+        </select>
+      </div>
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="8000">Lenta (8s)</option>
@@ -61,17 +70,17 @@
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
         <div style="font-size: 3rem; margin-bottom: 0.5rem; color:var(--turquesa-400);"><span class="material-symbols-sharp" style="font-size: inherit;">volume_up</span></div>
         <div id="clockText" style="font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem;">Preparada...</div>
-        <p style="color: var(--gris-400); font-size: 1.1rem; text-align: center; max-width: 500px; margin-bottom: var(--space-2);">
-          Imagina el reloj: las dos agujas est&aacute;n en el mismo lado (izquierda o derecha) o en lados opuestos?
+        <p id="instructionText" style="color: var(--gris-400); font-size: 1.1rem; text-align: center; max-width: 500px; margin-bottom: var(--space-2);">
+          Imagina el reloj: &iquest;las dos agujas est&aacute;n en el mismo lado (izquierda o derecha) o en lados opuestos?
         </p>
         <div class="clock-answers">
           <button class="clock-answer-btn" data-answer="mismo" onclick="tool.handleAnswer('mismo')" disabled>
-            <span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span><span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
-            Mismo lado
+            <span id="iconSame1" class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span><span id="iconSame2" class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
+            <span id="labelSame">Mismo lado</span>
           </button>
           <button class="clock-answer-btn" data-answer="opuesto" onclick="tool.handleAnswer('opuesto')" disabled>
-            <span class="material-symbols-sharp" style="font-size: 2rem;">arrow_back</span><span class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
-            Lados opuestos
+            <span id="iconOpp1" class="material-symbols-sharp" style="font-size: 2rem;">arrow_back</span><span id="iconOpp2" class="material-symbols-sharp" style="font-size: 2rem;">arrow_forward</span>
+            <span id="labelOpp">Lados opuestos</span>
           </button>
         </div>
         <div class="stats-bar">
@@ -92,14 +101,15 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Basado en el <strong>Auditory Clock Test</strong>. Se anuncia una hora (ej. &ldquo;3:40&rdquo;) y el usuario debe visualizar mentalmente un reloj anal&oacute;gico para decidir si las agujas est&aacute;n del mismo lado o en lados opuestos. Trabaja rotaci&oacute;n mental y razonamiento espacial.</p>
+          <p>Basado en el <strong>Auditory Clock Test</strong>. Se anuncia una hora aleatoria y el usuario debe visualizar mentalmente un reloj anal&oacute;gico para decidir si las agujas est&aacute;n del mismo lado o en lados opuestos. Trabaja rotaci&oacute;n mental y razonamiento espacial.</p>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
+            <li>Elige variante: <strong>Izq/Der</strong> (l&iacute;nea 12-6) o <strong>Arriba/Abajo</strong> (l&iacute;nea 3-9).</li>
             <li>Ajusta la cadencia (este test necesita m&aacute;s tiempo que otros).</li>
-            <li>Pulsa INICIAR. Se muestra y anuncia una hora.</li>
-            <li>Imagina una l&iacute;nea vertical del 12 al 6: &iquest;las dos agujas caen en el mismo lado (izquierda o derecha)?</li>
+            <li>Pulsa INICIAR. Se anuncia una hora aleatoria.</li>
+            <li>Imagina el reloj: &iquest;las dos agujas caen en el mismo lado de la l&iacute;nea divisoria?</li>
             <li>Pulsa &ldquo;Mismo lado&rdquo; o &ldquo;Opuestos&rdquo;.</li>
           </ol>
         </div>

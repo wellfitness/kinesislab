@@ -24,15 +24,37 @@ class ListSortingTool {
     this.isPlaying = false;
     this.phase = 'idle';
     this.currentItems = [];
+    this.presentationOrder = [];
     this.correctOrder = [];
-    this.userOrder = [];
-    this.nextTapIndex = 0;
+    this.displayedInOrder = false;
+    this.presentIndex = 0;
+    this.roundStart = 0;
     this.hits = 0;
     this.misses = 0;
     this.rounds = 0;
-    this.bestSpan = 0;
-    this.presentIndex = 0;
+    this.rtSum = 0;
+    this.rtCount = 0;
     this.timer = null;
+    this.audioCtx = null;
+  }
+
+  getAudioCtx() {
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+    return this.audioCtx;
+  }
+
+  beep(freq, dur) {
+    const ctx = this.getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    gain.gain.value = 0.25;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
+    osc.stop(ctx.currentTime + dur / 1000);
   }
 
   togglePlay() {
@@ -55,6 +77,15 @@ class ListSortingTool {
 
   changeLevel(val) {
     this.level = parseInt(val, 10);
+    if (this.isPlaying) {
+      this.clearTimers();
+      this.isPlaying = false;
+      document.getElementById('btnPlayPause').classList.remove('active');
+      document.getElementById('playIcon').textContent = 'play_arrow';
+      document.getElementById('playText').textContent = 'INICIAR';
+    }
+    this.resetStats();
+    this.showIdle();
   }
 
   changeCount(val) {
@@ -67,6 +98,15 @@ class ListSortingTool {
 
   clearTimers() {
     if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+  }
+
+  resetStats() {
+    this.hits = 0;
+    this.misses = 0;
+    this.rounds = 0;
+    this.rtSum = 0;
+    this.rtCount = 0;
+    this.updateStats();
   }
 
   shuffle(arr) {
@@ -104,18 +144,55 @@ class ListSortingTool {
     return [...foods, ...animals];
   }
 
+  isInCorrectOrder(order) {
+    for (let i = 0; i < order.length; i++) {
+      if (order[i].name !== this.correctOrder[i].name) return false;
+    }
+    return true;
+  }
+
+  showIdle() {
+    this.phase = 'idle';
+    this.hideAllPhases();
+    document.getElementById('presentZone').style.display = '';
+    document.getElementById('presentItem').style.display = 'none';
+    document.getElementById('presentCat').style.display = 'none';
+    document.getElementById('presentCounter').style.display = 'none';
+    this.setInstruction('Memoriza los objetos');
+    this.setBtnState(false);
+  }
+
+  hideAllPhases() {
+    document.getElementById('presentZone').style.display = 'none';
+    document.getElementById('questionPhase').style.display = 'none';
+    document.getElementById('feedbackPhase').style.display = 'none';
+    document.getElementById('feedbackIcon').style.display = 'none';
+  }
+
   startRound() {
     if (!this.isPlaying) return;
     this.currentItems = this.pickItems();
     this.correctOrder = this.getCorrectOrder(this.currentItems);
-    this.userOrder = [];
-    this.nextTapIndex = 0;
+
+    // 50% se presentan en orden correcto, 50% desordenados
+    this.displayedInOrder = Math.random() < 0.5;
+
+    if (this.displayedInOrder) {
+      this.presentationOrder = [...this.correctOrder];
+    } else {
+      this.presentationOrder = [...this.currentItems];
+      do {
+        this.shuffle(this.presentationOrder);
+      } while (this.isInCorrectOrder(this.presentationOrder));
+    }
+
     this.presentIndex = 0;
     this.phase = 'presenting';
 
     this.setInstruction('Memoriza...');
-    this.hideResponseArea();
+    this.hideAllPhases();
     document.getElementById('presentZone').style.display = '';
+    this.setBtnState(false);
     this.showPresentItem();
   }
 
@@ -126,18 +203,19 @@ class ListSortingTool {
     const catEl = document.getElementById('presentCat');
     const counterEl = document.getElementById('presentCounter');
 
-    if (this.presentIndex < this.currentItems.length) {
-      const item = this.currentItems[this.presentIndex];
+    if (this.presentIndex < this.presentationOrder.length) {
+      const item = this.presentationOrder[this.presentIndex];
       el.textContent = item.name;
       el.className = 'present-item cat-' + item.category + ' fade-in';
       catEl.textContent = item.category === 'animal' ? 'Animal' : 'Alimento';
       catEl.className = 'present-cat cat-' + item.category;
-      counterEl.textContent = (this.presentIndex + 1) + ' / ' + this.currentItems.length;
+      counterEl.textContent = (this.presentIndex + 1) + ' / ' + this.presentationOrder.length;
 
       el.style.display = '';
       catEl.style.display = '';
       counterEl.style.display = '';
 
+      this.beep(600, 60);
       if (navigator.vibrate) navigator.vibrate(30);
 
       this.presentIndex++;
@@ -146,102 +224,102 @@ class ListSortingTool {
         this.timer = setTimeout(() => this.showPresentItem(), 200);
       }, this.speed - 200);
     } else {
-      el.style.display = 'none';
-      catEl.style.display = 'none';
-      counterEl.style.display = 'none';
-      document.getElementById('presentZone').style.display = 'none';
-      this.phase = 'responding';
-      this.showResponsePhase();
+      this.hideAllPhases();
+      this.showBlank();
     }
   }
 
-  showResponsePhase() {
-    const texts = {
-      1: '¡Ordénalos de menor a mayor!',
-      2: '¡Alimentos primero, luego animales! (menor a mayor)',
-      3: '¡Alimentos primero, luego animales! (mayor a menor)'
+  showBlank() {
+    if (!this.isPlaying) return;
+    this.phase = 'blank';
+    this.hideAllPhases();
+    this.setInstruction('¡Recuerda!');
+    this.timer = setTimeout(() => this.showQuestion(), 1000);
+  }
+
+  showQuestion() {
+    if (!this.isPlaying) return;
+    this.phase = 'decide';
+
+    this.hideAllPhases();
+    document.getElementById('questionPhase').style.display = '';
+
+    const questionTexts = {
+      1: '¿Estaban de menor a mayor tamaño?',
+      2: '¿Alimentos primero, animales después? (menor a mayor)',
+      3: '¿Alimentos primero, animales después? (mayor a menor)'
     };
-    this.setInstruction(texts[this.level]);
+    this.setInstruction(questionTexts[this.level]);
 
-    const grid = document.getElementById('responseGrid');
-    grid.innerHTML = '';
-
-    const shuffled = this.shuffle([...this.currentItems]);
-    shuffled.forEach(item => {
-      const btn = document.createElement('button');
-      btn.className = 'response-btn cat-' + item.category;
-      btn.innerHTML = '<span class="rb-name">' + item.name + '</span>' +
-        '<span class="rb-cat">' + (item.category === 'animal' ? 'Animal' : 'Alimento') + '</span>';
-      btn.onclick = () => this.handleTap(btn, item);
-      grid.appendChild(btn);
-    });
-
-    document.getElementById('responseArea').style.display = '';
-    document.getElementById('userSequence').innerHTML = '';
-    document.getElementById('correctSequence').innerHTML = '';
+    this.setBtnState(true);
+    this.roundStart = performance.now();
   }
 
-  handleTap(btn, item) {
-    if (this.phase !== 'responding' || btn.disabled) return;
+  handleAnswer(answer) {
+    if (this.phase !== 'decide') return;
+    this.phase = 'feedback';
+    this.setBtnState(false);
 
-    const expected = this.correctOrder[this.nextTapIndex];
-    const seqEl = document.getElementById('userSequence');
+    const rt = performance.now() - this.roundStart;
+    const correct = (answer === 'true') === this.displayedInOrder;
 
-    if (item.name === expected.name) {
-      btn.classList.add('correct');
-      btn.disabled = true;
-
-      const tag = document.createElement('span');
-      tag.className = 'seq-tag correct';
-      tag.textContent = item.name;
-      seqEl.appendChild(tag);
-
-      if (navigator.vibrate) navigator.vibrate(30);
-      this.nextTapIndex++;
-
-      if (this.nextTapIndex >= this.correctOrder.length) {
-        this.hits++;
-        this.rounds++;
-        if (this.itemCount > this.bestSpan) this.bestSpan = this.itemCount;
-        this.updateStats();
-        this.phase = 'feedback';
-        this.setInstruction('¡Correcto!');
-        this.timer = setTimeout(() => this.startRound(), 1500);
-      }
+    this.rounds++;
+    if (correct) {
+      this.hits++;
+      this.rtSum += rt;
+      this.rtCount++;
     } else {
-      btn.classList.add('wrong');
-      if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
-
-      const tag = document.createElement('span');
-      tag.className = 'seq-tag wrong';
-      tag.textContent = item.name;
-      seqEl.appendChild(tag);
-
       this.misses++;
-      this.rounds++;
-      this.updateStats();
-      this.phase = 'feedback';
-      this.showCorrectOrder();
-      this.timer = setTimeout(() => this.startRound(), 3000);
     }
+
+    this.showFeedback(correct);
+    this.updateStats();
+
+    this.timer = setTimeout(() => this.startRound(), correct ? 1200 : 2500);
+  }
+
+  showFeedback(correct) {
+    const icon = document.getElementById('feedbackIcon');
+    icon.style.display = '';
+    document.getElementById('questionPhase').style.display = 'none';
+
+    if (correct) {
+      icon.textContent = 'check_circle';
+      icon.style.color = '#10b981';
+      document.getElementById('feedbackPhase').style.display = 'none';
+    } else {
+      icon.textContent = 'cancel';
+      icon.style.color = 'var(--rosa-400)';
+      this.showCorrectOrder();
+    }
+    if (navigator.vibrate) {
+      navigator.vibrate(correct ? 30 : [50, 50, 50]);
+    }
+    this.beep(correct ? 800 : 300, 120);
   }
 
   showCorrectOrder() {
     this.setInstruction('Orden correcto:');
-    const el = document.getElementById('correctSequence');
-    el.innerHTML = '';
-    this.correctOrder.forEach(item => {
-      const tag = document.createElement('span');
-      tag.className = 'seq-tag hint cat-' + item.category;
-      tag.textContent = item.name;
-      el.appendChild(tag);
+    document.getElementById('feedbackPhase').style.display = '';
+    const container = document.getElementById('correctItems');
+    container.innerHTML = '';
+    this.correctOrder.forEach((item, i) => {
+      if (i > 0) {
+        const arrow = document.createElement('span');
+        arrow.className = 'correct-arrow material-symbols-sharp';
+        arrow.textContent = 'arrow_forward';
+        container.appendChild(arrow);
+      }
+      const span = document.createElement('span');
+      span.className = 'correct-name cat-' + item.category;
+      span.textContent = item.name;
+      container.appendChild(span);
     });
   }
 
-  hideResponseArea() {
-    document.getElementById('responseArea').style.display = 'none';
-    document.getElementById('userSequence').innerHTML = '';
-    document.getElementById('correctSequence').innerHTML = '';
+  setBtnState(enabled) {
+    document.getElementById('btnTrue').disabled = !enabled;
+    document.getElementById('btnFalse').disabled = !enabled;
   }
 
   setInstruction(text) {
@@ -252,7 +330,8 @@ class ListSortingTool {
     document.getElementById('statHits').textContent = this.hits;
     document.getElementById('statMisses').textContent = this.misses;
     document.getElementById('statTotal').textContent = this.rounds;
-    document.getElementById('statBest').textContent = this.bestSpan;
+    const avgRt = this.rtCount > 0 ? Math.round(this.rtSum / this.rtCount) : '--';
+    document.getElementById('statRT').textContent = avgRt === '--' ? '--' : avgRt + 'ms';
   }
 }
 

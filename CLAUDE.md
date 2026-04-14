@@ -24,7 +24,7 @@ personales y de grupos.
 - `src/herramientas/vanilla/` — Herramientas migradas (producción)
 - `src/herramientas/` — Originales React/TSX (solo referencia, NO editar)
 
-### Herramientas (21)
+### Herramientas (20)
 
 #### Atención y Velocidad de Procesamiento (amarillo)
 - `go-nogo/` — Go / No-Go (toca verde, frena rojo)
@@ -73,7 +73,7 @@ ECM-cognitivo-motor/
 │   └── (iconos PWA, imágenes, APK)
 ├── src/herramientas/
 │   ├── vanilla/                        ← HERRAMIENTAS MIGRADAS (producción)
-│   │   ├── dashboard.html              ← Menú principal con las 21 herramientas
+│   │   ├── dashboard.html              ← Menú principal con las 20 herramientas
 │   │   ├── css/
 │   │   │   ├── dashboard.css           ← Estilos del dashboard
 │   │   │   └── tool-base.css           ← CSS base compartido por todas las herramientas

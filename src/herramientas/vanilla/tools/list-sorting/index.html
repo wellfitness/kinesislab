@@ -11,27 +11,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    /* Contenedor principal dentro de stimulus-area */
+    /* === LAYOUT === */
+    #stimulusContainer.stimulus-area {
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
+    }
+
     .ls-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
-      height: 100%;
       flex: 1;
-      align-self: stretch;
-      padding: var(--space-2) var(--space-2) var(--space-1);
+      min-height: 0;
+      padding: var(--space-2);
     }
 
-    /* Fase de presentación */
+    .ls-instruction {
+      color: var(--turquesa-400);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      flex-shrink: 0;
+      padding: var(--space-1) 0;
+    }
+
+    .ls-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 0;
+      gap: var(--space-3);
+      position: relative;
+    }
+
+    #presentZone,
+    #questionPhase,
+    #feedbackPhase {
+      width: 100%;
+    }
+
+    /* === FASE PRESENTACIÓN: un ítem a la vez === */
     .present-zone {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex: 1;
       width: 100%;
-      min-height: 0;
     }
     .present-item {
       font-family: var(--font-display);
@@ -61,86 +93,115 @@
     .cat-animal { color: var(--turquesa-400); }
     .cat-food { color: var(--tulip-tree-400); }
 
-    /* Fase de respuesta */
-    .response-area {
+    /* === FASE PREGUNTA: icono interrogación === */
+    .question-prompt {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: var(--space-1);
-      width: 100%;
-      flex: 1;
       justify-content: center;
-      min-height: 0;
     }
-    .response-grid {
+    .question-icon {
+      font-size: clamp(4rem, 12vw, 8rem);
+      color: var(--tulip-tree-400);
+      text-shadow: 0 0 40px rgba(234, 179, 8, 0.3);
+    }
+
+    /* === FASE FEEDBACK: orden correcto === */
+    .correct-items {
       display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      max-width: 480px;
-      width: 100%;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      text-align: center;
+      max-width: 100%;
+      padding: 0 var(--space-1);
     }
-    .response-btn {
+    .correct-name {
+      font-family: var(--font-display);
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .correct-name.cat-animal { color: var(--turquesa-400); }
+    .correct-name.cat-food { color: var(--tulip-tree-400); }
+    .correct-arrow {
+      color: var(--gris-500);
+      font-size: 0.5em;
+      flex-shrink: 0;
+    }
+
+    /* === BOTONES VERDADERO / FALSO === */
+    .answer-btns {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      gap: 16px;
       justify-content: center;
-      gap: 2px;
-      padding: 14px 18px;
-      border-radius: 12px;
-      border: 3px solid var(--gris-600);
+      width: 100%;
+      padding: 0 var(--space-2);
+    }
+    .answer-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      border-radius: 14px;
+      border: 3px solid;
       background: var(--gris-800);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
       cursor: pointer;
-      min-width: 100px;
+      flex: 1;
+      max-width: 220px;
       min-height: 56px;
-      transition: all 150ms;
-    }
-    .response-btn:active { transform: scale(0.95); }
-    .response-btn:disabled { opacity: 0.25; cursor: default; transform: none; }
-    .response-btn.cat-animal { border-color: rgba(0, 190, 200, 0.4); }
-    .response-btn.cat-food { border-color: rgba(234, 179, 8, 0.4); }
-    .response-btn.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
-    .response-btn.wrong { border-color: var(--rosa-400); background: rgba(225, 29, 72, 0.2); }
-    .rb-name {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      color: white;
-      letter-spacing: 1px;
-    }
-    .rb-cat {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      opacity: 0.7;
-    }
-    .response-btn.cat-animal .rb-cat { color: var(--turquesa-400); }
-    .response-btn.cat-food .rb-cat { color: var(--tulip-tree-400); }
-
-    /* Secuencia del usuario */
-    .sequence-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
       justify-content: center;
-      min-height: 28px;
-      padding: 4px 0;
+      transition: all 150ms;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
-    .seq-tag {
-      font-family: var(--font-display);
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 6px;
-      letter-spacing: 1px;
+    .answer-btn:active { transform: scale(0.95); }
+    .answer-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+    .answer-btn:focus-visible {
+      outline: 3px solid var(--turquesa-400);
+      outline-offset: 2px;
     }
-    .seq-tag.correct { background: rgba(16, 185, 129, 0.3); color: #10b981; }
-    .seq-tag.wrong { background: rgba(225, 29, 72, 0.3); color: var(--rosa-400); }
-    .seq-tag.hint.cat-animal { background: rgba(0, 190, 200, 0.2); color: var(--turquesa-400); }
-    .seq-tag.hint.cat-food { background: rgba(234, 179, 8, 0.2); color: var(--tulip-tree-400); }
+    .btn-true {
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #10b981;
+    }
+    .btn-true:not(:disabled):hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+    }
+    .btn-false {
+      border-color: rgba(225, 29, 72, 0.5);
+      color: var(--rosa-400);
+    }
+    .btn-false:not(:disabled):hover {
+      background: rgba(225, 29, 72, 0.1);
+      border-color: var(--rosa-400);
+    }
 
-    /* Stats */
+    /* === FEEDBACK ICON === */
+    .feedback-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      z-index: 5;
+      pointer-events: none;
+      text-shadow: 0 0 40px currentColor;
+    }
+
+    /* === STATS BAR === */
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: var(--space-1) var(--space-2);
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
       margin-top: auto;
       flex-shrink: 0;
       width: 100%;
@@ -149,45 +210,53 @@
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Instrucción en respuesta: más compacta */
-    .ls-instruction {
-      color: var(--turquesa-400);
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
-      margin-bottom: var(--space-1);
-      flex-shrink: 0;
-    }
-
-    /* MOBILE */
+    /* === MOBILE (<480px) === */
     @media (max-width: 480px) {
-      .response-btn { min-width: 90px; padding: 12px 14px; min-height: 52px; }
-      .rb-name { font-size: 1rem; }
+      .ls-instruction { font-size: 0.9rem; letter-spacing: 1px; }
+      .correct-items { font-size: clamp(1.4rem, 6vw, 2.2rem); gap: var(--space-1); }
+      .answer-btn { padding: 14px 16px; font-size: 1rem; min-height: 52px; }
+      .answer-btns { gap: 12px; }
+      .feedback-icon { font-size: 4rem; }
       .stat-value { font-size: 1.1rem; }
-      .ls-instruction { font-size: 0.95rem; letter-spacing: 1px; }
+      .ls-content { padding: var(--space-1); }
       .present-item { font-size: clamp(3rem, 14vw, 5rem); }
     }
 
-    /* TABLET */
+    /* === TABLET (768px+) === */
     @media (min-width: 768px) {
-      .response-btn { min-width: 130px; min-height: 64px; padding: 16px 22px; }
-      .rb-name { font-size: 1.3rem; }
-      .rb-cat { font-size: 0.75rem; }
-      .response-grid { max-width: 560px; gap: 14px; }
+      .answer-btn {
+        max-width: 240px;
+        min-height: 68px;
+        padding: 20px 40px;
+        font-size: 1.5rem;
+        border-radius: 16px;
+      }
+      .answer-btns { gap: 24px; }
+      .correct-items { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+      .ls-instruction { font-size: 1.2rem; }
+      .feedback-icon { font-size: 6rem; }
       .present-item { font-size: clamp(5rem, 10vw, 8rem); }
       .present-cat { font-size: 1.15rem; }
-      .seq-tag { font-size: 0.9rem; padding: 6px 14px; }
     }
 
-    /* LANDSCAPE COMPACT */
+    /* === DESKTOP (1024px+) === */
+    @media (min-width: 1024px) {
+      .answer-btn { max-width: 260px; min-height: 72px; font-size: 1.6rem; }
+      .correct-items { font-size: clamp(3rem, 4vw, 4rem); }
+    }
+
+    /* === LANDSCAPE COMPACTO === */
     @media (orientation: landscape) and (max-height: 500px) {
-      .ls-content { padding: 0 var(--space-1); }
+      .ls-content { padding: 0 var(--space-2); }
+      .ls-instruction { padding: 2px 0; font-size: 0.85rem; }
+      .ls-main { gap: var(--space-1); }
+      .correct-items { font-size: clamp(1.2rem, 4vw, 2rem); }
+      .answer-btn { min-height: 44px; padding: 8px 20px; font-size: 1rem; }
+      .answer-btns { gap: 12px; }
+      .feedback-icon { font-size: 2.5rem; }
+      .stats-bar { padding: 4px var(--space-1); margin-top: var(--space-1); }
+      .stat-value { font-size: 1rem; }
       .present-item { font-size: clamp(2rem, 8vw, 3.5rem); }
-      .response-btn { min-height: 44px; padding: 8px 12px; }
-      .stats-bar { padding: 4px var(--space-1); }
-      .stat-value { font-size: 1.1rem; }
-      .stat-label { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -232,25 +301,45 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div class="ls-content">
-        <p id="instruction" class="ls-instruction">Memoriza los objetos y ord&eacute;nalos por tama&ntilde;o</p>
+        <p id="instruction" class="ls-instruction">Memoriza los objetos</p>
 
-        <div id="presentZone" class="present-zone">
-          <div id="presentItem" class="present-item" style="display:none;"></div>
-          <div id="presentCat" class="present-cat" style="display:none;"></div>
-          <div id="presentCounter" class="present-counter" style="display:none;"></div>
+        <div class="ls-main">
+          <!-- Fase 1: Presentación uno a uno -->
+          <div id="presentZone" class="present-zone">
+            <div id="presentItem" class="present-item" style="display:none;"></div>
+            <div id="presentCat" class="present-cat" style="display:none;"></div>
+            <div id="presentCounter" class="present-counter" style="display:none;"></div>
+          </div>
+
+          <!-- Fase 2: Pregunta — solo icono ? -->
+          <div id="questionPhase" style="display:none;">
+            <div class="question-prompt">
+              <span class="material-symbols-sharp question-icon">help</span>
+            </div>
+          </div>
+
+          <!-- Fase 3: Feedback error — orden correcto -->
+          <div id="feedbackPhase" style="display:none;">
+            <div id="correctItems" class="correct-items"></div>
+          </div>
+
+          <span id="feedbackIcon" class="material-symbols-sharp feedback-icon" style="display:none;"></span>
+
+          <div class="answer-btns">
+            <button id="btnTrue" class="answer-btn btn-true" onclick="tool.handleAnswer('true')" disabled>
+              <span class="material-symbols-sharp">check</span> VERDADERO
+            </button>
+            <button id="btnFalse" class="answer-btn btn-false" onclick="tool.handleAnswer('false')" disabled>
+              <span class="material-symbols-sharp">close</span> FALSO
+            </button>
+          </div>
+
         </div>
-
-        <div id="responseArea" class="response-area" style="display:none;">
-          <div id="userSequence" class="sequence-bar"></div>
-          <div id="responseGrid" class="response-grid"></div>
-          <div id="correctSequence" class="sequence-bar"></div>
-        </div>
-
         <div class="stats-bar" aria-live="polite" role="status">
           <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
           <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
           <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
-          <div class="stat-item"><span id="statBest" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Span</span></div>
+          <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
         </div>
       </div>
     </div>
@@ -265,23 +354,23 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Adaptaci&oacute;n del <strong>List Sorting Working Memory Test</strong> (NIH Toolbox). Se presentan objetos de una o dos categor&iacute;as (animales y alimentos) y el usuario debe ordenarlos mentalmente por tama&ntilde;o. Trabaja retenci&oacute;n temporal, reorganizaci&oacute;n y categorizaci&oacute;n.</p>
+          <p>Adaptaci&oacute;n del <strong>List Sorting Working Memory Test</strong> (NIH Toolbox). Se presentan objetos de una o dos categor&iacute;as (animales y alimentos) uno a uno. Desaparecen y debes decidir de memoria si estaban en el orden correcto por tama&ntilde;o. Trabaja retenci&oacute;n temporal, reorganizaci&oacute;n mental y categorizaci&oacute;n.</p>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">trending_up</span> Niveles</h4>
           <ul>
-            <li><strong>1 Lista:</strong> Objetos de una sola categor&iacute;a (solo animales o solo alimentos). Ord&eacute;nalos de menor a mayor tama&ntilde;o.</li>
-            <li><strong>2 Listas:</strong> Objetos mezclados de ambas categor&iacute;as. Primero ordena los alimentos por tama&ntilde;o, luego los animales por tama&ntilde;o.</li>
-            <li><strong>Inverso:</strong> Como 2 Listas, pero ordena de mayor a menor tama&ntilde;o.</li>
+            <li><strong>1 Lista:</strong> Objetos de una sola categor&iacute;a. &iquest;Aparecieron de menor a mayor tama&ntilde;o?</li>
+            <li><strong>2 Listas:</strong> Objetos mezclados. &iquest;Aparecieron alimentos primero y luego animales, ambos de menor a mayor?</li>
+            <li><strong>Inverso:</strong> Como 2 Listas, pero el orden esperado va de mayor a menor tama&ntilde;o.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
           <ol>
             <li>Elige nivel, cantidad de &iacute;tems (3-5) y cadencia.</li>
-            <li>Pulsa INICIAR. Los objetos aparecen uno a uno.</li>
-            <li>Cuando termine la presentaci&oacute;n, toca los objetos en el orden correcto.</li>
-            <li>El color indica la categor&iacute;a: <span style="color: var(--turquesa-400);">turquesa</span> = animal, <span style="color: var(--tulip-tree-400);">amarillo</span> = alimento.</li>
+            <li>Pulsa INICIAR. Los objetos aparecen uno a uno &mdash; mem&oacute;rizalos.</li>
+            <li>Desaparecen. Decide de memoria si aparecieron en el orden correcto.</li>
+            <li>Pulsa VERDADERO si estaban ordenados, o FALSO si no lo estaban.</li>
           </ol>
         </div>
         <div class="info-section">
@@ -291,6 +380,7 @@
             <li>2 Listas a&ntilde;ade categorizaci&oacute;n a la ordenaci&oacute;n: doble carga cognitiva.</li>
             <li>El modo Inverso es el m&aacute;s exigente: categorizaci&oacute;n + orden invertido.</li>
             <li>Combina con marcha, equilibrio o sentadillas isom&eacute;tricas durante la memorizaci&oacute;n.</li>
+            <li>Usa el tiempo de reacci&oacute;n medio como m&eacute;trica de progresi&oacute;n.</li>
           </ul>
         </div>
         <div class="info-section">

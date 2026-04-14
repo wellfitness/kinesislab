@@ -1,22 +1,8 @@
 class ClockTool {
   constructor() {
-    this.clockTimes = [
-      { text: 'Tres y cuarto', hour: 3, min: 15, sameSide: true },
-      { text: 'Seis y media', hour: 6, min: 30, sameSide: false },
-      { text: 'Nueve y cuarto', hour: 9, min: 15, sameSide: false },
-      { text: 'Doce en punto', hour: 12, min: 0, sameSide: true },
-      { text: 'Tres menos cuarto', hour: 2, min: 45, sameSide: false },
-      { text: 'Nueve y media', hour: 9, min: 30, sameSide: true },
-      { text: 'Seis en punto', hour: 6, min: 0, sameSide: false },
-      { text: 'Una y cinco', hour: 1, min: 5, sameSide: true },
-      { text: 'Doce y media', hour: 12, min: 30, sameSide: false },
-      { text: 'Nueve menos cuarto', hour: 8, min: 45, sameSide: true },
-      { text: 'Cuatro y veinte', hour: 4, min: 20, sameSide: true },
-      { text: 'Diez y diez', hour: 10, min: 10, sameSide: true },
-      { text: 'Siete menos cinco', hour: 6, min: 55, sameSide: false },
-      { text: 'Dos y media', hour: 2, min: 30, sameSide: true },
-      { text: 'Once menos cuarto', hour: 10, min: 45, sameSide: false }
-    ];
+    this.hourNames = ['Doce', 'Una', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve', 'Diez', 'Once'];
+    this.mode = 'lr';
+    this.format = 'text';
     this.interval = null;
     this.pendingRestart = null;
     this.isPlaying = false;
@@ -29,6 +15,52 @@ class ClockTool {
     this.reactionTimes = [];
     this.trialStart = 0;
     this.audioCtx = null;
+  }
+
+  minuteAngle(min) { return min * 6; }
+  hourAngle(hour, min) { return ((hour % 12) * 30) + (min * 0.5); }
+
+  getSide(angle) {
+    if (this.mode === 'lr') {
+      if (angle === 0 || angle === 180) return null;
+      return angle < 180 ? 'r' : 'l';
+    }
+    if (angle === 90 || angle === 270) return null;
+    return (angle < 90 || angle > 270) ? 't' : 'b';
+  }
+
+  formatTime(hour, min) {
+    if (min === 0) return this.hourNames[hour % 12] + ' en punto';
+    if (min <= 30) {
+      const suffix = { 5: 'y cinco', 10: 'y diez', 15: 'y cuarto', 20: 'y veinte', 25: 'y veinticinco', 30: 'y media' };
+      return this.hourNames[hour % 12] + ' ' + suffix[min];
+    }
+    const nextHour = (hour % 12) + 1;
+    const suffix = { 35: 'menos veinticinco', 40: 'menos veinte', 45: 'menos cuarto', 50: 'menos diez', 55: 'menos cinco' };
+    return this.hourNames[nextHour % 12] + ' ' + suffix[min];
+  }
+
+  formatDisplay(hour, min) {
+    if (this.format === 'text') return this.formatTime(hour, min);
+    const h24 = (hour % 12) + (Math.random() < 0.5 ? 0 : 12);
+    return h24 + ':' + String(min).padStart(2, '0');
+  }
+
+  generateTrial() {
+    let hour, min, hAngle, mAngle;
+    do {
+      hour = Math.floor(Math.random() * 12) + 1;
+      min = Math.floor(Math.random() * 12) * 5;
+      hAngle = this.hourAngle(hour, min);
+      mAngle = this.minuteAngle(min);
+    } while (this.getSide(hAngle) === null || this.getSide(mAngle) === null);
+
+    const hSide = this.getSide(hAngle);
+    const mSide = this.getSide(mAngle);
+    return {
+      text: this.formatDisplay(hour, min),
+      answer: hSide === mSide ? 'mismo' : 'opuesto'
+    };
   }
 
   getAudioCtx() {
@@ -48,6 +80,36 @@ class ClockTool {
     osc.start();
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur / 1000);
     osc.stop(ctx.currentTime + dur / 1000);
+  }
+
+  changeVariant(value) {
+    const [mode, format] = value.split('-');
+    this.mode = mode;
+    this.format = format;
+    if (mode === 'lr') {
+      document.getElementById('instructionText').textContent =
+        'Imagina el reloj: \u00bflas dos agujas est\u00e1n en el mismo lado (izquierda o derecha) o en lados opuestos?';
+      document.getElementById('iconSame1').textContent = 'arrow_forward';
+      document.getElementById('iconSame2').textContent = 'arrow_forward';
+      document.getElementById('labelSame').textContent = 'Mismo lado';
+      document.getElementById('iconOpp1').textContent = 'arrow_back';
+      document.getElementById('iconOpp2').textContent = 'arrow_forward';
+      document.getElementById('labelOpp').textContent = 'Lados opuestos';
+    } else {
+      document.getElementById('instructionText').textContent =
+        'Imagina el reloj: \u00bflas dos agujas est\u00e1n en la misma mitad (arriba o abajo) o en mitades opuestas?';
+      document.getElementById('iconSame1').textContent = 'arrow_upward';
+      document.getElementById('iconSame2').textContent = 'arrow_upward';
+      document.getElementById('labelSame').textContent = 'Misma mitad';
+      document.getElementById('iconOpp1').textContent = 'arrow_upward';
+      document.getElementById('iconOpp2').textContent = 'arrow_downward';
+      document.getElementById('labelOpp').textContent = 'Mitades opuestas';
+    }
+    if (this.isPlaying) {
+      this.stopEngine();
+      this.resetStats();
+      this.startEngine();
+    }
   }
 
   togglePlay() {
@@ -94,22 +156,20 @@ class ClockTool {
   }
 
   showTrial() {
-    const time = this.clockTimes[Math.floor(Math.random() * this.clockTimes.length)];
-    this.currentAnswer = time.sameSide ? 'mismo' : 'opuesto';
+    const trial = this.generateTrial();
+    this.currentAnswer = trial.answer;
     this.responded = false;
     this.trialStart = performance.now();
     this.totalTrials++;
 
-    document.getElementById('clockText').textContent = '"' + time.text + '"';
-    document.querySelectorAll('.clock-answer-btn').forEach(btn => {
-      btn.classList.remove('correct', 'wrong');
-    });
+    document.getElementById('clockText').textContent = '\u201C' + trial.text + '\u201D';
+    document.querySelectorAll('.clock-answer-btn').forEach(btn => btn.classList.remove('correct', 'wrong'));
 
     this.beep(600, 60);
 
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(time.text);
+      const utterance = new SpeechSynthesisUtterance(trial.text);
       utterance.lang = 'es-ES';
       utterance.rate = 1.1;
       window.speechSynthesis.speak(utterance);
@@ -165,9 +225,7 @@ class ClockTool {
   }
 
   setButtonsEnabled(enabled) {
-    document.querySelectorAll('.clock-answer-btn').forEach(btn => {
-      btn.disabled = !enabled;
-    });
+    document.querySelectorAll('.clock-answer-btn').forEach(btn => { btn.disabled = !enabled; });
   }
 
   updateStats() {
