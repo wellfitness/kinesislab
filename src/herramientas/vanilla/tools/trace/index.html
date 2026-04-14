@@ -9,6 +9,37 @@
   <title>Trazado Alfanumérico - KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .trace-display {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .trace-instruction {
+      margin: 0;
+      padding-top: 20px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .trace-char {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 400;
+      color: white;
+      line-height: 1;
+      letter-spacing: 0;
+      font-size: min(55vw, 55vh);
+      padding-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
   <section class="view-execution">
@@ -33,10 +64,10 @@
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runTrace()">
-        <p class="stimulus-instruction">Traza este símbolo en el aire:</p>
-        <div id="traceText" style="font-size: clamp(12rem, 40vw, 30rem); font-weight: 400; color: white; line-height: 1; letter-spacing: 0; font-family: var(--font-sans);">A</div>
+    <div id="stimulusContainer" class="stimulus-area" style="padding: 0;" onclick="tool.runTrace()">
+      <div class="trace-display">
+        <p class="stimulus-instruction trace-instruction">Traza en el aire</p>
+        <div id="traceText" class="trace-char">A</div>
       </div>
     </div>
   </section>
