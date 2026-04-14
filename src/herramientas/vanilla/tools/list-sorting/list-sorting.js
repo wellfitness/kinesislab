@@ -2,21 +2,47 @@ class ListSortingTool {
   constructor() {
     this.animals = [
       { name: 'HORMIGA', size: 1, category: 'animal' },
-      { name: 'RATÓN', size: 2, category: 'animal' },
-      { name: 'GATO', size: 3, category: 'animal' },
-      { name: 'PERRO', size: 4, category: 'animal' },
-      { name: 'CABALLO', size: 5, category: 'animal' },
-      { name: 'ELEFANTE', size: 6, category: 'animal' },
-      { name: 'BALLENA', size: 7, category: 'animal' }
+      { name: 'CARACOL', size: 2, category: 'animal' },
+      { name: 'RANA', size: 3, category: 'animal' },
+      { name: 'RATÓN', size: 4, category: 'animal' },
+      { name: 'PALOMA', size: 5, category: 'animal' },
+      { name: 'CONEJO', size: 6, category: 'animal' },
+      { name: 'GATO', size: 7, category: 'animal' },
+      { name: 'ZORRO', size: 8, category: 'animal' },
+      { name: 'PERRO', size: 9, category: 'animal' },
+      { name: 'ÁGUILA', size: 10, category: 'animal' },
+      { name: 'LOBO', size: 11, category: 'animal' },
+      { name: 'CERDO', size: 12, category: 'animal' },
+      { name: 'OVEJA', size: 13, category: 'animal' },
+      { name: 'CIERVO', size: 14, category: 'animal' },
+      { name: 'LEÓN', size: 15, category: 'animal' },
+      { name: 'CABALLO', size: 16, category: 'animal' },
+      { name: 'VACA', size: 17, category: 'animal' },
+      { name: 'OSO', size: 18, category: 'animal' },
+      { name: 'JIRAFA', size: 19, category: 'animal' },
+      { name: 'ELEFANTE', size: 20, category: 'animal' }
     ];
     this.foods = [
-      { name: 'UVA', size: 1, category: 'food' },
-      { name: 'FRESA', size: 2, category: 'food' },
-      { name: 'LIMÓN', size: 3, category: 'food' },
-      { name: 'MANZANA', size: 4, category: 'food' },
-      { name: 'PIÑA', size: 5, category: 'food' },
-      { name: 'SANDÍA', size: 6, category: 'food' },
-      { name: 'CALABAZA', size: 7, category: 'food' }
+      { name: 'GUISANTE', size: 1, category: 'food' },
+      { name: 'UVA', size: 2, category: 'food' },
+      { name: 'CEREZA', size: 3, category: 'food' },
+      { name: 'FRESA', size: 4, category: 'food' },
+      { name: 'NUEZ', size: 5, category: 'food' },
+      { name: 'LIMÓN', size: 6, category: 'food' },
+      { name: 'HUEVO', size: 7, category: 'food' },
+      { name: 'KIWI', size: 8, category: 'food' },
+      { name: 'NARANJA', size: 9, category: 'food' },
+      { name: 'MANZANA', size: 10, category: 'food' },
+      { name: 'PATATA', size: 11, category: 'food' },
+      { name: 'MANGO', size: 12, category: 'food' },
+      { name: 'PEPINO', size: 13, category: 'food' },
+      { name: 'BERENJENA', size: 14, category: 'food' },
+      { name: 'PIÑA', size: 15, category: 'food' },
+      { name: 'LECHUGA', size: 16, category: 'food' },
+      { name: 'MELÓN', size: 17, category: 'food' },
+      { name: 'SANDÍA', size: 18, category: 'food' },
+      { name: 'CALABAZA', size: 19, category: 'food' },
+      { name: 'COL', size: 20, category: 'food' }
     ];
     this.level = 1;
     this.itemCount = 3;
@@ -320,6 +346,7 @@ class ListSortingTool {
   setBtnState(enabled) {
     document.getElementById('btnTrue').disabled = !enabled;
     document.getElementById('btnFalse').disabled = !enabled;
+    document.getElementById('answerBtns').style.display = enabled ? '' : 'none';
   }
 
   setInstruction(text) {
