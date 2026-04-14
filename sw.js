@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinesislab-cache-v3';
+const CACHE_NAME = 'kinesislab-cache-v4';
 
 const PRECACHE_URLS = [
   './',
@@ -45,8 +45,8 @@ const PRECACHE_URLS = [
   './src/herramientas/vanilla/tools/sonidos/sonidos.js',
   './src/herramientas/vanilla/tools/sort/index.html',
   './src/herramientas/vanilla/tools/sort/sort.js',
-  './src/herramientas/vanilla/tools/stroop/index.html',
-  './src/herramientas/vanilla/tools/stroop/stroop.js',
+  './src/herramientas/vanilla/tools/list-sorting/index.html',
+  './src/herramientas/vanilla/tools/list-sorting/list-sorting.js',
   './src/herramientas/vanilla/tools/timers/index.html',
   './src/herramientas/vanilla/tools/timers/timers.js',
   './src/herramientas/vanilla/tools/trace/index.html',
