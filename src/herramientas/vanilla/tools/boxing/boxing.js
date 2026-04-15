@@ -1,10 +1,12 @@
 const PUNCHES = [
-  'Jab', 'Cross', 'Hook izquierdo', 'Hook derecho', 
-  'Uppercut izquierdo', 'Uppercut derecho'
+  'Directo', 'Cruzado',
+  'Gancho bajo izquierdo', 'Gancho bajo derecho',
+  'Gancho alto izquierdo', 'Gancho alto derecho',
+  'Crochet izquierdo', 'Crochet derecho'
 ];
 
 const DEFENSIVE = [
-  'Esquiva', 'Bloqueo', 'Paso atrás'
+  'Esquiva', 'Bloqueo', 'Paso atrás', 'Agacharse', 'Paso lateral'
 ];
 
 class BoxingGeneratorVanilla {
@@ -108,14 +110,38 @@ class BoxingGeneratorVanilla {
   }
 
   generateCombo() {
-    let pool = [...PUNCHES];
-    if(this.settings.includeDefensive) pool = pool.concat(DEFENSIVE);
-    
-    let combo = [];
-    for(let i=0; i<this.settings.punchCount; i++) {
-        combo.push(pool[Math.floor(Math.random() * pool.length)]);
+    const total = this.settings.punchCount;
+
+    if(!this.settings.includeDefensive) {
+      return this.pickMoves(PUNCHES, total);
+    }
+
+    const maxDef = Math.floor(total * 0.3);
+    const defCount = 1 + Math.floor(Math.random() * maxDef);
+    const offCount = total - defCount;
+
+    const offMoves = this.pickMoves(PUNCHES, offCount);
+    const defMoves = this.pickMoves(DEFENSIVE, defCount);
+
+    const combo = [...offMoves];
+    for(const d of defMoves) {
+      const pos = 1 + Math.floor(Math.random() * (combo.length - 1));
+      combo.splice(pos, 0, d);
     }
     return combo;
+  }
+
+  pickMoves(pool, count) {
+    const result = [];
+    const usageCount = {};
+    for(let i = 0; i < count; i++) {
+      const available = pool.filter(m => (usageCount[m] || 0) < 2);
+      if(available.length === 0) break;
+      const pick = available[Math.floor(Math.random() * available.length)];
+      result.push(pick);
+      usageCount[pick] = (usageCount[pick] || 0) + 1;
+    }
+    return result;
   }
 
   renderComboUI() {
