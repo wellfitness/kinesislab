@@ -24,6 +24,9 @@ class CombaTrainerVanilla {
     this.timeRemaining = 0;
     this.sequenceCount = 0;
 
+    // Anti-repetición: últimos ejercicios usados
+    this.recentHistory = [];
+
     // Control promises
     this.activeTimer = null;
     this.abortController = null;
@@ -138,9 +141,24 @@ class CombaTrainerVanilla {
   generateSequence() {
     let pool = [...BASIC_EXERCISES];
     if(this.settings.includeAdvanced) pool = pool.concat(ADVANCED_EXERCISES);
-    
-    let shuffled = pool.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, Math.min(this.settings.exerciseCount, pool.length));
+
+    const count = Math.min(this.settings.exerciseCount, pool.length);
+    const result = [];
+    for (let i = 0; i < count; i++) {
+      let available = pool.filter(e => !this.recentHistory.includes(e) && !result.includes(e));
+      if (available.length === 0) {
+        available = pool.filter(e => !result.includes(e));
+      }
+      if (available.length === 0) break;
+      const pick = available[Math.floor(Math.random() * available.length)];
+      result.push(pick);
+    }
+    this.recentHistory.push(...result);
+    const minGap = 4;
+    if (this.recentHistory.length > pool.length - minGap) {
+      this.recentHistory = this.recentHistory.slice(-minGap);
+    }
+    return result;
   }
 
   runExerciseTimer(duration) {

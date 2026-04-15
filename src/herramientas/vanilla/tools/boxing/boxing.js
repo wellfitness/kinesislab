@@ -131,15 +131,22 @@ class BoxingGeneratorVanilla {
     return combo;
   }
 
+  punchType(move) {
+    if (move.startsWith('Gancho bajo')) return 'gancho-bajo';
+    if (move.startsWith('Gancho alto')) return 'gancho-alto';
+    if (move.startsWith('Crochet')) return 'crochet';
+    return move.toLowerCase();
+  }
+
   pickMoves(pool, count) {
     const result = [];
-    const usageCount = {};
-    for(let i = 0; i < count; i++) {
-      const available = pool.filter(m => (usageCount[m] || 0) < 2);
-      if(available.length === 0) break;
+    let lastType = null;
+    for (let i = 0; i < count; i++) {
+      const available = pool.filter(m => this.punchType(m) !== lastType);
+      if (available.length === 0) break;
       const pick = available[Math.floor(Math.random() * available.length)];
       result.push(pick);
-      usageCount[pick] = (usageCount[pick] || 0) + 1;
+      lastType = this.punchType(pick);
     }
     return result;
   }
