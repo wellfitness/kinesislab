@@ -27,7 +27,7 @@ La suite aloja tres niveles de estimulación neurológica pura:
 
 1. Simplemente clona este repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/kinesislab.git
+   git clone https://github.com/wellfitness/kinesislab.git
    ```
 2. No hace falta compilar nada. 
 3. Dirígete a tu administrador de archivos y **haz doble clic** sobre:
