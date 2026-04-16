@@ -90,10 +90,6 @@ class ColoresTool {
     this.colorCounts[colorIndex]++;
     document.getElementById('statRounds').textContent = this.rounds;
 
-    if (!this.learningDone) {
-      this.learningDone = this.colorCounts.every(c => c >= this.minPerColor);
-    }
-
     if (this.level === 1) {
       actionEl.classList.remove('visible');
     } else if (!this.learningDone) {
@@ -101,6 +97,10 @@ class ColoresTool {
       actionEl.classList.add('visible');
     } else {
       actionEl.classList.remove('visible');
+    }
+
+    if (!this.learningDone) {
+      this.learningDone = this.colorCounts.every(c => c >= this.minPerColor);
     }
   }
 }

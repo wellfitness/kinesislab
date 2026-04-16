@@ -98,24 +98,25 @@ class SonidosTool {
     const icon = document.getElementById('sonidosIcon');
     const actionEl = document.getElementById('sonidosAction');
 
-    icon.textContent = snd.icon;
-    document.getElementById('sonidosText').textContent = snd.name;
-    icon.style.transform = 'scale(1.5)';
-    setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
-
     this.totalTrials++;
     this.soundCounts[sndIndex]++;
 
-    if (!this.learningDone) {
-      this.learningDone = this.soundCounts.every(c => c >= this.minPerSound);
-    }
+    icon.style.transform = 'scale(1.5)';
+    setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
 
     if (!this.learningDone) {
+      icon.textContent = snd.icon;
+      document.getElementById('sonidosText').textContent = snd.name;
       actionEl.textContent = snd.action;
       actionEl.style.opacity = '1';
     } else {
-      actionEl.textContent = snd.action;
+      icon.textContent = 'graphic_eq';
+      document.getElementById('sonidosText').textContent = '';
       actionEl.style.opacity = '0';
+    }
+
+    if (!this.learningDone) {
+      this.learningDone = this.soundCounts.every(c => c >= this.minPerSound);
     }
 
     this.beep(snd.frequency, 500);

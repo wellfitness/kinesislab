@@ -12,7 +12,9 @@ class ReactiveTool {
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.totalTrials = 0;
-    this.learningRounds = 8;
+    this.minPerStimulus = 2;
+    this.stimulusCounts = [0, 0, 0, 0];
+    this.learningDone = false;
     this.audioCtx = null;
   }
 
@@ -41,6 +43,8 @@ class ReactiveTool {
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
       this.totalTrials = 0;
+      this.stimulusCounts = [0, 0, 0, 0];
+      this.learningDone = false;
       this.updateStats();
       this.renderLegend();
       this.startEngine();
@@ -112,8 +116,11 @@ class ReactiveTool {
     this.pendingTimeout = setTimeout(() => {
       if (!this.isPlaying) return;
 
-      const stim = this.stimuli[Math.floor(Math.random() * this.stimuli.length)];
+      const stimIndex = Math.floor(Math.random() * this.stimuli.length);
+      const stim = this.stimuli[stimIndex];
       this.totalTrials++;
+      this.stimulusCounts[stimIndex]++;
+
       this.updateStats();
 
       if (stim.type === 'beep') {
@@ -125,12 +132,14 @@ class ReactiveTool {
         bg.style.background = stim.color;
       }
 
-      if (this.totalTrials <= this.learningRounds) {
+      if (!this.learningDone) {
         actionEl.textContent = stim.action;
         actionEl.style.opacity = '1';
       }
 
-      if (navigator.vibrate) navigator.vibrate(80);
+      if (!this.learningDone) {
+        this.learningDone = this.stimulusCounts.every(c => c >= this.minPerStimulus);
+      }
 
       const flashDuration = Math.min(600, this.currentSpeed * 0.2);
       this.clearTimeout = setTimeout(() => {
@@ -146,7 +155,7 @@ class ReactiveTool {
   updateStats() {
     document.getElementById('statRounds').textContent = this.totalTrials;
     const isMobile = window.innerWidth < 480;
-    const phase = this.totalTrials <= this.learningRounds
+    const phase = !this.learningDone
       ? (isMobile ? 'APRENDE' : 'APRENDIZAJE')
       : 'MEMORIA';
     document.getElementById('statPhase').textContent = phase;

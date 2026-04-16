@@ -24,20 +24,19 @@
       <div id="cadenceGroup" class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
-          <option value="2000">Rápida (2s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
+          <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
       <button id="btnPlayPause" class="btn-primary" onclick="tool.togglePlay()">
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;" onclick="tool.runArrows()">
-        <div id="arrowVisual" class="material-symbols-sharp" style="font-size: clamp(10rem, 20vw, 16rem); color: var(--turquesa-400); line-height: 1;">lens</div>
-        <p class="stimulus-instruction" style="color: var(--gris-300);">Escucha la direcci&oacute;n. Ignora la flecha visual si no coincide.</p>
-        <p id="arrowAudioFeedback" class="stimulus-instruction" style="margin-top: 2rem; color: var(--gris-500);">Audio Activo</p>
+    <div id="stimulusContainer" class="stimulus-area" style="padding: 0; flex-direction: column; align-items: center;">
+      <p class="stimulus-instruction" style="color: var(--gris-300); margin-top: 20px; flex-shrink: 0; text-align: center; padding: 0 var(--space-2);">Sigue lo que <strong style="color: var(--turquesa-400);">ESCUCHAS</strong>, no lo que ves</p>
+      <div style="flex: 1; width: 100%; display: flex; align-items: center; justify-content: center;" onclick="tool.runArrows()">
+        <div id="arrowVisual" class="material-symbols-sharp" style="font-size: min(45vw, 45vh); color: var(--turquesa-400); line-height: 1; filter: drop-shadow(0 0 40px rgba(0, 190, 200, 0.4));">lens</div>
       </div>
     </div>
   </section>
@@ -50,33 +49,32 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Tarea de <strong>interferencia audiovisual</strong>. Se presenta una flecha visual y una instrucci&oacute;n auditiva que pueden ser incongruentes. El paciente debe seguir la se&ntilde;al auditiva e inhibir la respuesta autom&aacute;tica al est&iacute;mulo visual.</p>
+          <p>Un ejercicio de <strong>interferencia audiovisual</strong>. Aparece una flecha en pantalla y a la vez escuchas una direcci&oacute;n por voz. A veces coinciden, a veces no. T&uacute; tienes que seguir lo que <strong>escuchas</strong>, no lo que ves.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Selecciona la cadencia seg&uacute;n el nivel del grupo.</li>
-            <li>Pulsa INICIAR. Aparece una flecha y suena una direcci&oacute;n.</li>
-            <li>El paciente debe moverse hacia donde indica el <strong>audio</strong>, no la flecha.</li>
-            <li>Si coinciden, es congruente. Si no, debe inhibir la respuesta visual.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Aparece una flecha y suena una direcci&oacute;n.</li>
+            <li>Mu&eacute;vete hacia donde indica el <strong>audio</strong>, ignora la flecha.</li>
+            <li>Si la flecha y el audio coinciden, f&aacute;cil. Si no, tu cerebro querr&aacute; seguir la flecha &mdash; no le hagas caso.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Empieza con cadencia lenta para que comprendan la mec&aacute;nica.</li>
-            <li>Combina con desplazamientos laterales o giros de cadera.</li>
-            <li>Ideal para grupos: todos ven la pantalla pero deben priorizar el audio.</li>
-            <li>Aumenta la cadencia progresivamente para elevar la demanda cognitiva.</li>
+            <li>Empieza en cadencia lenta para pillar la mec&aacute;nica.</li>
+            <li>Combina con desplazamientos laterales o giros.</li>
+            <li>Sube la cadencia cuando te sientas c&oacute;modo.</li>
+            <li>Si fallas mucho, no pasa nada &mdash; es un ejercicio dif&iacute;cil por dise&ntilde;o.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Fase principal del entrenamiento cognitivo-motor.</li>
-            <li>Trabajo de inhibici&oacute;n y atenci&oacute;n dividida.</li>
-            <li>Prevenci&oacute;n de ca&iacute;das: simula conflictos sensoriales del mundo real.</li>
-            <li>Deportes: toma de decisiones bajo informaci&oacute;n contradictoria.</li>
+            <li>Para entrenar inhibici&oacute;n y atenci&oacute;n dividida.</li>
+            <li>En deportes: tomar decisiones cuando la informaci&oacute;n es contradictoria.</li>
+            <li>Para prevenci&oacute;n de ca&iacute;das (reaccionar a conflictos sensoriales reales).</li>
+            <li>En grupo: todos ven la pantalla pero deben priorizar el audio.</li>
           </ul>
         </div>
       </div>

@@ -10,7 +10,7 @@ class SearchTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.hits = 0;
     this.misses = 0;
     this.totalTrials = 0;
@@ -86,7 +86,7 @@ class SearchTool {
 
     const grid = document.getElementById('searchGrid');
     grid.innerHTML = '';
-    const totalItems = window.innerWidth < 768 ? 36 : 48;
+    const totalItems = window.innerWidth < 768 ? 24 : 36;
     this.targetIndex = Math.floor(Math.random() * totalItems);
     this.responded = false;
     this.trialStart = performance.now();
@@ -131,7 +131,6 @@ class SearchTool {
     } else {
       this.misses++;
       this.beep(220, 200);
-      if (navigator.vibrate) navigator.vibrate(100);
       if (item) item.style.background = 'rgba(225, 29, 72, 0.4)';
       const target = document.querySelector(`.search-item[data-index="${this.targetIndex}"]`);
       if (target) target.style.background = 'rgba(0, 190, 200, 0.4)';

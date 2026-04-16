@@ -12,17 +12,38 @@
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     .search-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-      gap: 4px; width: 100%; max-width: 600px; padding: 16px;
-      background: var(--gris-800); border-radius: 12px; text-align: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+      gap: 6px;
+      width: 100%;
+      padding: var(--space-2);
+      background: var(--gris-800);
+      border-radius: 12px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .search-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+      }
     }
     .search-item {
-      padding: 8px; font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: bold; color: var(--gris-400);
-      cursor: pointer; border-radius: 6px; transition: background 150ms;
-      user-select: none; min-width: 48px; min-height: 48px;
-      display: flex; align-items: center; justify-content: center;
+      padding: 4px;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      font-weight: bold;
+      color: var(--gris-400);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 150ms;
+      user-select: none;
+      min-width: 56px;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
     }
-    .search-item:hover { background: rgba(255,255,255,0.05); }
+    .search-item:active { background: rgba(255,255,255,0.1); }
     .stats-bar {
       display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
       padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
@@ -46,8 +67,8 @@
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
@@ -77,33 +98,33 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Entrena la <strong>atenci&oacute;n selectiva visuoespacial</strong>. Localiza un elemento distinto (letra, s&iacute;mbolo) entre una cuadr&iacute;cula de distractores. Mide velocidad de rastreo visual y capacidad de filtrar informaci&oacute;n irrelevante.</p>
+          <p>Un ejercicio de <strong>atenci&oacute;n visual</strong>. Tienes que encontrar una letra diferente escondida entre muchas letras parecidas. Entrena tu velocidad de rastreo visual y tu capacidad de filtrar distracciones.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Ajusta la cadencia (tiempo para encontrar el objetivo).</li>
-            <li>Pulsa INICIAR. Aparece una cuadr&iacute;cula con un intruso entre distractores.</li>
-            <li>Toca el elemento diferente lo m&aacute;s r&aacute;pido posible.</li>
-            <li>Se registran aciertos, errores y tiempo de reacci&oacute;n.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Aparece una cuadr&iacute;cula llena de letras.</li>
+            <li>Encuentra la letra diferente y t&oacute;cala lo m&aacute;s r&aacute;pido posible.</li>
+            <li>Arriba te dice cu&aacute;l es la letra que buscas.</li>
+            <li>Si no la encuentras a tiempo, cuenta como error.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Empieza con cadencia lenta para que el usuario entienda el patr&oacute;n.</li>
-            <li>Combina con ejercicio aer&oacute;bico: buscar el intruso mientras se pedalea o camina.</li>
-            <li>En grupo: proyecta y que compitan por velocidad de detecci&oacute;n.</li>
-            <li>&Uacute;til para evaluar la fatiga visual durante sesiones largas.</li>
+            <li>No escanees letra por letra &mdash; intenta ver la cuadr&iacute;cula entera.</li>
+            <li>Empieza en cadencia lenta para coger el truco.</li>
+            <li>Combina con ejercicio: busca la letra mientras caminas o pedaleas.</li>
+            <li>Si los errores suben, tu vista o tu cerebro est&aacute;n cansados.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Deportes con alta demanda visual: deportes de raqueta, porteros.</li>
-            <li>Doble tarea con carga visuoespacial sobre base motora.</li>
-            <li>Rehabilitaci&oacute;n de atenci&oacute;n tras lesi&oacute;n cerebral.</li>
-            <li>Calentamiento cognitivo antes de actividades de precisi&oacute;n.</li>
+            <li>En deportes con alta demanda visual (raqueta, porter&iacute;a).</li>
+            <li>Como doble tarea: buscar mientras haces ejercicio.</li>
+            <li>Para medir fatiga visual durante sesiones largas.</li>
+            <li>Como calentamiento cognitivo antes de actividades de precisi&oacute;n.</li>
           </ul>
         </div>
       </div>
