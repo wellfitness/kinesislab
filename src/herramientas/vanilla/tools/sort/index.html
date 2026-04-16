@@ -63,24 +63,17 @@
     /* === FASE MEMORIZACIÓN: numeros con separadores === */
     .sort-numbers {
       display: flex;
+      flex-direction: column;
       gap: var(--space-2);
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      font-size: clamp(2.5rem, 8vw, 5rem);
       text-align: center;
-      max-width: 100%;
-      padding: 0 var(--space-1);
     }
     .sort-item {
       font-family: var(--font-display);
       font-weight: bold;
       color: white;
-      white-space: nowrap;
-    }
-    .sort-separator {
-      color: var(--gris-500);
-      flex-shrink: 0;
+      font-size: clamp(3rem, 12vw, 6rem);
     }
 
     /* === FASE PREGUNTA: icono interrogación === */
@@ -98,25 +91,21 @@
     /* === FASE FEEDBACK ERROR: orden correcto con flechas === */
     .proposal-numbers {
       display: flex;
-      gap: var(--space-2);
+      flex-direction: column;
+      gap: var(--space-1);
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      font-size: clamp(2.5rem, 8vw, 5rem);
       text-align: center;
-      max-width: 100%;
-      padding: 0 var(--space-1);
     }
     .prop-item {
       font-family: var(--font-display);
       font-weight: bold;
       color: var(--tulip-tree-400);
-      white-space: nowrap;
+      font-size: clamp(3rem, 12vw, 6rem);
     }
     .prop-arrow {
       color: var(--gris-500);
-      font-size: 0.5em;
-      flex-shrink: 0;
+      font-size: 1.5rem;
     }
 
     /* === BOTONES VERDADERO / FALSO === */
@@ -202,8 +191,8 @@
     /* === MOBILE (<480px) === */
     @media (max-width: 480px) {
       .sort-instruction { font-size: 0.9rem; letter-spacing: 1px; }
-      .sort-numbers { font-size: clamp(2rem, 10vw, 3.5rem); gap: var(--space-1); }
-      .proposal-numbers { font-size: clamp(2rem, 10vw, 3.5rem); gap: var(--space-1); }
+      .sort-item { font-size: clamp(2.5rem, 14vw, 4rem); }
+      .prop-item { font-size: clamp(2.5rem, 14vw, 4rem); }
       .answer-btn { padding: 14px 16px; font-size: 1rem; min-height: 52px; }
       .answer-btns { gap: 12px; }
       .feedback-icon { font-size: 4rem; }
@@ -214,15 +203,15 @@
     /* === TABLET (768px+) === */
     @media (min-width: 768px) {
       .answer-btn {
-        max-width: 240px;
-        min-height: 68px;
+        max-width: 300px;
+        min-height: 72px;
         padding: 20px 40px;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         border-radius: 16px;
       }
-      .answer-btns { gap: 24px; }
-      .proposal-numbers { font-size: clamp(3.5rem, 7vw, 5.5rem); }
-      .sort-numbers { font-size: clamp(3rem, 6vw, 5rem); }
+      .answer-btns { gap: 28px; }
+      .prop-item { font-size: clamp(4.5rem, 12vw, 7.5rem); }
+      .sort-item { font-size: clamp(4rem, 12vw, 7.5rem); }
       .sort-instruction { font-size: 1.2rem; }
       .feedback-icon { font-size: 6rem; }
     }
@@ -230,8 +219,8 @@
     /* === DESKTOP (1024px+) === */
     @media (min-width: 1024px) {
       .answer-btn { max-width: 260px; min-height: 72px; font-size: 1.6rem; }
-      .proposal-numbers { font-size: clamp(4rem, 6vw, 6rem); }
-      .sort-numbers { font-size: clamp(3.5rem, 5vw, 5.5rem); }
+      .prop-item { font-size: clamp(4.5rem, 8vw, 7rem); }
+      .sort-item { font-size: clamp(4rem, 8vw, 7rem); }
     }
 
     /* === LANDSCAPE COMPACTO === */
@@ -239,8 +228,9 @@
       .sort-content { padding: 0 var(--space-2); }
       .sort-instruction { padding: 2px 0; font-size: 0.85rem; }
       .sort-main { gap: var(--space-1); }
-      .sort-numbers { font-size: clamp(2rem, 6vw, 3rem); }
-      .proposal-numbers { font-size: clamp(2rem, 6vw, 3rem); }
+      .sort-item { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+      .prop-item { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+      .sort-numbers, .proposal-numbers { gap: var(--space-1); }
       .answer-btn { min-height: 44px; padding: 8px 20px; font-size: 1rem; }
       .answer-btns { gap: 12px; }
       .feedback-icon { font-size: 2.5rem; }
@@ -271,8 +261,8 @@
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
@@ -289,9 +279,7 @@
           <div id="memPhase">
             <div class="sort-numbers">
               <div id="sort-0" class="sort-item">--</div>
-              <div class="sort-separator">-</div>
               <div id="sort-1" class="sort-item">--</div>
-              <div class="sort-separator">-</div>
               <div id="sort-2" class="sort-item">--</div>
             </div>
           </div>
@@ -307,9 +295,9 @@
           <div id="feedbackPhase" style="display:none;">
             <div class="proposal-numbers">
               <span id="fb-0" class="prop-item">--</span>
-              <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
+              <span class="prop-arrow material-symbols-sharp">arrow_downward</span>
               <span id="fb-1" class="prop-item">--</span>
-              <span class="prop-arrow material-symbols-sharp">arrow_forward</span>
+              <span class="prop-arrow material-symbols-sharp">arrow_downward</span>
               <span id="fb-2" class="prop-item">--</span>
             </div>
           </div>
@@ -345,34 +333,40 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Ejercicio de <strong>memoria de trabajo y ordenaci&oacute;n mental</strong>. Aparecen 3 valores (n&uacute;meros u operaciones) que debes memorizar. Luego se propone un orden y debes decidir si es correcto o no. Trabaja retenci&oacute;n, c&aacute;lculo mental e inhibici&oacute;n de respuesta.</p>
+          <p>Un ejercicio de <strong>memoria de trabajo y c&aacute;lculo mental</strong>. Aparecen 3 valores que tienes que memorizar. Despu&eacute;s desaparecen y tienes que decidir si estaban ordenados de menor a mayor.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">tune</span> Niveles</h4>
+          <ul>
+            <li><strong>N&uacute;meros:</strong> solo tienes que recordar y comparar n&uacute;meros.</li>
+            <li><strong>Sumas y restas:</strong> tienes que resolver las operaciones, retener los resultados y compararlos.</li>
+            <li><strong>Multiplicaciones:</strong> el m&aacute;s exigente &mdash; c&aacute;lculo r&aacute;pido bajo presi&oacute;n.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Elige nivel: n&uacute;meros simples, sumas/restas o multiplicaciones.</li>
-            <li>Ajusta la cadencia (tiempo de memorizaci&oacute;n).</li>
-            <li>Pulsa INICIAR. Aparecen 3 valores &mdash; mem&oacute;rizalos.</li>
-            <li>Los valores desaparecen. Decide si estaban ordenados de menor a mayor.</li>
-            <li>Pulsa VERDADERO si estaban en orden ascendente, o FALSO si no.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Aparecen 3 valores &mdash; mem&oacute;rizalos.</li>
+            <li>Los valores desaparecen. &iquest;Estaban ordenados de menor a mayor?</li>
+            <li>Pulsa <strong>VERDADERO</strong> si s&iacute;, o <strong>FALSO</strong> si no.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>N&uacute;meros simples es accesible para casi cualquier poblaci&oacute;n.</li>
-            <li>Las operaciones a&ntilde;aden carga de c&aacute;lculo: resolver Y retener Y comparar.</li>
-            <li>Usa el tiempo de reacci&oacute;n medio como m&eacute;trica de progresi&oacute;n.</li>
-            <li>En grupo: proyecta y que todos respondan simult&aacute;neamente con gestos.</li>
+            <li>Empieza con n&uacute;meros simples para coger el ritmo.</li>
+            <li>Las operaciones son mucho m&aacute;s dif&iacute;ciles &mdash; no te agobies si fallas.</li>
+            <li>Mira tu tiempo de reacci&oacute;n medio para ver si mejoras.</li>
+            <li>Comb&iacute;nalo con ejercicio f&iacute;sico para a&ntilde;adir dificultad.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Doble tarea con carga aritm&eacute;tica durante ejercicio aer&oacute;bico.</li>
-            <li>Poblaci&oacute;n mayor: mantenimiento de habilidades num&eacute;ricas.</li>
-            <li>Deportistas: entrenamiento cognitivo bajo fatiga f&iacute;sica.</li>
-            <li>Sesiones grupales: proyectar y que todos respondan simult&aacute;neamente.</li>
+            <li>Como doble tarea: calcula mientras haces ejercicio aer&oacute;bico.</li>
+            <li>Para mantener las habilidades num&eacute;ricas.</li>
+            <li>Para entrenar cognitivamente bajo fatiga f&iacute;sica.</li>
+            <li>En grupo: todos responden a la vez con gestos.</li>
           </ul>
         </div>
       </div>

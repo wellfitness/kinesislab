@@ -2,7 +2,7 @@ class SortTool {
   constructor() {
     this.currentLevel = 'easy';
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.phase = 'idle';
     this.timer = null;
     this.currentItems = [];
@@ -109,7 +109,7 @@ class SortTool {
       }
       if (usedValues.includes(value)) continue;
       usedValues.push(value);
-      items.push({ display: '(' + a + (isSum ? ' + ' : ' - ') + b + ')', value });
+      items.push({ display: a + (isSum ? ' + ' : ' - ') + b, value });
     }
     return items;
   }
@@ -123,7 +123,7 @@ class SortTool {
       const value = a * b;
       if (usedValues.includes(value)) continue;
       usedValues.push(value);
-      items.push({ display: '(' + a + ' x ' + b + ')', value });
+      items.push({ display: a + ' x ' + b, value });
     }
     return items;
   }
@@ -186,7 +186,6 @@ class SortTool {
       this.currentLevel === 'easy' ? 'Memoriza...' : 'Calcula y memoriza...';
 
     this.beep(600, 60);
-    if (navigator.vibrate) navigator.vibrate(30);
     this.setBtnState(false);
 
     this.timer = setTimeout(() => this.showBlank(), this.currentSpeed);
@@ -259,9 +258,6 @@ class SortTool {
       icon.textContent = 'cancel';
       icon.style.color = 'var(--rosa-400)';
       this.showCorrectOrder();
-    }
-    if (navigator.vibrate) {
-      navigator.vibrate(correct ? 30 : [50, 50, 50]);
     }
     this.beep(correct ? 800 : 300, 120);
   }
