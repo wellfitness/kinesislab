@@ -131,7 +131,7 @@ Mismos tokens que SWD-nextjs. Archivo: `assets/css/design-tokens.css`
 
 - **Sin frameworks** — HTML + CSS + JS vanilla puro
 - **Sin login / sin backend** — Todo client-side
-- **Mobile-first** — Diseñado para tablet y móvil (uso en sala)
+- **Tablet-first** — Diseñado para tablet (dispositivo principal en sala) y móvil
 - **PWA-ready** — manifest.json + service worker para instalación Android
 - **Accesibilidad** — Touch targets mínimo 44px, contraste WCAG AA
 
@@ -154,6 +154,22 @@ Mismos tokens que SWD-nextjs. Archivo: `assets/css/design-tokens.css`
 - Clases CSS: kebab-case con BEM cuando aplique
 - Sin `console.log` en producción
 - Sin comentarios obvios
+
+---
+
+## Contexto de uso real
+
+- **Dispositivo principal:** tablet apoyada en soporte/mesa, al alcance del usuario
+- **Usuario principal:** el alumno (en movimiento, sudando, atención dividida entre ejercicio y pantalla)
+- **El entrenador** configura y lanza la herramienta, pero NO es el usuario principal
+- **Uso sin entrenador:** posible — la herramienta debe ser autoexplicativa
+- **Ayuda/instrucciones:** orientadas al usuario final (al entrenador le servirán igualmente)
+
+### Implicaciones de diseño
+- Botones grandes y acciones simples (sin gestos complejos ni precisión fina)
+- Feedback visual claro, legible a corta distancia pero con elementos grandes
+- Touch targets generosos (mínimo 44px, idealmente más en zonas de acción principal)
+- Considerar manos sudadas y toques imprecisos
 
 ---
 

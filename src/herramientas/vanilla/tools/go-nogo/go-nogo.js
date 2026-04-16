@@ -2,25 +2,25 @@ class GoNoGoTool {
   constructor() {
     this.levels = {
       basic: {
-        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app' },
-        nogoColors: [{ bg: '#e11d48', label: 'NO TOQUES', icon: 'block' }],
-        instruction: 'Verde = toca. Rojo = no toques.'
+        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--go' },
+        nogoColors: [{ bg: '#e11d48', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo' }],
+        instruction: 'Verde = toca la pantalla. Rojo = no toques.'
       },
       distractors: {
-        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app' },
+        goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--go' },
         nogoColors: [
-          { bg: '#e11d48', label: 'NO TOQUES', icon: 'block' },
-          { bg: '#eab308', label: 'NO TOQUES', icon: 'block' },
-          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block' }
+          { bg: '#e11d48', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo' },
+          { bg: '#eab308', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-yellow' },
+          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-blue' }
         ],
         instruction: 'Solo verde = toca. Cualquier otro color = no toques.'
       },
       inverted: {
-        goColor: { bg: '#e11d48', label: 'TOCA', icon: 'touch_app' },
+        goColor: { bg: '#e11d48', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--nogo' },
         nogoColors: [
-          { bg: '#10b981', label: 'NO TOQUES', icon: 'block' },
-          { bg: '#eab308', label: 'NO TOQUES', icon: 'block' },
-          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block' }
+          { bg: '#10b981', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--go' },
+          { bg: '#eab308', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-yellow' },
+          { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-blue' }
         ],
         instruction: 'Solo rojo = toca. Cualquier otro color = no toques.'
       }
@@ -38,6 +38,7 @@ class GoNoGoTool {
     this.trialStart = 0;
     this.responded = false;
     this.audioCtx = null;
+    this.feedbackTimeout = null;
   }
 
   getAudioCtx() {
@@ -57,6 +58,20 @@ class GoNoGoTool {
     osc.start();
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration / 1000);
     osc.stop(ctx.currentTime + duration / 1000);
+  }
+
+  tick() {
+    const ctx = this.getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'triangle';
+    osc.frequency.value = 600;
+    gain.gain.value = 0.15;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+    osc.stop(ctx.currentTime + 0.03);
   }
 
   togglePlay() {
@@ -100,12 +115,19 @@ class GoNoGoTool {
       this.resetStats();
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'INICIAR';
-      const circle = document.getElementById('goCircle');
-      circle.style.background = 'var(--gris-700)';
-      circle.querySelector('.material-symbols-sharp').textContent = 'touch_app';
-      document.getElementById('goLabel').textContent = 'Preparado';
-      document.getElementById('goLabel').style.color = 'var(--gris-500)';
+      this.resetVisual();
     }
+  }
+
+  resetVisual() {
+    const circle = document.getElementById('goCircle');
+    const container = document.getElementById('stimulusContainer');
+    circle.style.background = 'var(--gris-700)';
+    circle.querySelector('.material-symbols-sharp').textContent = 'touch_app';
+    document.getElementById('goLabel').textContent = 'Preparado';
+    document.getElementById('goLabel').style.color = 'var(--gris-500)';
+    container.className = 'stimulus-area';
+    this.clearFeedback();
   }
 
   resetStats() {
@@ -119,31 +141,39 @@ class GoNoGoTool {
   showTrial() {
     const config = this.levels[this.currentLevel];
     const isGo = Math.random() < this.goRatio;
+    const container = document.getElementById('stimulusContainer');
+    const circle = document.getElementById('goCircle');
+    const label = document.getElementById('goLabel');
 
     this.responded = false;
     this.trialStart = performance.now();
+    this.clearFeedback();
 
-    const circle = document.getElementById('goCircle');
-    const label = document.getElementById('goLabel');
+    container.className = 'stimulus-area';
 
     circle.classList.remove('flash');
     void circle.offsetWidth;
     circle.classList.add('flash');
 
+    this.tick();
+
+    let color;
     if (isGo) {
       this.currentTrial = 'go';
-      circle.style.background = config.goColor.bg;
-      circle.querySelector('.material-symbols-sharp').textContent = config.goColor.icon;
-      label.textContent = config.goColor.label;
-      label.style.color = config.goColor.bg;
+      color = config.goColor;
     } else {
       this.currentTrial = 'nogo';
-      const nogo = config.nogoColors[Math.floor(Math.random() * config.nogoColors.length)];
-      circle.style.background = nogo.bg;
-      circle.querySelector('.material-symbols-sharp').textContent = nogo.icon;
-      label.textContent = nogo.label;
-      label.style.color = nogo.bg;
+      color = config.nogoColors[Math.floor(Math.random() * config.nogoColors.length)];
     }
+
+    circle.style.background = color.bg;
+    circle.querySelector('.material-symbols-sharp').textContent = color.icon;
+    label.textContent = color.label;
+    label.style.color = color.bg;
+    container.classList.add(color.areaClass);
+
+    container.classList.add('stimulus-area--flash');
+    setTimeout(() => container.classList.remove('stimulus-area--flash'), 200);
   }
 
   evaluateAndNext() {
@@ -151,7 +181,7 @@ class GoNoGoTool {
 
     if (this.currentTrial === 'go' && !this.responded) {
       this.misses++;
-      this.flashFeedback('miss');
+      this.showFeedback('miss');
     }
 
     this.showTrial();
@@ -167,27 +197,30 @@ class GoNoGoTool {
       this.hits++;
       this.reactionTimes.push(rt);
       this.beep(880, 80);
-      this.flashFeedback('hit');
+      this.showFeedback('hit');
     } else {
       this.falseAlarms++;
       this.beep(220, 200);
-      this.flashFeedback('false');
-      if (navigator.vibrate) navigator.vibrate(200);
+      this.showFeedback('false');
     }
 
     this.updateStats();
   }
 
-  flashFeedback(type) {
-    const circle = document.getElementById('goCircle');
-    if (type === 'hit') {
-      circle.style.boxShadow = '0 0 60px rgba(16, 185, 129, 0.8)';
-    } else if (type === 'false') {
-      circle.style.boxShadow = '0 0 60px rgba(225, 29, 72, 0.8)';
-    } else {
-      circle.style.boxShadow = '0 0 60px rgba(234, 179, 8, 0.8)';
+  showFeedback(type) {
+    this.clearFeedback();
+    const touchZone = document.getElementById('touchZone');
+    touchZone.classList.add('feedback-' + type);
+    this.feedbackTimeout = setTimeout(() => this.clearFeedback(), 300);
+  }
+
+  clearFeedback() {
+    if (this.feedbackTimeout) {
+      clearTimeout(this.feedbackTimeout);
+      this.feedbackTimeout = null;
     }
-    setTimeout(() => { circle.style.boxShadow = '0 0 40px rgba(0,0,0,0.4)'; }, 300);
+    const touchZone = document.getElementById('touchZone');
+    touchZone.classList.remove('feedback-hit', 'feedback-false', 'feedback-miss');
   }
 
   updateStats() {
