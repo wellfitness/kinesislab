@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00bec8">
+  <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/svg+xml" href="../../../../../assets/icon.svg">
+  <title>Boxeo Reactivo - KinesisLab</title>
+  <link rel="stylesheet" href="file:///android_asset/fonts/local-fonts.css">
+  <link rel="stylesheet" href="../../css/tool-base.css">
+  <style>
+    .status-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 40vh;
+      width: 100%;
+      text-align: center;
+    }
+
+    .punch-badge {
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: bold;
+      background: var(--gris-800);
+      color: var(--gris-300);
+      transition: all 200ms ease;
+    }
+
+    .punch-badge.active {
+      background: var(--rosa-600);
+      color: white;
+      transform: scale(1.15);
+      box-shadow: 0 0 20px rgba(225, 29, 72, 0.6);
+    }
+    
+    .punch-badge.past {
+      background: var(--gris-700);
+      color: var(--gris-500);
+    }
+
+    .pulse-text {
+      animation: pulseOpacity 1.5s infinite;
+    }
+    @keyframes pulseOpacity {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body style="background-color: var(--gris-900); color: white;">
+
+  <section class="view-execution">
+    <header class="exec-header">
+      <img src="../../../../../assets/kinesislab-logo.png" alt="KinesisLab" class="exec-header-logo">
+      <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;">
+        Boxeo Reactivo
+      </h2>
+      <div class="exec-header-actions">
+        <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
+        <button id="btnVolver" class="btn-secondary" onclick="window.location.href='../../dashboard.html'" aria-label="Volver">
+          <span class="material-symbols-sharp">arrow_back</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="exec-toolbar config-panel config-panel--rosa" id="configPanel">
+      <div class="config-panel__controls">
+        <div class="config-panel__slider-group">
+          <label>Golpes: <span id="lblPunch">4</span></label>
+          <input type="range" id="punchCount" min="2" max="20" value="4">
+        </div>
+        <div class="config-panel__slider-group">
+          <label>Voz: <span id="lblSpeech">1.0x</span></label>
+          <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
+        </div>
+        <div class="config-panel__checkbox">
+          <input type="checkbox" id="includeDefensive">
+          <label for="includeDefensive">Defensivos</label>
+        </div>
+
+        <button id="btnPlayPause" class="btn-critical" onclick="tool.handleStartStop()" style="flex-shrink: 0;">
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">EMPEZAR</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PANTALLA PRINCIPAL DE ENTRENAMIENTO -->
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+
+      <!-- ESTADO: IDLE -->
+      <div id="stateIdle" class="idle-cta">
+        <p class="idle-cta__hint">Ajusta la configuraci&oacute;n y pulsa EMPEZAR</p>
+      </div>
+
+      <!-- ESTADO: COMBOS -->
+      <div id="stateCombos" class="status-panel" style="display: none;">
+        <p id="lblComboCount" style="color: var(--gris-500); font-size: clamp(1.2rem, 3vw, 1.6rem); font-family: var(--font-display); margin-bottom: 1.5rem; letter-spacing: 1px;">Combinaci&oacute;n #1</p>
+        
+        <div id="comboGrid" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 90vw;">
+          <!-- sequence badges -->
+        </div>
+
+        <p id="lblPause" class="pulse-text" style="color: var(--gris-500); font-size: 1rem; margin-top: 3rem; display: none;">Preparando siguiente combinación...</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="info-modal">
+      <div class="info-modal-header">
+        <h3>Boxeo Reactivo</h3>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+      </div>
+      <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
+          <p>Un generador de <strong>combinaciones de boxeo</strong> con indicaciones por voz. Te va diciendo golpes (directo, cruzado, gancho, crochet) y opcionalmente esquivas y bloqueos. Solo tienes que escuchar y golpear.</p>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
+          <ol>
+            <li>Configura cu&aacute;ntos golpes por combinaci&oacute;n y la velocidad de voz.</li>
+            <li>Activa &ldquo;movimientos defensivos&rdquo; si quieres esquivas y bloqueos.</li>
+            <li>Pulsa <strong>EMPEZAR</strong>. La voz va anunciando cada golpe.</li>
+            <li>Ejecuta cada golpe al saco o al aire seg&uacute;n lo escuchas.</li>
+          </ol>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
+          <ul>
+            <li>Empieza con 3-4 golpes por combo para aprender los nombres.</li>
+            <li>Con defensivos: mezcla esquivas entre golpes &mdash; mucho m&aacute;s realista.</li>
+            <li>Sube a 10-20 golpes por combo para un freestyle largo.</li>
+            <li>En parejas: uno golpea, el otro sujeta manoplas.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
+          <ul>
+            <li>En sesiones de boxeo fitness o cardio combat.</li>
+            <li>Para trabajar coordinaci&oacute;n ojo-mano bajo estr&eacute;s.</li>
+            <li>Como descarga emocional: golpeo libre con estructura.</li>
+            <li>Como calentamiento intenso con componente cognitivo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="boxing.js"></script>
+</body>
+</html>

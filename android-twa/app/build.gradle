@@ -10,16 +10,8 @@ android {
         applicationId "kinesislab.movimientofuncional.app"
         minSdk 21
         targetSdk 35
-        versionCode 2
-        versionName "1.1.0"
-
-        manifestPlaceholders = [
-            hostName    : "kinesislab.movimientofuncional.app",
-            defaultUrl  : "https://kinesislab.movimientofuncional.app",
-            launcherName: "KinesisLab",
-            assetStatements: '[{ "relation": ["delegate_permission/common.handle_all_urls"],' +
-                ' "target": { "namespace": "web", "site": "https://kinesislab.movimientofuncional.app" } }]'
-        ]
+        versionCode 3
+        versionName "2.0.0"
     }
 
     signingConfigs {
@@ -35,7 +27,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             if (project.hasProperty('KEYSTORE_FILE')) {
                 signingConfig signingConfigs.release
             }
@@ -51,15 +43,5 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.22'
-        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22'
-        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22'
-    }
-}
-
 dependencies {
-    implementation 'androidx.browser:browser:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
 }
