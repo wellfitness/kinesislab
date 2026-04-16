@@ -10,7 +10,7 @@ class MatrixTool {
     this.interval = null;
     this.pendingRestart = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.hideTimeout = null;
     this.activeCells = [];
     this.playerSelection = [];
@@ -48,11 +48,12 @@ class MatrixTool {
     const grid = document.getElementById('matrixGrid');
     grid.style.gridTemplateColumns = 'repeat(' + this.gridSize + ', 1fr)';
 
-    const cellSize = Math.floor(280 / this.gridSize);
-    const gridPx = cellSize * this.gridSize + (this.gridSize - 1) * 8 + 20;
+    const baseSize = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.55, 600);
+    const gapPx = window.innerWidth >= 600 ? 12 : 8;
+    const gridPx = baseSize;
     grid.style.width = gridPx + 'px';
-    grid.style.height = gridPx + 'px';
-    grid.style.gap = '8px';
+    grid.style.height = '';
+    grid.style.gap = gapPx + 'px';
 
     grid.innerHTML = '';
     for (let i = 0; i < this.totalCells; i++) {

@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
     .nback-stimulus {
-      width: clamp(140px, 35vw, 220px);
-      height: clamp(140px, 35vw, 220px);
+      width: clamp(160px, 35vmin, 280px);
+      height: clamp(160px, 35vmin, 280px);
       border-radius: 24px;
       display: flex;
       align-items: center;
@@ -34,8 +34,8 @@
       align-items: center;
     }
     .history-dot {
-      width: 44px;
-      height: 44px;
+      width: clamp(44px, 8vw, 56px);
+      height: clamp(44px, 8vw, 56px);
       border-radius: 8px;
       border: 2px solid var(--gris-600);
       background: var(--gris-800);
@@ -65,8 +65,8 @@
       letter-spacing: 2px;
       cursor: pointer;
       transition: all 150ms;
-      min-height: 56px;
-      min-width: 180px;
+      min-height: 60px;
+      min-width: 220px;
       text-transform: uppercase;
     }
     .match-btn:active, .match-btn.pressed {
@@ -187,33 +187,41 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Gold standard del entrenamiento de <strong>memoria de trabajo</strong>. Debes detectar cu&aacute;ndo el est&iacute;mulo actual coincide con el de N posiciones atr&aacute;s. En nivel dif&iacute;cil, trabaja con dos dimensiones independientes (forma y color) &mdash; basta que UNA coincida.</p>
+          <p>Uno de los mejores ejercicios para entrenar la <strong>memoria de trabajo</strong>. Van apareciendo formas y tienes que detectar cu&aacute;ndo la actual es igual a la de hace N turnos.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">tune</span> Niveles</h4>
+          <ul>
+            <li><strong>F&aacute;cil:</strong> 1-Back, solo forma. &iquest;Es igual a la anterior?</li>
+            <li><strong>Medio:</strong> 1-Back, forma + color. Dos cosas que recordar.</li>
+            <li><strong>Dif&iacute;cil:</strong> 2-Back. &iquest;Es igual a la de hace 2 turnos? Muy exigente.</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Elige nivel: f&aacute;cil (1-Back, solo forma), medio (1-Back, forma+color), dif&iacute;cil (2-Back dual).</li>
-            <li>Pulsa INICIAR. Observa la secuencia de est&iacute;mulos.</li>
-            <li>Cuando el actual coincida con el de N turnos atr&aacute;s, pulsa COINCIDE.</li>
-            <li>El historial visual inferior ayuda a recordar la secuencia.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Van apareciendo formas de colores.</li>
+            <li>Si la forma actual es igual a la de hace N turnos, pulsa <strong>COINCIDE</strong>.</li>
+            <li>Si no coincide, no toques nada &mdash; espera a la siguiente.</li>
+            <li>El historial de abajo te ayuda a recordar la secuencia.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>El 1-Back f&aacute;cil es accesible para casi cualquier poblaci&oacute;n.</li>
-            <li>Combina con caminata, bicicleta est&aacute;tica o equilibrio para doble tarea.</li>
-            <li>El 2-Back dual es muy exigente: &uacute;salo solo con usuarios avanzados.</li>
-            <li>Monitoriza omisiones vs falsos positivos para ajustar dificultad.</li>
+            <li>Empieza en F&aacute;cil para entender la mec&aacute;nica.</li>
+            <li>Combina con caminata, bici est&aacute;tica o equilibrio para m&aacute;s dificultad.</li>
+            <li>El 2-Back es muy dif&iacute;cil &mdash; es normal fallar mucho al principio.</li>
+            <li>Si las omisiones suben, tu memoria est&aacute; cansada.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Entrenamiento espec&iacute;fico de memoria de trabajo (evidencia cient&iacute;fica s&oacute;lida).</li>
-            <li>Doble tarea cognitivo-motora de alta demanda.</li>
-            <li>Evaluaci&oacute;n de capacidad cognitiva pre/post sesi&oacute;n.</li>
-            <li>Poblaci&oacute;n mayor: prevenci&oacute;n de deterioro cognitivo.</li>
+            <li>Para entrenar espec&iacute;ficamente la memoria de trabajo.</li>
+            <li>Como doble tarea cognitivo-motora de alta demanda.</li>
+            <li>Para medir tu capacidad cognitiva antes y despu&eacute;s de entrenar.</li>
+            <li>Para mantener la mente activa (especialmente con la edad).</li>
           </ul>
         </div>
       </div>

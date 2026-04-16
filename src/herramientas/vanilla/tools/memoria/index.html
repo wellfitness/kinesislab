@@ -14,12 +14,12 @@
     .memoria-grid {
       display: grid;
       gap: 8px;
-      width: 100%;
+      width: 90vw;
       max-width: 420px;
       margin: 0 auto;
     }
     @media (min-width: 768px) {
-      .memoria-grid { max-width: 520px; gap: 12px; }
+      .memoria-grid { width: 80vw; max-width: 700px; gap: 12px; }
     }
     .memoria-card {
       aspect-ratio: 1;
@@ -147,7 +147,7 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; padding: 0 var(--space-2);">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
         <p class="stimulus-instruction" style="color: var(--gris-300);">Encuentra todas las parejas. Voltea 2 cartas por turno.</p>
         <div class="memoria-grid" id="memoriaGrid"></div>
         <div class="stats-bar">
@@ -177,13 +177,13 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Cl&aacute;sico juego de <strong>parejas con cartas ocultas</strong>. Voltea dos cartas por turno e intenta encontrar todas las parejas. Trabaja memoria espacial, atenci&oacute;n sostenida y estrategia de b&uacute;squeda. Ideal para trabajo en parejas.</p>
+          <p>El cl&aacute;sico juego de <strong>emparejar cartas ocultas</strong>. Voltea dos cartas por turno e intenta encontrar todas las parejas. Entrena tu memoria espacial y tu atenci&oacute;n.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
             <li>Elige nivel: f&aacute;cil (3 parejas), medio (6) o dif&iacute;cil (10).</li>
-            <li>Pulsa COMENZAR. Las cartas se barajan.</li>
+            <li>Pulsa <strong>COMENZAR</strong>. Las cartas se barajan.</li>
             <li>Toca una carta para voltearla. Luego toca otra.</li>
             <li>Si coinciden, quedan descubiertas. Si no, se ocultan de nuevo.</li>
           </ol>
@@ -191,19 +191,19 @@
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>En parejas: cada persona voltea una carta, deben colaborar para recordar.</li>
-            <li>A&ntilde;ade regla motora: &ldquo;entre cada turno, haz 3 sentadillas&rdquo;.</li>
-            <li>Usa el n&uacute;mero de intentos como m&eacute;trica de progresi&oacute;n.</li>
-            <li>Nivel dif&iacute;cil (10 parejas) es un reto real incluso sin tarea motora.</li>
+            <li>Intenta recordar d&oacute;nde estaba cada carta que ya viste.</li>
+            <li>A&ntilde;ade una regla motora: &ldquo;haz 3 sentadillas entre cada turno&rdquo;.</li>
+            <li>Intenta bajar el n&uacute;mero de intentos en cada partida.</li>
+            <li>10 parejas es un reto real &mdash; no te frustres si tardas.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Trabajo cooperativo en parejas o peque&ntilde;os grupos.</li>
-            <li>Pausa activa entre series de fuerza.</li>
-            <li>Estimulaci&oacute;n cognitiva accesible para cualquier edad.</li>
-            <li>Vuelta a la calma con componente l&uacute;dico y social.</li>
+            <li>Como pausa activa entre series de fuerza.</li>
+            <li>En parejas o grupo: cada persona voltea una carta por turno.</li>
+            <li>Para entrenar la memoria de forma divertida (cualquier edad).</li>
+            <li>Como vuelta a la calma con componente l&uacute;dico.</li>
           </ul>
         </div>
       </div>

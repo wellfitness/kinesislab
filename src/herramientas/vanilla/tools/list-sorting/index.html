@@ -40,6 +40,7 @@
     }
 
     .ls-main {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -201,7 +202,7 @@
       padding: var(--space-1) var(--space-2);
       background: rgba(0,0,0,0.3);
       border-radius: 8px;
-      margin-top: var(--space-3);
+      margin-top: auto;
       flex-shrink: 0;
       width: 100%;
     }
@@ -224,18 +225,18 @@
     /* === TABLET (768px+) === */
     @media (min-width: 768px) {
       .answer-btn {
-        max-width: 240px;
-        min-height: 68px;
+        max-width: 300px;
+        min-height: 72px;
         padding: 20px 40px;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         border-radius: 16px;
       }
-      .answer-btns { gap: 24px; }
-      .correct-items { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+      .answer-btns { gap: 28px; }
+      .correct-items { font-size: clamp(3rem, 6vw, 4rem); }
       .ls-instruction { font-size: 1.2rem; }
       .feedback-icon { font-size: 6rem; }
-      .present-item { font-size: clamp(5rem, 10vw, 8rem); }
-      .present-cat { font-size: 1.15rem; }
+      .present-item { font-size: clamp(6rem, 12vw, 9rem); }
+      .present-cat { font-size: 1.3rem; }
     }
 
     /* === DESKTOP (1024px+) === */
@@ -353,42 +354,41 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Adaptaci&oacute;n del <strong>List Sorting Working Memory Test</strong> (NIH Toolbox). Se presentan objetos de una o dos categor&iacute;as (animales y alimentos) uno a uno. Desaparecen y debes decidir de memoria si estaban en el orden correcto por tama&ntilde;o. Trabaja retenci&oacute;n temporal, reorganizaci&oacute;n mental y categorizaci&oacute;n.</p>
+          <p>Un ejercicio de <strong>memoria de trabajo</strong>. Van apareciendo objetos (animales o alimentos) uno a uno. Cuando desaparecen, tienes que recordar si estaban ordenados por tama&ntilde;o.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">trending_up</span> Niveles</h4>
+          <h4><span class="material-symbols-sharp">tune</span> Niveles</h4>
           <ul>
-            <li><strong>1 Lista:</strong> Objetos de una sola categor&iacute;a. &iquest;Aparecieron de menor a mayor tama&ntilde;o?</li>
-            <li><strong>2 Listas:</strong> Objetos mezclados. &iquest;Aparecieron alimentos primero y luego animales, ambos de menor a mayor?</li>
-            <li><strong>Inverso:</strong> Como 2 Listas, pero el orden esperado va de mayor a menor tama&ntilde;o.</li>
+            <li><strong>1 Lista:</strong> objetos de una sola categor&iacute;a. &iquest;Iban de menor a mayor tama&ntilde;o?</li>
+            <li><strong>2 Listas:</strong> objetos mezclados de dos categor&iacute;as. &iquest;Iban primero los alimentos y luego los animales, ambos de menor a mayor?</li>
+            <li><strong>Inverso:</strong> como 2 Listas, pero el orden va de mayor a menor. El m&aacute;s dif&iacute;cil.</li>
           </ul>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Elige nivel, cantidad de &iacute;tems (3-5) y cadencia.</li>
-            <li>Pulsa INICIAR. Los objetos aparecen uno a uno &mdash; mem&oacute;rizalos.</li>
-            <li>Desaparecen. Decide de memoria si aparecieron en el orden correcto.</li>
-            <li>Pulsa VERDADERO si estaban ordenados, o FALSO si no lo estaban.</li>
+            <li>Elige nivel, cantidad de objetos (3-5) y cadencia.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Los objetos aparecen uno a uno &mdash; mem&oacute;rizalos.</li>
+            <li>Desaparecen. &iquest;Estaban en el orden correcto?</li>
+            <li>Pulsa <strong>VERDADERO</strong> o <strong>FALSO</strong>.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Empieza con 1 Lista y 3 &iacute;tems para establecer l&iacute;nea base.</li>
-            <li>2 Listas a&ntilde;ade categorizaci&oacute;n a la ordenaci&oacute;n: doble carga cognitiva.</li>
-            <li>El modo Inverso es el m&aacute;s exigente: categorizaci&oacute;n + orden invertido.</li>
-            <li>Combina con marcha, equilibrio o sentadillas isom&eacute;tricas durante la memorizaci&oacute;n.</li>
-            <li>Usa el tiempo de reacci&oacute;n medio como m&eacute;trica de progresi&oacute;n.</li>
+            <li>Empieza con 1 Lista y 3 objetos para coger el ritmo.</li>
+            <li>2 Listas es mucho m&aacute;s dif&iacute;cil &mdash; tienes que clasificar y ordenar a la vez.</li>
+            <li>Combina con marcha, equilibrio o sentadillas durante la memorizaci&oacute;n.</li>
+            <li>Mira tu tiempo de reacci&oacute;n medio para ver si mejoras.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Evaluaci&oacute;n de memoria de trabajo (an&aacute;logo al LSWM del NIH Toolbox).</li>
-            <li>Doble tarea con carga de memoria durante ejercicio aer&oacute;bico.</li>
-            <li>Adultos mayores: estimulaci&oacute;n de retenci&oacute;n y reorganizaci&oacute;n.</li>
-            <li>Rehabilitaci&oacute;n cognitiva: span de memoria y categorizaci&oacute;n sem&aacute;ntica.</li>
+            <li>Para entrenar memoria de trabajo y capacidad de ordenaci&oacute;n mental.</li>
+            <li>Como doble tarea: memoriza mientras haces ejercicio aer&oacute;bico.</li>
+            <li>Para mantener la memoria activa (especialmente en adultos mayores).</li>
+            <li>En rehabilitaci&oacute;n cognitiva: retenci&oacute;n y categorizaci&oacute;n.</li>
           </ul>
         </div>
       </div>
