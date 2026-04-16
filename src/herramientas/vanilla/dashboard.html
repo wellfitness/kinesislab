@@ -30,10 +30,25 @@
       </div>
     </header>
 
+    <!-- FILTROS -->
+    <div class="dashboard-filters">
+      <div class="filter-categories">
+        <button class="filter-btn filter-btn--active" data-filter="all">Todas</button>
+        <button class="filter-btn" data-filter="atencion" style="--filter-color: var(--tulip-tree-400);">Atenci&oacute;n</button>
+        <button class="filter-btn" data-filter="memoria" style="--filter-color: var(--turquesa-400);">Memoria</button>
+        <button class="filter-btn" data-filter="razonamiento" style="--filter-color: var(--turquesa-400);">Razonamiento</button>
+        <button class="filter-btn" data-filter="soporte" style="--filter-color: #ff2d78;">Recursos</button>
+      </div>
+      <div class="filter-search">
+        <span class="material-symbols-sharp" style="color: var(--gris-400);">search</span>
+        <input type="text" id="searchInput" placeholder="Buscar herramienta..." class="filter-search__input">
+      </div>
+    </div>
+
     <!-- ══════════════════════════════════════════════════ -->
     <!-- ATENCI&Oacute;N Y VELOCIDAD DE PROCESAMIENTO              -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
+    <section class="category-section" data-category="atencion">
       <header class="category-header">
         <span class="material-symbols-sharp" style="color: var(--tulip-tree-400);">bolt</span>
         <h2 style="color: var(--tulip-tree-400);">ATENCI&Oacute;N Y VELOCIDAD DE PROCESAMIENTO</h2>
@@ -100,7 +115,7 @@
     <!-- ══════════════════════════════════════════════════ -->
     <!-- MEMORIA DE TRABAJO                                 -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
+    <section class="category-section" data-category="memoria">
       <header class="category-header">
         <span class="material-symbols-sharp" style="color: var(--turquesa-400);">memory</span>
         <h2 style="color: var(--turquesa-400);">MEMORIA DE TRABAJO</h2>
@@ -149,7 +164,7 @@
     <!-- ══════════════════════════════════════════════════ -->
     <!-- RAZONAMIENTO Y C&Aacute;LCULO                             -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
+    <section class="category-section" data-category="razonamiento">
       <header class="category-header">
         <span class="material-symbols-sharp" style="color: var(--turquesa-400);">calculate</span>
         <h2 style="color: var(--turquesa-400);">RAZONAMIENTO Y C&Aacute;LCULO</h2>
@@ -180,27 +195,27 @@
     <!-- ══════════════════════════════════════════════════ -->
     <!-- HERRAMIENTAS DE SOPORTE                            -->
     <!-- ══════════════════════════════════════════════════ -->
-    <section class="category-section">
+    <section class="category-section" data-category="soporte">
       <header class="category-header">
-        <span class="material-symbols-sharp" style="color: var(--gris-400);">build</span>
-        <h2 style="color: var(--gris-400);">HERRAMIENTAS DE SOPORTE</h2>
+        <span class="material-symbols-sharp" style="color: #ff2d78;">sports_martial_arts</span>
+        <h2 style="color: #ff2d78;">RECURSOS DE ENTRENAMIENTO</h2>
       </header>
-      <p class="category-desc">Temporizadores, generadores de combos y herramientas complementarias para la sesi&oacute;n.</p>
+      <p class="category-desc">Temporizadores, combos de boxeo y salto a la comba guiado por voz para tus sesiones.</p>
 
       <div class="tools-grid">       
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/comba/index.html'">
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/comba/index.html'">
           <div class="tool-icon-container"><span class="material-symbols-sharp">fitness_center</span></div>
           <h3 class="tool-title">Comba Funcional</h3>
           <p class="tool-desc">Salto guiado por voz. Cambia pies o t&eacute;cnica seg&uacute;n &oacute;rdenes a ritmo exigente.</p>
         </article>
 
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/boxing/index.html'">
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/boxing/index.html'">
           <div class="tool-icon-container"><span class="material-symbols-sharp">sports_mma</span></div>
           <h3 class="tool-title">Boxeo Reactivo</h3>
           <p class="tool-desc">Combos ca&oacute;ticos de golpes y esquivas bajo estr&eacute;s verbal r&iacute;tmico.</p>
         </article>
 
-        <article class="tool-card card-gris" onclick="window.location.href='./tools/timers/index.html'">
+        <article class="tool-card card-rosa" onclick="window.location.href='./tools/timers/index.html'">
           <div class="tool-icon-container"><span class="material-symbols-sharp">hourglass_empty</span></div>
           <h3 class="tool-title">Temporizador</h3>
           <p class="tool-desc">Reloj en alto contraste para rutinas AMRAP, EMOM y pausas medidas.</p>
@@ -225,6 +240,51 @@
         }
       });
     });
+
+    // Filtros
+    let activeFilter = 'all';
+    const sections = document.querySelectorAll('.category-section');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const searchInput = document.getElementById('searchInput');
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+
+      sections.forEach(section => {
+        const cat = section.dataset.category;
+        const catVisible = activeFilter === 'all' || activeFilter === cat;
+
+        if (!catVisible) {
+          section.style.display = 'none';
+          return;
+        }
+
+        section.style.display = '';
+        const cards = section.querySelectorAll('.tool-card');
+        let anyVisible = false;
+
+        cards.forEach(card => {
+          const title = card.querySelector('.tool-title').textContent.toLowerCase();
+          const desc = card.querySelector('.tool-desc').textContent.toLowerCase();
+          const matches = !query || title.includes(query) || desc.includes(query);
+          card.style.display = matches ? '' : 'none';
+          if (matches) anyVisible = true;
+        });
+
+        section.style.display = anyVisible ? '' : 'none';
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
+        btn.classList.add('filter-btn--active');
+        activeFilter = btn.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilters);
   </script>
 
 </body>
