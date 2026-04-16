@@ -289,9 +289,9 @@ class TimersTool {
     this.$.timerTime.className = 'timer-display__time';
 
     if (this.selectedTimer === 'INTERVALOS' && !this.isWorkPhase) {
-      this.$.viewTimer.style.background = 'rgba(16, 185, 129, 0.15)';
-      this.$.timerTitle.style.color = '#10b981';
-      this.$.timerTime.style.color = '#10b981';
+      this.$.viewTimer.style.background = 'rgba(0, 190, 200, 0.12)';
+      this.$.timerTitle.style.color = 'var(--turquesa-400)';
+      this.$.timerTime.style.color = 'var(--turquesa-400)';
     } else {
       this.$.viewTimer.style.background = '';
       this.$.timerTitle.style.color = '';
