@@ -246,9 +246,8 @@ class CombaTrainerVanilla {
 
         if(i < this.currentSequence.length - 1) {
           this.updateUIState('resting');
-          await this.speakAndWait('Cambio');
           if(!this.isRunning) break;
-          await this.sleep(3000);
+          await this.sleep(1500);
         }
       }
 

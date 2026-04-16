@@ -141,12 +141,23 @@ class BoxingGeneratorVanilla {
   pickMoves(pool, count) {
     const result = [];
     let lastType = null;
+    const isShortCombo = count <= 4;
+    let ganchoUsed = false;
+
     for (let i = 0; i < count; i++) {
-      const available = pool.filter(m => this.punchType(m) !== lastType);
+      let available = pool.filter(m => this.punchType(m) !== lastType);
+      if (isShortCombo && ganchoUsed) {
+        available = available.filter(m => {
+          const t = this.punchType(m);
+          return t !== 'gancho-bajo' && t !== 'gancho-alto';
+        });
+      }
+      if (available.length === 0) available = pool.filter(m => this.punchType(m) !== lastType);
       if (available.length === 0) break;
       const pick = available[Math.floor(Math.random() * available.length)];
       result.push(pick);
       lastType = this.punchType(pick);
+      if (lastType === 'gancho-bajo' || lastType === 'gancho-alto') ganchoUsed = true;
     }
     return result;
   }

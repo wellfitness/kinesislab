@@ -20,8 +20,8 @@
     }
 
     .countdown-circle {
-      width: 160px;
-      height: 160px;
+      width: clamp(160px, 30vw, 240px);
+      height: clamp(160px, 30vw, 240px);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -91,19 +91,19 @@
           <input type="checkbox" id="includeAdvanced">
           <label for="includeAdvanced">Avanzados</label>
         </div>
+
+        <button id="btnPlayPause" class="btn-primary" onclick="tool.handleStartStop()" style="flex-shrink: 0;">
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">EMPEZAR</span>
+        </button>
       </div>
     </div>
 
     <!-- PANTALLA PRINCIPAL DE ENTRENAMIENTO -->
     <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
-      
+
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="idle-cta">
-        <p class="idle-cta__hint">Ajusta la configuracion y comienza</p>
-        <button id="btnPlayPause" class="btn-start btn-start--turquesa" onclick="tool.handleStartStop()">
-          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
-          <span id="playText">EMPEZAR</span>
-        </button>
+        <p class="idle-cta__hint">Ajusta la configuraci&oacute;n y pulsa EMPEZAR</p>
       </div>
 
       <!-- ESTADO: PREPARING -->
@@ -115,14 +115,14 @@
 
       <!-- ESTADO: EXERCISING -->
       <div id="stateExercising" class="status-panel" style="display: none;">
-        <p id="lblExerciseIndex" style="color: var(--gris-400); font-size: 1rem; margin-bottom: 0.5rem;">Ejercicio 1 de 4</p>
-        <h2 id="lblCurrentExercise" style="font-family: var(--font-display); font-size: 3rem; color: white;">Salto Básico</h2>
-        
+        <p id="lblExerciseIndex" style="color: var(--gris-400); font-size: clamp(0.9rem, 2.5vw, 1.2rem); margin-bottom: 0.25rem;">Ejercicio 1 de 4</p>
+        <h2 id="lblCurrentExercise" style="font-family: var(--font-display); font-size: clamp(3rem, 10vw, 5.5rem); color: white; line-height: 1.1;">Salto B&aacute;sico</h2>
+
         <div id="countdownCircle" class="countdown-circle">
-          <span id="lblCountdown" style="font-family: var(--font-display); font-size: 4rem; color: white;">10</span>
+          <span id="lblCountdown" style="font-family: var(--font-display); font-size: clamp(5rem, 14vw, 8rem); color: white;">10</span>
         </div>
 
-        <div id="sequenceList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1rem; max-width: 600px;">
+        <div id="sequenceList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 1rem; max-width: 90vw; font-size: clamp(0.9rem, 2.5vw, 1.2rem);">
           <!-- sequence badges inyectadas vi JS -->
         </div>
       </div>
@@ -153,33 +153,33 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Generador de <strong>secuencias de salto a la comba</strong> con indicaciones por voz. Cambia autom&aacute;ticamente entre t&eacute;cnicas de salto (pies juntos, alternos, cruces, dobles) a ritmo configurable. La voz libera la vista para centrarse en la cuerda.</p>
+          <p>Un generador de <strong>secuencias de salto a la comba</strong> con indicaciones por voz. Te va diciendo qu&eacute; tipo de salto hacer (pies juntos, alternos, cruces, dobles) para que no tengas que mirar la pantalla.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Configura: n&uacute;mero de ejercicios por secuencia y duraci&oacute;n de cada uno.</li>
-            <li>Activa &ldquo;ejercicios avanzados&rdquo; si el grupo tiene nivel.</li>
-            <li>Ajusta velocidad de voz seg&uacute;n preferencia.</li>
-            <li>Pulsa EMPEZAR. La voz anuncia cada cambio de t&eacute;cnica.</li>
+            <li>Configura cu&aacute;ntos ejercicios y la duraci&oacute;n de cada uno.</li>
+            <li>Activa &ldquo;ejercicios avanzados&rdquo; si quieres cruces y dobles.</li>
+            <li>Pulsa <strong>EMPEZAR</strong>. La voz te va indicando cada cambio.</li>
+            <li>Solo tienes que escuchar y saltar &mdash; no mires la pantalla.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Sin avanzados: perfecto para principiantes (salto b&aacute;sico, pies alternos, rodillas).</li>
-            <li>Con avanzados: cruces y doble salto a&ntilde;aden dificultad motora real.</li>
-            <li>Sube la velocidad de voz para aumentar la presi&oacute;n temporal.</li>
-            <li>En grupo: todos saltan a la vez siguiendo la misma secuencia.</li>
+            <li>Sin avanzados es perfecto para empezar (salto b&aacute;sico, pies alternos, rodillas).</li>
+            <li>Con avanzados: cruces y doble salto &mdash; cuidado, son dif&iacute;ciles.</li>
+            <li>Sube la velocidad de voz si quieres m&aacute;s presi&oacute;n.</li>
+            <li>En grupo: todos saltan a la vez siguiendo la misma voz.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Calentamiento cardiovascular din&aacute;mico.</li>
-            <li>Trabajo de coordinaci&oacute;n y ritmo con carga cognitiva (escuchar + ejecutar).</li>
-            <li>Entrenamiento HIIT basado en comba.</li>
-            <li>Sesiones donde necesitas que todos cambien de ejercicio sincronizados.</li>
+            <li>Como calentamiento cardiovascular din&aacute;mico.</li>
+            <li>Para trabajar coordinaci&oacute;n y ritmo (escuchar + ejecutar).</li>
+            <li>Como entrenamiento HIIT con comba.</li>
+            <li>En grupo: todos cambian de ejercicio sincronizados.</li>
           </ul>
         </div>
       </div>

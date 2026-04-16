@@ -21,9 +21,9 @@
     }
 
     .punch-badge {
-      padding: 8px 16px;
-      border-radius: 12px;
-      font-size: 1.25rem;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
       font-weight: bold;
       background: var(--gris-800);
       color: var(--gris-300);
@@ -81,26 +81,26 @@
           <input type="checkbox" id="includeDefensive">
           <label for="includeDefensive">Defensivos</label>
         </div>
+
+        <button id="btnPlayPause" class="btn-critical" onclick="tool.handleStartStop()" style="flex-shrink: 0;">
+          <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">EMPEZAR</span>
+        </button>
       </div>
     </div>
 
     <!-- PANTALLA PRINCIPAL DE ENTRENAMIENTO -->
     <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
-      
+
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="idle-cta">
-        <p class="idle-cta__hint">Ajusta la configuracion y comienza</p>
-        <button id="btnPlayPause" class="btn-start btn-start--rosa" onclick="tool.handleStartStop()">
-          <span id="playIcon" class="material-symbols-sharp">play_arrow</span>
-          <span id="playText">EMPEZAR</span>
-        </button>
+        <p class="idle-cta__hint">Ajusta la configuraci&oacute;n y pulsa EMPEZAR</p>
       </div>
 
       <!-- ESTADO: COMBOS -->
       <div id="stateCombos" class="status-panel" style="display: none;">
-        <p id="lblComboCount" style="color: var(--gris-500); font-size: 1.25rem; font-family: var(--font-display); margin-bottom: 2rem; letter-spacing: 1px;">Combinación #1</p>
+        <p id="lblComboCount" style="color: var(--gris-500); font-size: clamp(1.2rem, 3vw, 1.6rem); font-family: var(--font-display); margin-bottom: 1.5rem; letter-spacing: 1px;">Combinaci&oacute;n #1</p>
         
-        <div id="comboGrid" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 800px;">
+        <div id="comboGrid" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 90vw;">
           <!-- sequence badges -->
         </div>
 
@@ -119,33 +119,33 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Generador de <strong>combinaciones de boxeo fitness</strong> con indicaciones por voz. Anuncia secuencias ca&oacute;ticas de golpes (directo, cruzado, gancho alto/bajo, crochet) y opcionalmente esquivas y bloqueos. Alta demanda de atenci&oacute;n auditiva y coordinaci&oacute;n.</p>
+          <p>Un generador de <strong>combinaciones de boxeo</strong> con indicaciones por voz. Te va diciendo golpes (directo, cruzado, gancho, crochet) y opcionalmente esquivas y bloqueos. Solo tienes que escuchar y golpear.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Configura golpes por combinaci&oacute;n (2-20) y velocidad de voz.</li>
-            <li>Activa &ldquo;movimientos defensivos&rdquo; para a&ntilde;adir esquivas y bloqueos.</li>
-            <li>Pulsa EMPEZAR. La voz va diciendo cada golpe de la secuencia.</li>
-            <li>El usuario ejecuta cada golpe al saco o al aire seg&uacute;n se anuncia.</li>
+            <li>Configura cu&aacute;ntos golpes por combinaci&oacute;n y la velocidad de voz.</li>
+            <li>Activa &ldquo;movimientos defensivos&rdquo; si quieres esquivas y bloqueos.</li>
+            <li>Pulsa <strong>EMPEZAR</strong>. La voz va anunciando cada golpe.</li>
+            <li>Ejecuta cada golpe al saco o al aire seg&uacute;n lo escuchas.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
             <li>Empieza con 3-4 golpes por combo para aprender los nombres.</li>
-            <li>Con defensivos activados, mezcla esquivas entre golpes: m&aacute;s realista.</li>
-            <li>Sube a 10-20 golpes por combo para combos largos tipo &ldquo;freestyle&rdquo;.</li>
-            <li>En parejas: uno golpea, el otro sujeta manoplas y valida.</li>
+            <li>Con defensivos: mezcla esquivas entre golpes &mdash; mucho m&aacute;s realista.</li>
+            <li>Sube a 10-20 golpes por combo para un freestyle largo.</li>
+            <li>En parejas: uno golpea, el otro sujeta manoplas.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Sesiones de boxeo fitness o cardio combat.</li>
-            <li>Trabajo de coordinaci&oacute;n ojo-mano bajo estr&eacute;s verbal.</li>
-            <li>Descarga emocional: golpeo libre con estructura.</li>
-            <li>Calentamiento intenso con alta demanda cognitiva.</li>
+            <li>En sesiones de boxeo fitness o cardio combat.</li>
+            <li>Para trabajar coordinaci&oacute;n ojo-mano bajo estr&eacute;s.</li>
+            <li>Como descarga emocional: golpeo libre con estructura.</li>
+            <li>Como calentamiento intenso con componente cognitivo.</li>
           </ul>
         </div>
       </div>
