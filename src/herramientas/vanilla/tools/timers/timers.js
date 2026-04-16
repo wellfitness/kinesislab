@@ -227,6 +227,9 @@ class TimersTool {
     this.$.viewTimer.classList.add('hidden-view');
     this.$.toolbarConfig.classList.remove('hidden-view');
     this.$.toolbarRunning.classList.add('hidden-view');
+    this.$.viewTimer.style.background = '';
+    this.$.timerTitle.style.color = '';
+    this.$.timerTime.style.color = '';
     this.setInputsDisabled(false);
   }
 
@@ -284,6 +287,16 @@ class TimersTool {
     const displayTime = this.selectedTimer === 'AFAP' ? this.afapTime : this.timeLeft;
     this.$.timerTime.textContent = this.formatTime(displayTime);
     this.$.timerTime.className = 'timer-display__time';
+
+    if (this.selectedTimer === 'INTERVALOS' && !this.isWorkPhase) {
+      this.$.viewTimer.style.background = 'rgba(16, 185, 129, 0.15)';
+      this.$.timerTitle.style.color = '#10b981';
+      this.$.timerTime.style.color = '#10b981';
+    } else {
+      this.$.viewTimer.style.background = '';
+      this.$.timerTitle.style.color = '';
+      this.$.timerTime.style.color = '';
+    }
 
     this.$.timerInfo.innerHTML = this.buildInfoHtml();
   }
