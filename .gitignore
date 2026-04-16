@@ -13,5 +13,6 @@ android-twa/build/
 android-twa/app/build/
 android-twa/.gradle/
 android-twa/local.properties
+android-twa/gradle.properties
 *.keystore
 *.jks
