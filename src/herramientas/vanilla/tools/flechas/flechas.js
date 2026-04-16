@@ -4,12 +4,16 @@ class FlechasTool {
       'north', 'south', 'west', 'east',
       'north_east', 'north_west', 'south_east', 'south_west'
     ];
+    this.cardinalDirections = [
+      { arrow: 'north', label: 'ARRIBA' },
+      { arrow: 'south', label: 'ABAJO' },
+      { arrow: 'west', label: 'IZQUIERDA' },
+      { arrow: 'east', label: 'DERECHA' }
+    ];
     this.interval = null;
-    this.timerInterval = null;
     this.isPlaying = false;
     this.currentSpeed = 2000;
-    this.duration = 5;
-    this.timeLeft = 0;
+    this.level = 'normal';
     this.audioCtx = null;
     this.isFullscreen = false;
 
@@ -45,14 +49,11 @@ class FlechasTool {
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'stop';
       document.getElementById('playText').textContent = 'DETENER';
-      this.timeLeft = this.duration * 60;
       this.startEngine();
-      this.startTimer();
     } else {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'INICIAR';
       this.stopEngine();
-      this.stopTimer();
     }
   }
 
@@ -68,68 +69,34 @@ class FlechasTool {
     this.interval = null;
   }
 
-  startTimer() {
-    const display = document.getElementById('timerDisplay');
-    display.style.display = 'block';
-    this.updateTimerDisplay();
-
-    this.timerInterval = setInterval(() => {
-      this.timeLeft--;
-      this.updateTimerDisplay();
-      if (this.timeLeft <= 0) {
-        this.endExercise();
-      }
-    }, 1000);
-  }
-
-  stopTimer() {
-    if (this.timerInterval) clearInterval(this.timerInterval);
-    this.timerInterval = null;
-    document.getElementById('timerDisplay').style.display = 'none';
-  }
-
-  endExercise() {
-    this.isPlaying = false;
-    this.stopEngine();
-    this.stopTimer();
-    document.getElementById('playIcon').textContent = 'play_arrow';
-    document.getElementById('playText').textContent = 'INICIAR';
-
-    const arrow = document.getElementById('arrowIcon');
-    arrow.textContent = 'check_circle';
-    arrow.style.color = '#10b981';
-
-    const ctx = this.getAudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = 600;
-    osc.type = 'sine';
-    gain.gain.value = 0.2;
-    osc.start();
-    setTimeout(() => { osc.frequency.value = 800; }, 150);
-    setTimeout(() => { osc.frequency.value = 1000; }, 300);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-    osc.stop(ctx.currentTime + 0.5);
-  }
-
-  updateTimerDisplay() {
-    const mins = Math.floor(this.timeLeft / 60);
-    const secs = this.timeLeft % 60;
-    document.getElementById('timerDisplay').textContent =
-      String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-  }
-
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
     this.updateArrowColor();
     if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
   }
 
-  adjustDuration(delta) {
-    this.duration = Math.max(1, Math.min(30, this.duration + delta));
-    document.getElementById('durationValue').textContent = this.duration + ' min';
+  changeLevel(val) {
+    this.level = val;
+    const conflictEl = document.getElementById('conflictText');
+    const instructionEl = document.getElementById('flechasInstruction');
+
+    if (val === 'conflicto') {
+      conflictEl.style.display = '';
+      instructionEl.textContent = 'Sigue la PALABRA, ignora la flecha';
+    } else {
+      conflictEl.style.display = 'none';
+      instructionEl.textContent = 'Mueve tu cuerpo en la dirección de la flecha';
+    }
+
+    if (this.isPlaying) {
+      this.stopEngine();
+      this.isPlaying = false;
+      document.getElementById('playIcon').textContent = 'play_arrow';
+      document.getElementById('playText').textContent = 'INICIAR';
+      document.getElementById('arrowIcon').textContent = 'directions';
+      document.getElementById('arrowIcon').style.color = this.getSpeedColor();
+      conflictEl.textContent = '';
+    }
   }
 
   getSpeedColor() {
@@ -142,19 +109,32 @@ class FlechasTool {
     document.getElementById('arrowIcon').style.color = this.getSpeedColor();
   }
 
+  getConflictDirection(excludeArrow) {
+    const candidates = this.cardinalDirections.filter(d => d.arrow !== excludeArrow);
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }
+
   showArrow() {
-    const arrow = this.arrows[Math.floor(Math.random() * this.arrows.length)];
     const el = document.getElementById('arrowIcon');
+    const conflictEl = document.getElementById('conflictText');
 
     el.classList.remove('flash');
     void el.offsetWidth;
     el.classList.add('flash');
 
-    el.textContent = arrow;
-    el.style.color = this.getSpeedColor();
+    if (this.level === 'conflicto') {
+      const arrow = this.cardinalDirections[Math.floor(Math.random() * this.cardinalDirections.length)];
+      const conflict = this.getConflictDirection(arrow.arrow);
+      el.textContent = arrow.arrow;
+      conflictEl.textContent = conflict.label;
+    } else {
+      const arrow = this.arrows[Math.floor(Math.random() * this.arrows.length)];
+      el.textContent = arrow;
+      conflictEl.textContent = '';
+    }
 
+    el.style.color = this.getSpeedColor();
     this.beep();
-    if (navigator.vibrate) navigator.vibrate(50);
   }
 
   toggleFullscreen() {

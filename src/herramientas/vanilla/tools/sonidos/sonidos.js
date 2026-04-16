@@ -9,7 +9,9 @@ class SonidosTool {
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.totalTrials = 0;
-    this.learningRounds = 6;
+    this.minPerSound = 2;
+    this.soundCounts = [0, 0, 0];
+    this.learningDone = false;
     this.audioCtx = null;
   }
 
@@ -39,6 +41,8 @@ class SonidosTool {
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
       this.totalTrials = 0;
+      this.soundCounts = [0, 0, 0];
+      this.learningDone = false;
       this.updateStats();
       this.renderLegend();
       this.startEngine();
@@ -89,7 +93,8 @@ class SonidosTool {
   }
 
   runSonidos() {
-    const snd = this.sonidosData[Math.floor(Math.random() * this.sonidosData.length)];
+    const sndIndex = Math.floor(Math.random() * this.sonidosData.length);
+    const snd = this.sonidosData[sndIndex];
     const icon = document.getElementById('sonidosIcon');
     const actionEl = document.getElementById('sonidosAction');
 
@@ -98,7 +103,14 @@ class SonidosTool {
     icon.style.transform = 'scale(1.5)';
     setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
 
-    if (this.totalTrials < this.learningRounds) {
+    this.totalTrials++;
+    this.soundCounts[sndIndex]++;
+
+    if (!this.learningDone) {
+      this.learningDone = this.soundCounts.every(c => c >= this.minPerSound);
+    }
+
+    if (!this.learningDone) {
       actionEl.textContent = snd.action;
       actionEl.style.opacity = '1';
     } else {
@@ -107,15 +119,13 @@ class SonidosTool {
     }
 
     this.beep(snd.frequency, 500);
-    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-    this.totalTrials++;
     this.updateStats();
   }
 
   updateStats() {
     document.getElementById('statRounds').textContent = this.totalTrials;
-    const phase = this.totalTrials <= this.learningRounds ? 'APRENDIZAJE' : 'MEMORIA';
+    const phase = !this.learningDone ? 'APRENDIZAJE' : 'MEMORIA';
     document.getElementById('statPhase').textContent = phase;
   }
 }

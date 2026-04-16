@@ -10,7 +10,9 @@ class ColoresTool {
     this.isPlaying = false;
     this.currentSpeed = 4000;
     this.rounds = 0;
-    this.learningRounds = 6;
+    this.minPerColor = 2;
+    this.colorCounts = [0, 0, 0, 0];
+    this.learningDone = false;
     this.level = 2;
   }
 
@@ -23,6 +25,10 @@ class ColoresTool {
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
       if (intro) intro.style.display = 'none';
+      this.rounds = 0;
+      this.colorCounts = [0, 0, 0, 0];
+      this.learningDone = false;
+      document.getElementById('statRounds').textContent = '0';
       this.startEngine();
     } else {
       btn.classList.remove('active');
@@ -81,18 +87,21 @@ class ColoresTool {
     }
 
     this.rounds++;
+    this.colorCounts[colorIndex]++;
     document.getElementById('statRounds').textContent = this.rounds;
+
+    if (!this.learningDone) {
+      this.learningDone = this.colorCounts.every(c => c >= this.minPerColor);
+    }
 
     if (this.level === 1) {
       actionEl.classList.remove('visible');
-    } else if (this.rounds <= this.learningRounds) {
+    } else if (!this.learningDone) {
       actionEl.textContent = col.action;
       actionEl.classList.add('visible');
     } else {
       actionEl.classList.remove('visible');
     }
-
-    if (navigator.vibrate) navigator.vibrate(50);
   }
 }
 
