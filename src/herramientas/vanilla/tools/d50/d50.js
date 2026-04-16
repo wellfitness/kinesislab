@@ -3,7 +3,7 @@ class D50Tool {
     this.interval = null;
     this.pendingRestart = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.hits = 0;
     this.misses = 0;
     this.totalTrials = 0;

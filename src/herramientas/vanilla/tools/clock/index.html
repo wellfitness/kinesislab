@@ -11,13 +11,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .clock-answers { display: flex; gap: 20px; justify-content: center; margin-top: var(--space-4); }
+    .clock-answers { display: flex; gap: 24px; justify-content: center; margin-top: var(--space-4); width: 100%; padding: 0 var(--space-2); }
     .clock-answer-btn {
       padding: 20px 32px; border-radius: 16px; border: 3px solid var(--gris-600);
       background: var(--gris-800); color: white; font-family: var(--font-display);
-      font-size: 1.2rem; letter-spacing: 1px; cursor: pointer; min-width: 140px;
-      min-height: 64px; transition: all 150ms; display: flex; flex-direction: column;
+      font-size: 1.2rem; letter-spacing: 1px; cursor: pointer; flex: 1; max-width: 280px;
+      min-height: 72px; transition: all 150ms; display: flex; flex-direction: column;
       align-items: center; gap: 4px;
+    }
+    @media (min-width: 768px) {
+      .clock-answer-btn { font-size: 1.4rem; min-height: 80px; max-width: 320px; }
+      .clock-answers { gap: 32px; }
     }
     .clock-answer-btn:active { transform: scale(0.95); }
     .clock-answer-btn:disabled { opacity: 0.3; cursor: default; }
@@ -68,8 +72,8 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div style="font-size: 3rem; margin-bottom: 0.5rem; color:var(--turquesa-400);"><span class="material-symbols-sharp" style="font-size: inherit;">volume_up</span></div>
-        <div id="clockText" style="font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem;">Preparada...</div>
+        <div style="font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 0.5rem; color:var(--turquesa-400);"><span class="material-symbols-sharp" style="font-size: inherit;">volume_up</span></div>
+        <div id="clockText" style="font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 0.75rem;">Preparada...</div>
         <p id="instructionText" style="color: var(--gris-400); font-size: 1.1rem; text-align: center; max-width: 500px; margin-bottom: var(--space-2);">
           Imagina el reloj: &iquest;las dos agujas est&aacute;n en el mismo lado (izquierda o derecha) o en lados opuestos?
         </p>
@@ -101,34 +105,33 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Basado en el <strong>Auditory Clock Test</strong>. Se anuncia una hora aleatoria y el usuario debe visualizar mentalmente un reloj anal&oacute;gico para decidir si las agujas est&aacute;n del mismo lado o en lados opuestos. Trabaja rotaci&oacute;n mental y razonamiento espacial.</p>
+          <p>Un ejercicio de <strong>razonamiento espacial</strong>. Se anuncia una hora y tienes que imaginar un reloj anal&oacute;gico: &iquest;las dos agujas caen del mismo lado o en lados opuestos? Parece f&aacute;cil, pero es un reto real.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
             <li>Elige variante: <strong>Izq/Der</strong> (l&iacute;nea 12-6) o <strong>Arriba/Abajo</strong> (l&iacute;nea 3-9).</li>
-            <li>Ajusta la cadencia (este test necesita m&aacute;s tiempo que otros).</li>
-            <li>Pulsa INICIAR. Se anuncia una hora aleatoria.</li>
-            <li>Imagina el reloj: &iquest;las dos agujas caen en el mismo lado de la l&iacute;nea divisoria?</li>
-            <li>Pulsa &ldquo;Mismo lado&rdquo; o &ldquo;Opuestos&rdquo;.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Se anuncia una hora aleatoria.</li>
+            <li>Imagina el reloj: &iquest;las agujas est&aacute;n del mismo lado?</li>
+            <li>Pulsa <strong>Mismo lado</strong> u <strong>Opuestos</strong>.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Es m&aacute;s dif&iacute;cil de lo que parece: muchos usuarios necesitan cadencia lenta al inicio.</li>
-            <li>Pide al usuario que &ldquo;dibuje&rdquo; el reloj con el dedo en el aire como estrategia.</li>
-            <li>Ideal para personas que saben leer relojes anal&oacute;gicos.</li>
-            <li>Alta demanda de rotaci&oacute;n mental: muy &uacute;til para funci&oacute;n ejecutiva.</li>
+            <li>Es m&aacute;s dif&iacute;cil de lo que parece &mdash; empieza en cadencia lenta.</li>
+            <li>Dibuja el reloj con el dedo en el aire si te ayuda a visualizarlo.</li>
+            <li>Necesitas saber leer relojes anal&oacute;gicos para este ejercicio.</li>
+            <li>No te frustres si fallas &mdash; la rotaci&oacute;n mental es exigente.</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Trabajo de razonamiento espacial bajo carga motora.</li>
-            <li>Evaluaci&oacute;n de funci&oacute;n ejecutiva (correlaciona con tests cl&iacute;nicos).</li>
-            <li>Adultos mayores: detecci&oacute;n temprana de deterioro cognitivo.</li>
-            <li>Doble tarea avanzada en deportistas.</li>
+            <li>Para entrenar razonamiento espacial y rotaci&oacute;n mental.</li>
+            <li>Como doble tarea avanzada mientras haces ejercicio.</li>
+            <li>Para mantener las funciones ejecutivas activas.</li>
+            <li>Para medir la agilidad mental antes y despu&eacute;s de entrenar.</li>
           </ul>
         </div>
       </div>

@@ -9,7 +9,7 @@ class FluencyTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.totalTrials = 0;
     this.lastCategory = null;
     this.audioCtx = null;

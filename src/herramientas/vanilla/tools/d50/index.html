@@ -11,12 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .d50-answers { display: flex; gap: 20px; justify-content: center; margin-top: var(--space-4); }
+    .d50-answers { display: flex; gap: 24px; justify-content: center; margin-top: var(--space-4); width: 100%; padding: 0 var(--space-2); }
     .d50-answer-btn {
       padding: 20px 40px; border-radius: 16px; border: 3px solid var(--gris-600);
       background: var(--gris-800); color: white; font-family: var(--font-display);
-      font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; min-width: 140px;
-      min-height: 64px; transition: all 150ms; text-transform: uppercase;
+      font-size: 1.5rem; letter-spacing: 2px; cursor: pointer; flex: 1; max-width: 300px;
+      min-height: 72px; transition: all 150ms; text-transform: uppercase;
+    }
+    @media (min-width: 768px) {
+      .d50-answer-btn { font-size: 1.8rem; min-height: 80px; }
+      .d50-answers { gap: 32px; }
     }
     .d50-answer-btn:active { transform: scale(0.95); }
     .d50-answer-btn:disabled { opacity: 0.3; cursor: default; }
@@ -47,8 +51,8 @@
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>
@@ -86,33 +90,32 @@
       <div class="info-modal-body">
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
-          <p>Test de <strong>c&aacute;lculo mental y toma de decisiones</strong>. Aparecen dos n&uacute;meros: debes sumarlos mentalmente y decidir si el resultado es mayor o menor que 50. Sencillo de entender pero exigente bajo fatiga o velocidad alta.</p>
+          <p>Un ejercicio de <strong>c&aacute;lculo mental r&aacute;pido</strong>. Aparecen dos n&uacute;meros, los sumas mentalmente y decides si el resultado es mayor o menor que 50. F&aacute;cil de entender, dif&iacute;cil bajo presi&oacute;n.</p>
         </div>
         <div class="info-section">
-          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo usar</h4>
+          <h4><span class="material-symbols-sharp">play_circle</span> C&oacute;mo funciona</h4>
           <ol>
-            <li>Ajusta la cadencia seg&uacute;n el nivel del grupo.</li>
-            <li>Pulsa INICIAR. Aparecen dos n&uacute;meros.</li>
-            <li>Suma mentalmente y pulsa MAYOR o MENOR seg&uacute;n el resultado.</li>
-            <li>Se mide aciertos, errores y tiempo de reacci&oacute;n.</li>
+            <li>Pulsa <strong>INICIAR</strong>. Aparecen dos n&uacute;meros.</li>
+            <li>S&uacute;malos mentalmente.</li>
+            <li>Pulsa <strong>MAYOR</strong> si la suma supera 50, o <strong>MENOR</strong> si no llega.</li>
           </ol>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">lightbulb</span> Consejos</h4>
           <ul>
-            <li>Muy accesible: solo necesita saber sumar. Ideal para inicio de sesi&oacute;n.</li>
-            <li>Combina con caminata r&aacute;pida, bici o steps para doble tarea.</li>
-            <li>Aumenta la velocidad progresivamente dentro de la sesi&oacute;n.</li>
-            <li>En grupo: todos responden en voz alta (&ldquo;&iexcl;Mayor!&rdquo; / &ldquo;&iexcl;Menor!&rdquo;).</li>
+            <li>Solo necesitas saber sumar &mdash; es un buen ejercicio para empezar.</li>
+            <li>Combina con caminata, bici o steps para a&ntilde;adir dificultad.</li>
+            <li>Sube la velocidad cuando te sientas c&oacute;modo.</li>
+            <li>En grupo: todos responden en voz alta (&ldquo;Mayor&rdquo; / &ldquo;Menor&rdquo;).</li>
           </ul>
         </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">fitness_center</span> Cu&aacute;ndo aplicar</h4>
           <ul>
-            <li>Calentamiento cognitivo de baja complejidad y alta activaci&oacute;n.</li>
-            <li>Doble tarea con carga aritm&eacute;tica b&aacute;sica.</li>
-            <li>Adultos mayores: mantenimiento de c&aacute;lculo mental funcional.</li>
-            <li>Evaluaci&oacute;n r&aacute;pida de estado cognitivo pre/post ejercicio.</li>
+            <li>Como calentamiento cognitivo r&aacute;pido y accesible.</li>
+            <li>Como doble tarea: calcula mientras haces ejercicio.</li>
+            <li>Para mantener el c&aacute;lculo mental activo.</li>
+            <li>Para medir tu estado cognitivo antes y despu&eacute;s de entrenar.</li>
           </ul>
         </div>
       </div>
