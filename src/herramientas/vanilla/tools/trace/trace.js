@@ -2,7 +2,7 @@ class TraceTool {
   constructor() {
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 3000;
+    this.currentSpeed = 4000;
   }
   togglePlay() {
     this.isPlaying = !this.isPlaying;
