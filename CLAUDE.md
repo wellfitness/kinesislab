@@ -12,7 +12,7 @@ personales y de grupos.
 
 **Objetivo final:**
 - Web app pública (sin login, sin backend)
-- PWA instalable en Android (vía "Añadir a pantalla de inicio" o TWA)
+- App Android nativa (WebView + assets bundled, publicada en Google Play)
 - HTML Vanilla + CSS + JavaScript puro (sin frameworks)
 
 ---
@@ -72,34 +72,27 @@ ECM-cognitivo-motor/
 │   ├── js/                             ← Helpers compartidos
 │   └── (iconos PWA, imágenes, APK)
 ├── src/herramientas/
-│   ├── vanilla/                        ← HERRAMIENTAS MIGRADAS (producción)
+│   ├── vanilla/                        ← HERRAMIENTAS (ÚNICA fuente de verdad)
 │   │   ├── dashboard.html              ← Menú principal con las 20 herramientas
+│   │   ├── acerca.html                 ← Página "Acerca de"
 │   │   ├── css/
-│   │   │   ├── dashboard.css           ← Estilos del dashboard
+│   │   │   ├── dashboard.css
 │   │   │   └── tool-base.css           ← CSS base compartido por todas las herramientas
-│   │   └── tools/
-│   │       ├── go-nogo/index.html
-│   │       ├── flechas/index.html
-│   │       ├── colores/index.html
-│   │       ├── sonidos/index.html
-│   │       ├── reactive/index.html
-│   │       ├── search/index.html
-│   │       ├── tracking/index.html
-│   │       ├── arrows/index.html
-│   │       ├── trace/index.html
-│   │       ├── sort/index.html
-│   │       ├── list-sorting/index.html
-│   │       ├── nback/index.html
-│   │       ├── simon/index.html
-│   │       ├── matrix/index.html
-│   │       ├── memoria/index.html
-│   │       ├── d50/index.html
-│   │       ├── fluency/index.html
-│   │       ├── clock/index.html
-│   │       ├── timers/index.html
-│   │       ├── comba/index.html
-│   │       └── boxing/index.html
+│   │   └── tools/<nombre>/index.html   ← 20 herramientas (ver lista arriba)
 │   └── (originales React/TSX — solo referencia, NO editar)
+├── android/                            ← App Android nativa (WebView bundled)
+│   ├── app/
+│   │   ├── build.gradle                ← AGP 8.11 + dependencias AndroidX
+│   │   └── src/main/
+│   │       ├── AndroidManifest.xml     ← Sin permisos (app 100% offline)
+│   │       ├── java/.../MainActivity.java  ← ComponentActivity + WebViewAssetLoader
+│   │       └── assets/                 ← Regenerado por syncWebAssets (NO editar)
+│   ├── kinesislab.jks                  ← Keystore producción (NO commitear)
+│   └── gradle.properties               ← Credenciales keystore (gitignored)
+├── scripts/
+│   └── sync-android-assets.sh          ← Sincroniza vanilla/ → android/app/...
+└── docs/
+    └── ANDROID.md                      ← Guía de build y publicación Play Store
 ```
 
 ---
@@ -173,8 +166,46 @@ Mismos tokens que SWD-nextjs. Archivo: `assets/css/design-tokens.css`
 
 ---
 
+## App Android
+
+App nativa (**no TWA**) que carga los assets bundled en un WebView. El contenido
+web vive en `src/herramientas/vanilla/` y se copia al APK vía pipeline automático.
+
+### Pipeline de sincronización
+
+- **Única fuente de verdad**: `src/herramientas/vanilla/`.
+- **Sync script**: `scripts/sync-android-assets.sh` copia source → `android/app/src/main/assets/`
+  aplicando transformaciones Android (fonts locales, eliminar sw-updater).
+- **Gradle task `syncWebAssets`**: enganchado a `preBuild`, ejecuta el script
+  automáticamente antes de cada `assembleDebug` / `bundleRelease`.
+- **NUNCA editar directamente** `android/app/src/main/assets/` — se regenera.
+
+### Comandos clave
+
+```bash
+# APK debug (emulador)
+cd android && ./gradlew assembleDebug
+
+# AAB firmado (Play Store) — requiere gradle.properties con credenciales keystore
+cd android && ./gradlew bundleRelease
+```
+
+### Arquitectura Android
+
+- `MainActivity` extiende `ComponentActivity` (AndroidX).
+- `WebViewAssetLoader` sirve `https://appassets.androidplatform.net/` → assets/ (same-origin).
+- `OnBackPressedDispatcher` para back predictivo (Android 14+).
+- `WindowInsetsControllerCompat` para fullscreen immersive.
+- Enlaces externos (footer legal, privacy web) se abren en navegador vía `Intent.ACTION_VIEW`.
+
+### Publicación
+
+Ver `docs/ANDROID.md` para flujo de Play Console (closed testing, release notes, etc).
+
+---
+
 ## Notas de producto
 
 - Las herramientas cognitivas están basadas en investigación (Perplexity + Gemini Deep Research)
-- La selección final de herramientas a incluir en v1 está pendiente de revisión
-- Posible publicación en Google Play Store via TWA (Trusted Web Activity) en fases posteriores
+- Primera beta cerrada publicada en Google Play Store (abril 2026, versionCode 4)
+- Package name: `kinesislab.movimientofuncional.app`

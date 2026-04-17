@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="$ROOT/android-twa/app/src/main/assets"
+DEST="$ROOT/android/app/src/main/assets"
 
 if [ ! -d "$DEST/fonts" ]; then
   echo "ERROR: no se encuentra $DEST/fonts — aborta" >&2
