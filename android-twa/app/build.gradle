@@ -3,45 +3,67 @@ plugins {
 }
 
 android {
-    namespace 'kinesislab.movimientofuncional.app'
-    compileSdk 35
+    namespace = 'kinesislab.movimientofuncional.app'
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "kinesislab.movimientofuncional.app"
-        minSdk 21
-        targetSdk 35
-        versionCode 3
-        versionName "2.0.0"
+        applicationId = "kinesislab.movimientofuncional.app"
+        minSdk = 21
+        targetSdk = 35
+        versionCode = 4
+        versionName = "2.0.0"
     }
 
     signingConfigs {
         release {
             if (project.hasProperty('KEYSTORE_FILE')) {
-                storeFile file(KEYSTORE_FILE)
-                storePassword KEYSTORE_PASSWORD
-                keyAlias KEY_ALIAS
-                keyPassword KEY_PASSWORD
+                storeFile = file(KEYSTORE_FILE)
+                storePassword = KEYSTORE_PASSWORD
+                keyAlias = KEY_ALIAS
+                keyPassword = KEY_PASSWORD
             }
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = false
             if (project.hasProperty('KEYSTORE_FILE')) {
-                signingConfig signingConfigs.release
+                signingConfig = signingConfigs.release
             }
         }
         debug {
-            // Debug uses default debug keystore
         }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add('-Xlint:deprecation')
+}
+
+tasks.register('syncWebAssets', Exec) {
+    description = 'Sincroniza src/herramientas/vanilla -> app/src/main/assets aplicando transformaciones Android'
+    group = 'kinesislab'
+    def repoRoot = rootProject.projectDir.parentFile
+    workingDir = repoRoot
+    inputs.dir new File(repoRoot, 'src/herramientas/vanilla')
+    inputs.file new File(repoRoot, 'scripts/sync-android-assets.sh')
+    outputs.dir new File(projectDir, 'src/main/assets/src')
+    commandLine 'bash', 'scripts/sync-android-assets.sh'
+}
+
+tasks.named('preBuild').configure {
+    dependsOn 'syncWebAssets'
+}
+
 dependencies {
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
+    implementation 'androidx.activity:activity:1.9.3'
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.webkit:webkit:1.12.1'
 }

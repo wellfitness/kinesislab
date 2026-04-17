@@ -2,24 +2,33 @@ package kinesislab.movimientofuncional.app;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-public class MainActivity extends Activity {
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.webkit.WebViewAssetLoader;
+import androidx.webkit.WebViewClientCompat;
 
-    private static final String ASSET_BASE = "file:///android_asset/";
+public class MainActivity extends ComponentActivity {
+
+    private static final String APP_BASE = "https://appassets.androidplatform.net/";
+    private static final String DASHBOARD_PATH = "src/herramientas/vanilla/dashboard.html";
     private static final int SPLASH_MIN_DURATION_MS = 900;
     private static final int SPLASH_FADE_MS = 320;
 
@@ -32,10 +41,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getWindow().getAttributes().layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -65,37 +71,42 @@ public class MainActivity extends Activity {
 
         setContentView(root);
 
+        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
+            .addPathHandler("/", new WebViewAssetLoader.AssetsPathHandler(this))
+            .build();
+
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
-        settings.setAllowFileAccess(true);
-        settings.setAllowFileAccessFromFileURLs(true);
-        settings.setAllowUniversalAccessFromFileURLs(true);
 
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClientCompat() {
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
 
-                if (url.startsWith("file:///") && !url.startsWith(ASSET_BASE)) {
-                    view.loadUrl(ASSET_BASE + "dashboard.html");
-                    return true;
+                if (url.startsWith(APP_BASE)) {
+                    return false;
                 }
 
-                return false;
+                try {
+                    Intent browser = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                    browser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(browser);
+                } catch (ActivityNotFoundException ignored) {
+                }
+                return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                String js = "var link = document.createElement('link');"
-                    + "link.rel = 'stylesheet';"
-                    + "link.href = 'file:///android_asset/fonts/local-fonts.css';"
-                    + "document.head.insertBefore(link, document.head.firstChild);";
-                view.evaluateJavascript(js, null);
-
-                if (url.startsWith(ASSET_BASE + "dashboard.html")) {
+                if (url.endsWith("/dashboard.html")) {
                     scheduleSplashDismiss();
                 }
             }
@@ -103,9 +114,21 @@ public class MainActivity extends Activity {
 
         webView.setWebChromeClient(new WebChromeClient());
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (webView.canGoBack()) {
+                    webView.goBack();
+                } else {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
+
         setImmersive();
         splashStartedAt = System.currentTimeMillis();
-        webView.loadUrl(ASSET_BASE + "dashboard.html");
+        webView.loadUrl(APP_BASE + DASHBOARD_PATH);
     }
 
     private void scheduleSplashDismiss() {
@@ -134,23 +157,12 @@ public class MainActivity extends Activity {
     }
 
     private void setImmersive() {
-        webView.setSystemUiVisibility(
-            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        WindowInsetsControllerCompat controller =
+            WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        controller.hide(WindowInsetsCompat.Type.systemBars());
+        controller.setSystemBarsBehavior(
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         );
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
