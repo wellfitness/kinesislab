@@ -22,14 +22,18 @@
       <a href="../../../index.html" class="dashboard-back">
         <span class="material-symbols-sharp">arrow_back</span>
       </a>
-      <img src="../../../assets/logo-negro.png" alt="KinesisLab" class="dashboard-logo" width="80" height="80">
+      <img src="../../../assets/logo-negro.png" alt="" class="dashboard-logo" width="80" height="80">
       <div>
-        <h1 class="dashboard-title">Herramientas</h1>
-        <p class="dashboard-subtitle">Selecciona la tarea cognitiva para tu sesi&oacute;n.</p>
+        <img src="../../../assets/logo-kinesislab-negro-texto.png" alt="KinesisLab" class="dashboard-brand">
+        <h1 class="sr-only">Herramientas</h1>
       </div>
     </header>
 
     <!-- FILTROS -->
+    <p class="dashboard-filters-hint">
+      <span class="material-symbols-sharp">tune</span>
+      Elige por categor&iacute;a o busca directamente la herramienta que necesitas para entrenar el cerebro mientras mueves el cuerpo.
+    </p>
     <div class="dashboard-filters">
       <div class="filter-categories">
         <button class="filter-btn filter-btn--active" data-filter="all">Todas</button>
@@ -224,8 +228,14 @@
 
   </main>
 
-  <footer style="text-align: center; padding: var(--space-4); color: var(--gris-500); margin-top: var(--space-8);">
-    <p>&copy; 2026 Movimiento Funcional</p>
+  <footer class="dashboard-footer">
+    <p>
+      <a href="./acerca.html">Acerca de KinesisLab</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      by <a href="https://movimientofuncional.app" target="_blank" rel="noopener">Movimiento Funcional</a>
+      <span class="footer-sep" aria-hidden="true">&middot;</span>
+      &copy; 2026
+    </p>
   </footer>
 
   <script>
