@@ -1,10 +1,11 @@
-const CACHE_NAME = 'kinesislab-cache-v9';
+const CACHE_NAME = 'kinesislab-cache-v10';
 
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
   './assets/js/wake-lock.js',
+  './assets/js/sw-updater.js',
   './assets/css/design-tokens.css',
   './src/herramientas/vanilla/dashboard.html',
   './src/herramientas/vanilla/css/dashboard.css',
@@ -56,9 +57,7 @@ const PRECACHE_URLS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE_URLS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
   );
 });
 
@@ -72,6 +71,12 @@ self.addEventListener('activate', event => {
       );
     }).then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', event => {

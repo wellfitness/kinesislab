@@ -34,12 +34,8 @@
 
   <link rel="stylesheet" href="./src/herramientas/vanilla/css/dashboard.css">
 
-  <!-- Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-  </script>
+  <!-- Service Worker + auto-update -->
+  <script src="./assets/js/sw-updater.js" defer></script>
 </head>
 <body>
 
