@@ -3,11 +3,25 @@
 
   if (!('serviceWorker' in navigator)) return;
 
-  var SW_PATH = new URL('../../sw.js', document.currentScript.src).pathname;
+  function getScriptSrc() {
+    if (document.currentScript && document.currentScript.src) {
+      return document.currentScript.src;
+    }
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length - 1; i >= 0; i--) {
+      if (scripts[i].src && scripts[i].src.indexOf('sw-updater.js') !== -1) {
+        return scripts[i].src;
+      }
+    }
+    return location.origin + '/assets/js/sw-updater.js';
+  }
+
+  var SW_PATH = new URL('../../sw.js', getScriptSrc()).pathname;
   var UPDATE_CHECK_INTERVAL_MS = 30 * 60 * 1000;
 
   var bannerEl = null;
   var reloading = false;
+  var hadController = !!navigator.serviceWorker.controller;
 
   function injectStyles() {
     if (document.getElementById('sw-updater-styles')) return;
@@ -146,6 +160,10 @@
   }
 
   navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (!hadController) {
+      hadController = true;
+      return;
+    }
     if (reloading) return;
     reloading = true;
     window.location.reload();
