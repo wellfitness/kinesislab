@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.LauncherActivity" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/navigationColor</item>
     </style>

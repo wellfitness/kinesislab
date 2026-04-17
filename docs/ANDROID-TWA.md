@@ -21,8 +21,8 @@
    - **App name**: `KinesisLab`
    - **Signing key**: Generar nuevo (guardar el keystore de forma segura)
    - **Display mode**: Standalone
-   - **Status bar color**: `#111827`
-   - **Nav bar color**: `#111827`
+   - **Status bar color**: `#000806`
+   - **Nav bar color**: `#000806`
 6. Descargar el paquete (incluye el AAB + keystore)
 
 ### 2. Configurar Digital Asset Links
@@ -42,7 +42,7 @@ https://kinesislab.movimientofuncional.app/.well-known/assetlinks.json
 
 1. Ir a **https://play.google.com/console/**
 2. Crear nueva app:
-   - **Nombre**: KinesisLab: Entrenamiento Cognitivo-Motor
+   - **Nombre**: KinesisLab — Entrenamiento Cognitivo-Motor
    - **Idioma**: Español (España)
    - **Tipo**: Aplicación
    - **Categoría**: Salud y bienestar

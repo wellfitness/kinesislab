@@ -1,4 +1,4 @@
-# CLAUDE.md — Entrenamiento Cognitivo-Motor (ECM)
+# CLAUDE.md — KinesisLab
 
 Proyecto independiente extraído de SWD-nextjs (Movimiento Funcional / Hirit).
 

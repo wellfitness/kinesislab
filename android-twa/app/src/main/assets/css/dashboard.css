@@ -30,7 +30,7 @@
   --gris-900: #111827;
   
   /* Sistema de Capas (Odisea Antifrágil Dark Mode) */
-  --layer-bg-deepest: var(--gris-900);
+  --layer-bg-deepest: #000806;
   --layer-bg-container: var(--gris-800);
   --layer-bg-interactive: var(--gris-700);
   --layer-bg-active: var(--turquesa-700);

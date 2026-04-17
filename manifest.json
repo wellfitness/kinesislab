@@ -1,5 +1,5 @@
 {
-  "name": "KinesisLab: Entrenamiento Cognitivo-Motor",
+  "name": "KinesisLab — Entrenamiento Cognitivo-Motor",
   "short_name": "KinesisLab",
   "description": "Herramientas interactivas de entrenamiento cognitivo-motor para prevención de caídas y neuroplasticidad en adultos.",
   "start_url": "./index.html",
@@ -7,7 +7,7 @@
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
-  "background_color": "#111827",
+  "background_color": "#000806",
   "theme_color": "#00bec8",
   "orientation": "any",
   "categories": ["health", "fitness", "medical"],
@@ -47,11 +47,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
     }
   ],
   "screenshots": [

@@ -1,10 +1,9 @@
-const CACHE_NAME = 'kinesislab-cache-v4';
+const CACHE_NAME = 'kinesislab-cache-v9';
 
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
-  './assets/icon.svg',
   './assets/js/wake-lock.js',
   './assets/css/design-tokens.css',
   './src/herramientas/vanilla/dashboard.html',
