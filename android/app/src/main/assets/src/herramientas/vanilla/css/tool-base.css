@@ -308,6 +308,8 @@ h1 {
   .stimulus-instruction {
     font-size: 0.95rem;
     margin-bottom: var(--space-1);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 

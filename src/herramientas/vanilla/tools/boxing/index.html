@@ -19,26 +19,56 @@
       text-align: center;
     }
 
-    .punch-badge {
-      padding: 12px 24px;
-      border-radius: 14px;
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      font-weight: bold;
-      background: var(--gris-800);
+    .progress-indicator {
+      color: var(--gris-500);
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.8vw, 1.3rem);
+      letter-spacing: 1px;
+      margin-bottom: var(--space-3);
+      text-align: center;
+    }
+    .progress-indicator strong {
       color: var(--gris-300);
-      transition: all 200ms ease;
     }
 
-    .punch-badge.active {
-      background: var(--rosa-600);
+    .current-punch {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 9vw, 5rem);
       color: white;
-      transform: scale(1.15);
-      box-shadow: 0 0 20px rgba(225, 29, 72, 0.6);
+      background: var(--rosa-600);
+      padding: clamp(1rem, 3vw, 2rem) clamp(1.5rem, 5vw, 3rem);
+      border-radius: 20px;
+      text-align: center;
+      line-height: 1.1;
+      box-shadow: 0 0 40px rgba(225, 29, 72, 0.5);
+      max-width: 90vw;
+      word-break: normal;
+      overflow-wrap: normal;
+      animation: punchPulse 450ms ease-out;
     }
-    
-    .punch-badge.past {
-      background: var(--gris-700);
+    @keyframes punchPulse {
+      0% { transform: scale(0.92); }
+      60% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .next-punch {
+      margin-top: var(--space-3);
+      color: var(--gris-400);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      text-align: center;
+      max-width: 90vw;
+      min-height: 1.5em;
+    }
+    .next-punch .next-label {
+      font-family: var(--font-display);
+      letter-spacing: 1px;
       color: var(--gris-500);
+      font-size: 0.9em;
+    }
+    .next-punch .next-value {
+      color: var(--gris-200);
+      font-weight: bold;
     }
 
     .pulse-text {
@@ -92,18 +122,21 @@
 
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="idle-cta">
-        <p class="idle-cta__hint">Ajusta la configuraci&oacute;n y pulsa EMPEZAR</p>
+        <p class="stimulus-instruction">Ajusta la configuraci&oacute;n<br>Pulsa EMPEZAR</p>
+      </div>
+
+      <!-- ESTADO: PREPARING -->
+      <div id="statePreparing" class="status-panel" style="display: none;">
+        <span class="material-symbols-sharp" style="font-size: 5rem; color: var(--tulip-tree-400); margin-bottom: 1rem;">timer</span>
+        <h2 style="font-family: var(--font-display); font-size: clamp(2.5rem, 8vw, 3.5rem); text-align: center;">Prep&aacute;rate...</h2>
+        <p id="lblPrepCombo" style="color: var(--gris-400); font-size: 1.2rem; margin-top: 1rem;">Combinaci&oacute;n #1</p>
       </div>
 
       <!-- ESTADO: COMBOS -->
       <div id="stateCombos" class="status-panel" style="display: none;">
-        <p id="lblComboCount" style="color: var(--gris-500); font-size: clamp(1.2rem, 3vw, 1.6rem); font-family: var(--font-display); margin-bottom: 1.5rem; letter-spacing: 1px;">Combinaci&oacute;n #1</p>
-        
-        <div id="comboGrid" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 90vw;">
-          <!-- sequence badges -->
-        </div>
-
-        <p id="lblPause" class="pulse-text" style="color: var(--gris-500); font-size: 1rem; margin-top: 3rem; display: none;">Preparando siguiente combinación...</p>
+        <p id="lblProgress" class="progress-indicator">Combinaci&oacute;n <strong>#1</strong> &middot; <strong>1 / 4</strong></p>
+        <div id="currentPunch" class="current-punch">&mdash;</div>
+        <div id="nextPunch" class="next-punch"></div>
       </div>
 
     </div>
@@ -116,6 +149,15 @@
         <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">record_voice_over</span> Audio por voz</h4>
+          <p>Esta herramienta usa la <strong>voz del sistema</strong>. Si no oyes nada:</p>
+          <ol>
+            <li>Ve a <strong>Ajustes &rarr; Accesibilidad &rarr; Texto a voz</strong>.</li>
+            <li>Instala o activa un motor en <strong>espa&ntilde;ol</strong> (recomendado: &laquo;Motor de texto a voz de Google&raquo;).</li>
+            <li>Sube el volumen de medios.</li>
+          </ol>
+        </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Un generador de <strong>combinaciones de boxeo</strong> con indicaciones por voz. Te va diciendo golpes (directo, cruzado, gancho, crochet) y opcionalmente esquivas y bloqueos. Solo tienes que escuchar y golpear.</p>

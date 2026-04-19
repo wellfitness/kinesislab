@@ -306,8 +306,9 @@ h1 {
     padding: 0;
   }
   .stimulus-instruction {
-    font-size: 0.95rem;
     margin-bottom: var(--space-1);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -434,12 +435,19 @@ h1 {
 }
 
 .stimulus-instruction {
-  color: var(--turquesa-400);
-  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: clamp(0.95rem, 3vw, 1.5rem);
+  margin-top: 20px;
+  margin-bottom: var(--space-3);
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: var(--space-4);
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .stimulus-instruction {
+    font-size: 1.14rem;
+  }
 }
 
 .stimulus-content {

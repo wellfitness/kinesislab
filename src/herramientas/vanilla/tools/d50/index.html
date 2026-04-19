@@ -28,12 +28,32 @@
     .d50-answer-btn[data-answer="mayor"] { border-color: var(--turquesa-600); color: var(--turquesa-400); }
     .d50-answer-btn[data-answer="menor"] { border-color: var(--rosa-600); color: var(--rosa-400); }
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: nowrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto; flex-shrink: 0; width: 100%;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 0; flex: 1; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
-    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+      #d50Text {
+        font-size: clamp(3rem, 16vw, 6rem);
+        padding: 0 var(--space-2);
+        overflow-wrap: normal;
+      }
+      .d50-answer-btn {
+        padding: 14px 12px;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+      }
+      .d50-answers {
+        gap: 12px;
+        margin-top: var(--space-3);
+      }
+    }
   </style>
 </head>
 <body>
@@ -48,6 +68,14 @@
     </header>
     <div class="exec-toolbar">
       <div class="control-group">
+        <span class="control-label">Operaci&oacute;n:</span>
+        <select class="speed-select" onchange="tool.changeMode(this.value)">
+          <option value="suma" selected>Suma</option>
+          <option value="resta">Resta</option>
+          <option value="mixto">Mixto</option>
+        </select>
+      </div>
+      <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
@@ -59,9 +87,9 @@
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <p class="stimulus-instruction">La suma es MAYOR o MENOR a 50?</p>
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      <p class="stimulus-instruction">Calcula mentalmente<br>&iquest;Mayor o menor que 50?</p>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0;">
         <div id="d50Text" class="text-giant">? + ?</div>
         <div class="d50-answers">
           <button class="d50-answer-btn" data-answer="mayor" onclick="tool.handleAnswer('mayor')" disabled>
@@ -71,12 +99,12 @@
             <span class="material-symbols-sharp" style="vertical-align: middle;">arrow_downward</span> Menor
           </button>
         </div>
-        <div class="stats-bar">
-          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
-          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
-          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
-          <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
-        </div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+        <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+        <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+        <div class="stat-item"><span id="statRT" class="stat-value" style="color: var(--tulip-tree-400);">--</span><span class="stat-label">TR medio</span></div>
       </div>
     </div>
   </section>

@@ -12,7 +12,7 @@
   <style>
     .reactive-action {
       font-family: var(--font-display);
-      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-size: clamp(2.5rem, 14vw, 5rem);
       letter-spacing: 6px;
       color: white;
       text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
@@ -48,13 +48,16 @@
       z-index: 2;
     }
     @media (max-width: 480px) {
+      .reactive-action {
+        letter-spacing: 2px;
+      }
       .legend-panel {
         max-width: 240px;
         padding: var(--space-1);
         gap: 4px;
       }
       .legend-action {
-        width: 80px;
+        width: 96px;
         font-size: 0.75rem;
         padding: 4px 6px;
       }
@@ -100,7 +103,7 @@
       font-family: var(--font-display);
       font-size: 0.85rem;
       padding: 4px 8px;
-      width: 110px;
+      width: 132px;
       text-align: center;
       text-transform: uppercase;
     }
@@ -144,16 +147,14 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="position: relative;">
       <div id="reactiveBg" style="position: absolute; top:0; left:0; right:0; bottom:0; background: var(--gris-900); z-index: 0; transition: background 150ms;"></div>
-      <div style="display: flex; height: 100%; justify-content: center; align-items: center; position: relative; z-index: 1;">
-         <p id="reactiveIntro" class="stimulus-instruction" style="color: var(--gris-300);">Configura las acciones y pulsa INICIAR</p>
-      </div>
+      <p id="reactiveIntro" class="stimulus-instruction" style="position: relative; z-index: 1; flex-shrink: 0;">Configura las acciones<br>Pulsa INICIAR</p>
       <div id="reactiveSignal" class="reactive-signal"></div>
       <div id="reactiveAction" class="reactive-action" style="opacity: 0;"></div>
       <div id="reactiveLegend" class="legend-panel">
-        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_up</span> AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;"><span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">volume_down</span> GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">TURQUESA</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">DORADO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
         <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>

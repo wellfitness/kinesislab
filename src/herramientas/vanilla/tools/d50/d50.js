@@ -4,6 +4,7 @@ class D50Tool {
     this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
+    this.mode = 'suma';
     this.hits = 0;
     this.misses = 0;
     this.totalTrials = 0;
@@ -12,6 +13,11 @@ class D50Tool {
     this.trialStart = 0;
     this.reactionTimes = [];
     this.audioCtx = null;
+  }
+
+  changeMode(val) {
+    this.mode = val;
+    if (this.isPlaying) { this.stopEngine(); this.resetStats(); this.startEngine(); }
   }
 
   getAudioCtx() {
@@ -77,18 +83,33 @@ class D50Tool {
   }
 
   showTrial() {
-    let num1, num2;
-    do {
-      num1 = Math.floor(Math.random() * 40) + 5;
-      num2 = Math.floor(Math.random() * 40) + 5;
-    } while (num1 + num2 === 50);
+    const chosenOp = this.mode === 'mixto'
+      ? (Math.random() < 0.5 ? 'suma' : 'resta')
+      : this.mode;
 
-    this.currentAnswer = (num1 + num2) > 50 ? 'mayor' : 'menor';
+    let num1, num2, result, opSymbol;
+    if (chosenOp === 'suma') {
+      do {
+        num1 = Math.floor(Math.random() * 40) + 5;
+        num2 = Math.floor(Math.random() * 40) + 5;
+      } while (num1 + num2 === 50);
+      result = num1 + num2;
+      opSymbol = '+';
+    } else {
+      do {
+        num1 = Math.floor(Math.random() * 85) + 15;
+        num2 = Math.floor(Math.random() * (num1 - 5)) + 5;
+      } while (num1 - num2 === 50);
+      result = num1 - num2;
+      opSymbol = '−';
+    }
+
+    this.currentAnswer = result > 50 ? 'mayor' : 'menor';
     this.responded = false;
     this.trialStart = performance.now();
     this.totalTrials++;
 
-    document.getElementById('d50Text').textContent = num1 + ' + ' + num2;
+    document.getElementById('d50Text').textContent = num1 + ' ' + opSymbol + ' ' + num2;
     document.querySelectorAll('.d50-answer-btn').forEach(btn => {
       btn.classList.remove('correct', 'wrong');
     });

@@ -259,13 +259,12 @@ class TimersTool {
   renderPrep() {
     this.$.timerTitle.innerHTML =
       '<span class="material-symbols-sharp">notifications_active</span> COMENZAMOS';
-    this.$.timerTitle.className = 'timer-display__title timer-display__title--prep';
+    this.$.timerTitle.className = 'timer-display__title timer-display__title--prep timer-display__title--long';
 
     this.$.timerTime.textContent = this.formatTime(this.timeLeft);
     this.$.timerTime.className = 'timer-display__time timer-display__time--prep';
 
-    this.$.timerInfo.innerHTML =
-      '<div class="prep-message">El entrenamiento comenzar&aacute; pronto</div>';
+    this.$.timerInfo.innerHTML = '';
 
     this.$.toolbarRunning.querySelectorAll('button').forEach(b => {
       b.style.display = 'none';
@@ -282,7 +281,9 @@ class TimersTool {
 
     this.$.timerTitle.innerHTML =
       `<span class="material-symbols-sharp">${icons[this.selectedTimer]}</span> ${this.selectedTimer}`;
-    this.$.timerTitle.className = 'timer-display__title';
+    this.$.timerTitle.className = this.selectedTimer.length > 6
+      ? 'timer-display__title timer-display__title--long'
+      : 'timer-display__title';
 
     const displayTime = this.selectedTimer === 'AFAP' ? this.afapTime : this.timeLeft;
     this.$.timerTime.textContent = this.formatTime(displayTime);

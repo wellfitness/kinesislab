@@ -123,6 +123,26 @@
       transition: opacity 200ms;
     }
     .feedback-flash.show { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .stats-bar {
+        gap: 6px;
+        flex-wrap: nowrap;
+        width: 100%;
+        max-width: 100%;
+      }
+      .stat-item {
+        min-width: 0;
+        flex: 1;
+      }
+      .stat-value {
+        font-size: 1.1rem;
+      }
+      .stat-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.3px;
+      }
+    }
   </style>
 </head>
 <body>

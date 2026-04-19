@@ -4,7 +4,7 @@ class GoNoGoTool {
       basic: {
         goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--go' },
         nogoColors: [{ bg: '#e11d48', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo' }],
-        instruction: 'Verde = toca la pantalla. Rojo = no toques.'
+        instructions: ['Verde = toca la pantalla', 'Rojo = no toques']
       },
       distractors: {
         goColor: { bg: '#10b981', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--go' },
@@ -13,7 +13,7 @@ class GoNoGoTool {
           { bg: '#eab308', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-yellow' },
           { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-blue' }
         ],
-        instruction: 'Solo verde = toca. Cualquier otro color = no toques.'
+        instructions: ['Solo verde = toca', 'Cualquier otro color = no toques']
       },
       inverted: {
         goColor: { bg: '#e11d48', label: 'TOCA', icon: 'touch_app', areaClass: 'stimulus-area--nogo' },
@@ -22,7 +22,7 @@ class GoNoGoTool {
           { bg: '#eab308', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-yellow' },
           { bg: '#3b82f6', label: 'NO TOQUES', icon: 'block', areaClass: 'stimulus-area--nogo-blue' }
         ],
-        instruction: 'Solo rojo = toca. Cualquier otro color = no toques.'
+        instructions: ['Solo rojo = toca', 'Cualquier otro color = no toques']
       }
     };
     this.currentLevel = 'basic';
@@ -108,7 +108,7 @@ class GoNoGoTool {
   changeLevel(level) {
     this.currentLevel = level;
     const config = this.levels[level];
-    document.getElementById('goInstruction').textContent = config.instruction;
+    document.getElementById('goInstruction').innerHTML = config.instructions.join('<br>');
     if (this.isPlaying) {
       this.stopEngine();
       this.isPlaying = false;

@@ -30,8 +30,36 @@ class CombaTrainerVanilla {
     // Control promises
     this.activeTimer = null;
     this.abortController = null;
-    
+
+    // TTS voice cache (Android WebView compatibility)
+    this.voice = null;
+    this.loadVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+    }
+
     this.initDOM();
+  }
+
+  loadVoices() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
+              || voices.find(v => v.default)
+              || voices[0]
+              || null;
+  }
+
+  warmupTTS() {
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance('');
+      u.volume = 0;
+      u.lang = 'es-ES';
+      if (this.voice) u.voice = this.voice;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* noop */ }
   }
 
   initDOM() {
@@ -81,13 +109,15 @@ class CombaTrainerVanilla {
     this.isRunning = true;
     ScreenWakeLock.request();
     this.sequenceCount = 0;
-    
+    this.loadVoices();
+    this.warmupTTS();
+
     // UI Button Update
     const btn = document.getElementById('btnPlayPause');
     btn.style.backgroundColor = 'var(--gris-700)';
     document.getElementById('playIcon').textContent = 'stop';
     document.getElementById('playText').textContent = 'DETENER';
-    
+
     // Deshabilitar config
     ['exerciseCount', 'exerciseDuration', 'speechRate', 'includeAdvanced'].forEach(id => document.getElementById(id).disabled = true);
 
@@ -120,22 +150,29 @@ class CombaTrainerVanilla {
   speakAndWait(text) {
     return new Promise((resolve) => {
       if (!this.isRunning || !('speechSynthesis' in window)) return resolve();
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'es-ES';
-      utterance.rate = this.settings.speechRate;
-      utterance.onend = () => resolve();
-      utterance.onerror = () => resolve();
-      window.speechSynthesis.speak(utterance);
+      try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = this.settings.speechRate;
+        utterance.volume = 1;
+        if (this.voice) utterance.voice = this.voice;
+        utterance.onend = () => resolve();
+        utterance.onerror = () => resolve();
+        window.speechSynthesis.speak(utterance);
+      } catch (e) { resolve(); }
     });
   }
 
   speak(text) {
     if (!this.isRunning || !('speechSynthesis' in window)) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES';
-    utterance.rate = this.settings.speechRate;
-    window.speechSynthesis.speak(utterance);
+    try {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-ES';
+      utterance.rate = this.settings.speechRate;
+      utterance.volume = 1;
+      if (this.voice) utterance.voice = this.voice;
+      window.speechSynthesis.speak(utterance);
+    } catch (e) { /* noop */ }
   }
 
   generateSequence() {
@@ -221,12 +258,11 @@ class CombaTrainerVanilla {
       document.getElementById('lblSequenceCount').textContent = `Secuencia #${this.sequenceCount}`;
       await this.speakAndWait('Preparados');
       if(!this.isRunning) break;
-      await this.sleep(2000);
+      await this.sleep(1500);
       if(!this.isRunning) break;
 
       await this.speakAndWait('Ya');
       if(!this.isRunning) break;
-      await this.sleep(1000);
 
       for(let i = 0; i < this.currentSequence.length; i++) {
         if(!this.isRunning) break;

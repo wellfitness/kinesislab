@@ -29,11 +29,6 @@
     }
 
     .ls-instruction {
-      color: var(--turquesa-400);
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
       flex-shrink: 0;
       padding: var(--space-1) 0;
     }
@@ -211,7 +206,6 @@
 
     /* === MOBILE (<480px) === */
     @media (max-width: 480px) {
-      .ls-instruction { font-size: 0.9rem; letter-spacing: 1px; }
       .correct-items { font-size: clamp(1.4rem, 6vw, 2.2rem); gap: var(--space-1); }
       .answer-btn { padding: 14px 16px; font-size: 1rem; min-height: 52px; }
       .answer-btns { gap: 12px; }
@@ -232,7 +226,6 @@
       }
       .answer-btns { gap: 28px; }
       .correct-items { font-size: clamp(3rem, 6vw, 4rem); }
-      .ls-instruction { font-size: 1.2rem; }
       .feedback-icon { font-size: 6rem; }
       .present-item { font-size: clamp(6rem, 12vw, 9rem); }
       .present-cat { font-size: 1.3rem; }
@@ -247,7 +240,7 @@
     /* === LANDSCAPE COMPACTO === */
     @media (orientation: landscape) and (max-height: 500px) {
       .ls-content { padding: 0 var(--space-2); }
-      .ls-instruction { padding: 2px 0; font-size: 0.85rem; }
+      .ls-instruction { padding: 2px 0; }
       .ls-main { gap: var(--space-1); }
       .correct-items { font-size: clamp(1.2rem, 4vw, 2rem); }
       .answer-btn { min-height: 44px; padding: 8px 20px; font-size: 1rem; }
@@ -300,7 +293,7 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area">
       <div class="ls-content">
-        <p id="instruction" class="ls-instruction">Memoriza los objetos</p>
+        <p id="instruction" class="stimulus-instruction ls-instruction">Memoriza los objetos</p>
 
         <div class="ls-main">
           <!-- Fase 1: Presentación uno a uno -->

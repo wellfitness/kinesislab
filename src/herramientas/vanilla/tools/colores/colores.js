@@ -24,7 +24,7 @@ class ColoresTool {
       btn.classList.add('active');
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
-      if (intro) intro.style.display = 'none';
+      this.updateIntro();
       this.rounds = 0;
       this.colorCounts = [0, 0, 0, 0];
       this.learningDone = false;
@@ -35,6 +35,7 @@ class ColoresTool {
       document.getElementById('playIcon').textContent = 'play_arrow';
       document.getElementById('playText').textContent = 'REANUDAR';
       this.stopEngine();
+      this.updateIntro();
     }
   }
 
@@ -58,6 +59,26 @@ class ColoresTool {
     this.level = parseInt(val, 10);
     const legend = document.getElementById('coloresLegend');
     if (legend) legend.style.display = this.level === 1 ? 'none' : '';
+    const textEl = document.getElementById('coloresText');
+    if (textEl) textEl.style.display = this.level === 2 ? 'none' : '';
+    this.updateIntro();
+  }
+
+  updateIntro() {
+    const intro = document.getElementById('coloresIntro');
+    if (!intro) return;
+    if (this.level === 1) {
+      intro.innerHTML = 'Ignora la palabra<br>Di en voz alta el color de fondo';
+      intro.style.display = '';
+    } else if (this.level === 3) {
+      intro.innerHTML = 'Ignora la palabra<br>Haz la acción del color de fondo';
+      intro.style.display = '';
+    } else if (!this.isPlaying) {
+      intro.innerHTML = 'Elige nivel y configura acciones<br>Pulsa INICIAR';
+      intro.style.display = '';
+    } else {
+      intro.style.display = 'none';
+    }
   }
 
   updateAction(index, value) {
@@ -82,8 +103,9 @@ class ColoresTool {
 
     if (this.level === 1 || this.level === 3) {
       textEl.textContent = this.getDistractorName(colorIndex);
+      textEl.style.display = '';
     } else {
-      textEl.textContent = col.name;
+      textEl.style.display = 'none';
     }
 
     this.rounds++;

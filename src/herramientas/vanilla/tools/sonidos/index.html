@@ -12,7 +12,7 @@
   <style>
     .sonidos-action {
       font-family: var(--font-display);
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2.5rem, 14vw, 4.5rem);
       letter-spacing: 4px;
       color: var(--tulip-tree-400);
       margin-top: var(--space-2);
@@ -22,7 +22,17 @@
     .stimulus-area {
       display: flex;
       flex-direction: column;
+      align-items: center;
       padding: var(--space-2);
+    }
+    .sonidos-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 0;
     }
     .legend-panel {
       display: flex;
@@ -69,13 +79,18 @@
       outline: none;
     }
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-1);
-      margin-bottom: var(--space-2);
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: nowrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: var(--space-1); flex-shrink: 0; width: 100%;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 0; flex: 1; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
-    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+    }
   </style>
 </head>
 <body>
@@ -101,19 +116,19 @@
       </button>
     </div>
     <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div class="sonidos-main">
          <span id="sonidosIcon" class="material-symbols-sharp" style="font-size: clamp(5rem, 15vw, 10rem); color: var(--turquesa-400); transition: transform 0.2s;">graphic_eq</span>
          <div id="sonidosText" style="font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; text-transform: uppercase; text-align: center; margin-top: 0.25rem;">Escucha</div>
          <div id="sonidosAction" class="sonidos-action"></div>
-         <div id="sonidosLegend" class="legend-panel">
-           <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-           <div class="legend-item"><span class="legend-sound">AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-           <div class="legend-item"><span class="legend-sound">MEDIO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="GIRO" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
-         </div>
-         <div class="stats-bar" aria-live="polite" role="status">
-           <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
-           <div class="stat-item"><span id="statPhase" class="stat-value" style="color: var(--tulip-tree-400); font-size: 0.9rem;">---</span><span class="stat-label">Fase</span></div>
-         </div>
+      </div>
+      <div id="sonidosLegend" class="legend-panel">
+         <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+         <div class="legend-item"><span class="legend-sound">AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+         <div class="legend-item"><span class="legend-sound">MEDIO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="GIRO" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+         <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
+         <div class="stat-item"><span id="statPhase" class="stat-value" style="color: var(--tulip-tree-400); font-size: 0.9rem;">---</span><span class="stat-label">Fase</span></div>
       </div>
     </div>
   </section>
