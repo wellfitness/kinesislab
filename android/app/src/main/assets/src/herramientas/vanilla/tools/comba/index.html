@@ -102,7 +102,7 @@
 
       <!-- ESTADO: IDLE -->
       <div id="stateIdle" class="idle-cta">
-        <p class="idle-cta__hint">Ajusta la configuraci&oacute;n y pulsa EMPEZAR</p>
+        <p class="stimulus-instruction">Ajusta la configuraci&oacute;n<br>Pulsa EMPEZAR</p>
       </div>
 
       <!-- ESTADO: PREPARING -->
@@ -115,7 +115,7 @@
       <!-- ESTADO: EXERCISING -->
       <div id="stateExercising" class="status-panel" style="display: none;">
         <p id="lblExerciseIndex" style="color: var(--gris-400); font-size: clamp(0.9rem, 2.5vw, 1.2rem); margin-bottom: 0.25rem;">Ejercicio 1 de 4</p>
-        <h2 id="lblCurrentExercise" style="font-family: var(--font-display); font-size: clamp(3rem, 10vw, 5.5rem); color: white; line-height: 1.1;">Salto B&aacute;sico</h2>
+        <h2 id="lblCurrentExercise" style="font-family: var(--font-display); font-size: clamp(3rem, 10vw, 5.5rem); color: white; line-height: 1.1; text-align: center;">Salto B&aacute;sico</h2>
 
         <div id="countdownCircle" class="countdown-circle">
           <span id="lblCountdown" style="font-family: var(--font-display); font-size: clamp(5rem, 14vw, 8rem); color: white;">10</span>
@@ -150,6 +150,15 @@
         <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
+        <div class="info-section">
+          <h4><span class="material-symbols-sharp">record_voice_over</span> Audio por voz</h4>
+          <p>Esta herramienta usa la <strong>voz del sistema</strong>. Si no oyes nada:</p>
+          <ol>
+            <li>Ve a <strong>Ajustes &rarr; Accesibilidad &rarr; Texto a voz</strong>.</li>
+            <li>Instala o activa un motor en <strong>espa&ntilde;ol</strong> (recomendado: &laquo;Motor de texto a voz de Google&raquo;).</li>
+            <li>Sube el volumen de medios.</li>
+          </ol>
+        </div>
         <div class="info-section">
           <h4><span class="material-symbols-sharp">info</span> Qu&eacute; es</h4>
           <p>Un generador de <strong>secuencias de salto a la comba</strong> con indicaciones por voz. Te va diciendo qu&eacute; tipo de salto hacer (pies juntos, alternos, cruces, dobles) para que no tengas que mirar la pantalla.</p>

@@ -274,6 +274,7 @@ class SortTool {
   setBtnState(enabled) {
     document.getElementById('btnTrue').disabled = !enabled;
     document.getElementById('btnFalse').disabled = !enabled;
+    document.getElementById('answerBtns').style.display = enabled ? '' : 'none';
   }
 
   updateStats() {

@@ -23,7 +23,35 @@ class BoxingGeneratorVanilla {
     this.currentIndex = -1;
     this.comboCount = 0;
 
+    // TTS voice cache (Android WebView compatibility)
+    this.voice = null;
+    this.loadVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+    }
+
     this.initDOM();
+  }
+
+  loadVoices() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
+              || voices.find(v => v.default)
+              || voices[0]
+              || null;
+  }
+
+  warmupTTS() {
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance('');
+      u.volume = 0;
+      u.lang = 'es-ES';
+      if (this.voice) u.voice = this.voice;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* noop */ }
   }
 
   initDOM() {
@@ -55,7 +83,9 @@ class BoxingGeneratorVanilla {
     this.isRunning = true;
     ScreenWakeLock.request();
     this.comboCount = 0;
-    
+    this.loadVoices();
+    this.warmupTTS();
+
     // UI Button Update
     const btn = document.getElementById('btnPlayPause');
     btn.style.backgroundColor = 'var(--gris-700)';
@@ -66,7 +96,6 @@ class BoxingGeneratorVanilla {
     ['punchCount', 'speechRate', 'includeDefensive'].forEach(id => document.getElementById(id).disabled = true);
 
     document.getElementById('stateIdle').style.display = 'none';
-    document.getElementById('stateCombos').style.display = 'flex';
 
     this.runCombosLoop();
   }
@@ -77,6 +106,7 @@ class BoxingGeneratorVanilla {
 
     document.getElementById('stateIdle').style.display = 'flex';
     document.getElementById('stateCombos').style.display = 'none';
+    document.getElementById('statePreparing').style.display = 'none';
 
     window.speechSynthesis.cancel();
     
@@ -99,13 +129,16 @@ class BoxingGeneratorVanilla {
   speakAndWait(text) {
     return new Promise((resolve) => {
       if (!this.isRunning || !('speechSynthesis' in window)) return resolve();
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'es-ES';
-      utterance.rate = this.settings.speechRate;
-      utterance.onend = () => resolve();
-      utterance.onerror = () => resolve();
-      window.speechSynthesis.speak(utterance);
+      try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = this.settings.speechRate;
+        utterance.volume = 1;
+        if (this.voice) utterance.voice = this.voice;
+        utterance.onend = () => resolve();
+        utterance.onerror = () => resolve();
+        window.speechSynthesis.speak(utterance);
+      } catch (e) { resolve(); }
     });
   }
 
@@ -163,43 +196,72 @@ class BoxingGeneratorVanilla {
   }
 
   renderComboUI() {
-    const container = document.getElementById('comboGrid');
-    container.innerHTML = '';
-    this.currentCombo.forEach((move, i) => {
-      let cssClass = 'punch-badge';
-      if(i === this.currentIndex) cssClass += ' active';
-      else if (i < this.currentIndex) cssClass += ' past';
-      container.innerHTML += `<span class="${cssClass}">${move}</span>`;
-    });
+    const total = this.currentCombo.length;
+    const current = this.currentCombo[this.currentIndex] || '—';
+    const next = this.currentCombo[this.currentIndex + 1];
+
+    document.getElementById('currentPunch').textContent = current;
+
+    const nextEl = document.getElementById('nextPunch');
+    if (next) {
+      nextEl.innerHTML = `<span class="next-label">SIGUIENTE →</span> <span class="next-value">${next}</span>`;
+    } else {
+      nextEl.innerHTML = '<span class="next-label">ÚLTIMO GOLPE</span>';
+    }
+
+    document.getElementById('lblProgress').innerHTML =
+      `Combinación <strong>#${this.comboCount}</strong> · <strong>${this.currentIndex + 1} / ${total}</strong>`;
+
+    // Re-trigger pulse animation en cada golpe
+    const cur = document.getElementById('currentPunch');
+    cur.style.animation = 'none';
+    void cur.offsetWidth;
+    cur.style.animation = '';
+  }
+
+  showPreparing(comboNum) {
+    document.getElementById('stateCombos').style.display = 'none';
+    document.getElementById('statePreparing').style.display = 'flex';
+    document.getElementById('lblPrepCombo').textContent = `Combinación #${comboNum}`;
+  }
+
+  showCombos() {
+    document.getElementById('statePreparing').style.display = 'none';
+    document.getElementById('stateCombos').style.display = 'flex';
   }
 
   async runCombosLoop() {
     while(this.isRunning) {
       this.currentCombo = this.generateCombo();
       this.comboCount++;
-      
-      document.getElementById('lblComboCount').textContent = `Combinación #${this.comboCount}`;
-      document.getElementById('lblPause').style.display = 'none';
-      
+
+      this.showPreparing(this.comboCount);
+      await this.speakAndWait('Preparados');
+      if(!this.isRunning) break;
+      await this.sleep(1500);
+      if(!this.isRunning) break;
+      await this.speakAndWait('Ya');
+      if(!this.isRunning) break;
+
+      this.showCombos();
+
       for(let i = 0; i < this.currentCombo.length; i++) {
         if(!this.isRunning) break;
 
         this.currentIndex = i;
         this.renderComboUI();
 
+        const t0 = performance.now();
         await this.speakAndWait(this.currentCombo[i]);
         if(!this.isRunning) break;
 
-        await this.sleep(300); // 300ms de espacio exacto entre golpe y golpe
+        const minPerPunch = 2000 / this.settings.speechRate;
+        const elapsed = performance.now() - t0;
+        const extra = Math.max(300, minPerPunch - elapsed);
+        await this.sleep(extra);
       }
 
       if(!this.isRunning) break;
-
-      this.currentIndex = -1;
-      this.renderComboUI();
-      document.getElementById('lblPause').style.display = 'block';
-
-      await this.sleep(2500); // 2.5s descanso per combo
     }
   }
 }

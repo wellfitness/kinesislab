@@ -15,6 +15,32 @@ class ClockTool {
     this.reactionTimes = [];
     this.trialStart = 0;
     this.audioCtx = null;
+    this.voice = null;
+    this.loadVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+    }
+  }
+
+  loadVoices() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
+              || voices.find(v => v.default)
+              || voices[0]
+              || null;
+  }
+
+  warmupTTS() {
+    if (!('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance('');
+      u.volume = 0;
+      u.lang = 'es-ES';
+      if (this.voice) u.voice = this.voice;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* noop */ }
   }
 
   minuteAngle(min) { return min * 6; }
@@ -87,8 +113,8 @@ class ClockTool {
     this.mode = mode;
     this.format = format;
     if (mode === 'lr') {
-      document.getElementById('instructionText').textContent =
-        'Imagina el reloj: \u00bflas dos agujas est\u00e1n en el mismo lado (izquierda o derecha) o en lados opuestos?';
+      document.getElementById('instructionText').innerHTML =
+        'Imagina el reloj<br>\u00bfLas dos agujas est\u00e1n en el mismo lado o en lados opuestos?';
       document.getElementById('iconSame1').textContent = 'arrow_forward';
       document.getElementById('iconSame2').textContent = 'arrow_forward';
       document.getElementById('labelSame').textContent = 'Mismo lado';
@@ -96,8 +122,8 @@ class ClockTool {
       document.getElementById('iconOpp2').textContent = 'arrow_forward';
       document.getElementById('labelOpp').textContent = 'Lados opuestos';
     } else {
-      document.getElementById('instructionText').textContent =
-        'Imagina el reloj: \u00bflas dos agujas est\u00e1n en la misma mitad (arriba o abajo) o en mitades opuestas?';
+      document.getElementById('instructionText').innerHTML =
+        'Imagina el reloj<br>\u00bfLas dos agujas est\u00e1n en la misma mitad o en mitades opuestas?';
       document.getElementById('iconSame1').textContent = 'arrow_upward';
       document.getElementById('iconSame2').textContent = 'arrow_upward';
       document.getElementById('labelSame').textContent = 'Misma mitad';
@@ -117,6 +143,8 @@ class ClockTool {
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
+      this.loadVoices();
+      this.warmupTTS();
       this.resetStats();
       this.startEngine();
       this.setButtonsEnabled(true);
@@ -140,6 +168,7 @@ class ClockTool {
     this.interval = null;
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   }
 
   changeSpeed(ms) {
@@ -168,11 +197,15 @@ class ClockTool {
     this.beep(600, 60);
 
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(trial.text);
-      utterance.lang = 'es-ES';
-      utterance.rate = 1.1;
-      window.speechSynthesis.speak(utterance);
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(trial.text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 1.1;
+        utterance.volume = 1;
+        if (this.voice) utterance.voice = this.voice;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) { /* noop */ }
     }
 
     this.updateStats();

@@ -19,12 +19,18 @@
     .simon-btn.lit { opacity: 1; transform: scale(1.08); box-shadow: 0 0 40px currentColor; }
     .simon-btn.error { opacity: 1; background-color: #e11d48 !important; box-shadow: 0 0 40px #e11d48; transform: scale(1.08); }
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: nowrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto; flex-shrink: 0; width: 100%;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 0; flex: 1; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
-    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+    }
   </style>
 </head>
 <body>
@@ -42,21 +48,21 @@
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <p id="simonInstruction" class="stimulus-instruction" style="color: white; margin-bottom: var(--space-4);">Pulsa INICIAR para comenzar</p>
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      <p id="simonInstruction" class="stimulus-instruction">Pulsa INICIAR para comenzar</p>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0;">
         <div class="simon-grid">
           <button id="simon-0" class="simon-btn" style="background-color: var(--turquesa-400); color: var(--turquesa-400);" onclick="tool.handleTap(0)"></button>
           <button id="simon-1" class="simon-btn" style="background-color: var(--tulip-tree-400); color: var(--tulip-tree-400);" onclick="tool.handleTap(1)"></button>
           <button id="simon-2" class="simon-btn" style="background-color: var(--rosa-400); color: var(--rosa-400);" onclick="tool.handleTap(2)"></button>
           <button id="simon-3" class="simon-btn" style="background-color: #3b82f6; color: #3b82f6;" onclick="tool.handleTap(3)"></button>
         </div>
-        <div class="stats-bar">
-          <div class="stat-item"><span id="statRound" class="stat-value" style="color: white;">0</span><span class="stat-label">Ronda</span></div>
-          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
-          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
-          <div class="stat-item"><span id="statBest" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Record</span></div>
-        </div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statRound" class="stat-value" style="color: white;">0</span><span class="stat-label">Ronda</span></div>
+        <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+        <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Errores</span></div>
+        <div class="stat-item"><span id="statBest" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Record</span></div>
       </div>
     </div>
   </section>

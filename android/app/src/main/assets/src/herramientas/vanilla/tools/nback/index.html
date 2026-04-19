@@ -80,17 +80,20 @@
       display: flex;
       gap: var(--space-3);
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       padding: var(--space-1) var(--space-2);
       background: rgba(0,0,0,0.3);
       border-radius: 8px;
-      margin-top: var(--space-2);
+      margin-top: auto;
+      flex-shrink: 0;
+      width: 100%;
     }
     .stat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 64px;
+      min-width: 0;
+      flex: 1;
     }
     .stat-value {
       font-size: 1.5rem;
@@ -102,6 +105,7 @@
       color: var(--gris-400);
       text-transform: uppercase;
       letter-spacing: 1px;
+      white-space: nowrap;
     }
     .n-indicator {
       background: var(--gris-800);
@@ -126,20 +130,15 @@
 
     @media (max-width: 600px) {
       .stats-bar {
-        gap: 6px;
-        flex-wrap: nowrap;
-        width: 100%;
+        gap: 4px;
+        padding: var(--space-1) 6px;
         max-width: 100%;
-      }
-      .stat-item {
-        min-width: 0;
-        flex: 1;
       }
       .stat-value {
         font-size: 1.1rem;
       }
       .stat-label {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
         letter-spacing: 0.3px;
       }
     }
@@ -176,9 +175,9 @@
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
-        <p id="nbackInstruction" class="stimulus-instruction" style="color: var(--gris-300); line-height: 1.6;">Si la forma y color son IGUALES a la de hace <span class="n-indicator" id="nLabel">1</span> turnos, pulsa COINCIDE</p>
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      <p id="nbackInstruction" class="stimulus-instruction" style="line-height: 1.6;">Si la forma y color son IGUALES a la de hace <span class="n-indicator" id="nLabel">1</span> turnos<br>Pulsa COINCIDE</p>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 0;">
         <div id="nbackStimulus" class="nback-stimulus">
           <div class="shape" id="shapeDisplay"></div>
         </div>
@@ -186,13 +185,13 @@
         <button id="matchBtn" class="match-btn" onclick="tool.handleMatch()" disabled>
           <span class="material-symbols-sharp" style="vertical-align: middle; margin-right: 4px;">check_circle</span> COINCIDE
         </button>
-        <div class="stats-bar">
-          <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
-          <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Omisiones</span></div>
-          <div class="stat-item"><span id="statFalse" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Falsos</span></div>
-          <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Ronda</span></div>
-        </div>
         <div id="feedbackFlash" class="feedback-flash"></div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statHits" class="stat-value" style="color: var(--turquesa-400);">0</span><span class="stat-label">Aciertos</span></div>
+        <div class="stat-item"><span id="statMisses" class="stat-value" style="color: var(--tulip-tree-400);">0</span><span class="stat-label">Omisiones</span></div>
+        <div class="stat-item"><span id="statFalse" class="stat-value" style="color: var(--rosa-400);">0</span><span class="stat-label">Falsos</span></div>
+        <div class="stat-item"><span id="statTotal" class="stat-value" style="color: white;">0</span><span class="stat-label">Ronda</span></div>
       </div>
     </div>
   </section>

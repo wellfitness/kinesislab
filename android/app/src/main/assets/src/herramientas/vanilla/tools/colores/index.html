@@ -11,7 +11,7 @@
   <style>
     .color-action {
       font-family: var(--font-display);
-      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-size: clamp(2.5rem, 14vw, 5rem);
       letter-spacing: 4px;
       color: white;
       text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
@@ -19,7 +19,8 @@
       opacity: 0;
       transition: opacity 300ms ease;
       padding: 0 var(--space-2);
-      word-break: break-word;
+      word-break: normal;
+      overflow-wrap: normal;
       text-align: center;
     }
     .color-action.visible { opacity: 1; }
@@ -114,9 +115,9 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="padding:0; position: relative;">
       <div id="stimulus-colores" style="width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; transition: background-color 0.1s; padding: 0 var(--space-2);">
-         <p id="coloresIntro" class="stimulus-instruction" style="color: rgba(255,255,255,0.7); text-align: center; flex-shrink: 0; margin: var(--space-1) 0 0; font-size: clamp(0.75rem, 2.5vw, 1.25rem);">Elige nivel, configura acciones y pulsa INICIAR</p>
+         <p id="coloresIntro" class="stimulus-instruction" style="flex-shrink: 0;">Elige nivel y configura acciones<br>Pulsa INICIAR</p>
          <div id="coloresTextWrap" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 0; padding-bottom: min(22vh, 180px);">
-           <div id="coloresText" style="font-size: clamp(4rem, 18vw, 14rem); font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5); line-height: 1.1; text-align: center; max-width: 100%; overflow-wrap: break-word;">Color</div>
+           <div id="coloresText" style="font-size: clamp(3rem, 13vw, 14rem); font-weight: bold; color: white; text-shadow: 0px 4px 10px rgba(0,0,0,0.5); line-height: 1.1; text-align: center; max-width: 100%; overflow-wrap: normal;">Color</div>
            <div id="coloresAction" class="color-action"></div>
          </div>
       </div>

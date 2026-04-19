@@ -19,6 +19,53 @@
       text-align: center;
     }
 
+    /* === CONFIG BAR: layout stacked (opción B) === */
+    .config-panel__controls--stacked {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      width: 100%;
+    }
+    .config-panel__row {
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-3);
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .config-panel__row .config-panel__slider-group {
+      flex: 1 1 140px;
+      min-width: 0;
+    }
+    .config-panel__row .config-panel__checkbox {
+      flex: 0 0 auto;
+    }
+    .btn-critical--full {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-critical--full .material-symbols-sharp {
+      font-size: 1.5rem;
+    }
+    /* Forzar visibilidad del texto en móvil (base oculta los labels de btn-critical en <600px) */
+    .exec-toolbar .btn-critical--full > span:not(.material-symbols-sharp) {
+      display: inline !important;
+      font-size: inherit !important;
+    }
+    @media (max-width: 600px) {
+      .config-panel__row { gap: var(--space-2); }
+      .config-panel__row .config-panel__slider-group { flex: 1 1 110px; }
+    }
+
     .progress-indicator {
       color: var(--gris-500);
       font-family: var(--font-display);
@@ -97,21 +144,23 @@
     </header>
 
     <div class="exec-toolbar config-panel config-panel--rosa" id="configPanel">
-      <div class="config-panel__controls">
-        <div class="config-panel__slider-group">
-          <label>Golpes: <span id="lblPunch">4</span></label>
-          <input type="range" id="punchCount" min="2" max="20" value="4">
-        </div>
-        <div class="config-panel__slider-group">
-          <label>Voz: <span id="lblSpeech">1.0x</span></label>
-          <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
-        </div>
-        <div class="config-panel__checkbox">
-          <input type="checkbox" id="includeDefensive">
-          <label for="includeDefensive">Defensivos</label>
+      <div class="config-panel__controls config-panel__controls--stacked">
+        <div class="config-panel__row">
+          <div class="config-panel__slider-group">
+            <label>Golpes: <span id="lblPunch">4</span></label>
+            <input type="range" id="punchCount" min="2" max="20" value="4">
+          </div>
+          <div class="config-panel__slider-group">
+            <label>Voz: <span id="lblSpeech">1.0x</span></label>
+            <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
+          </div>
+          <div class="config-panel__checkbox">
+            <input type="checkbox" id="includeDefensive">
+            <label for="includeDefensive">Defensivos</label>
+          </div>
         </div>
 
-        <button id="btnPlayPause" class="btn-critical" onclick="tool.handleStartStop()" style="flex-shrink: 0;">
+        <button id="btnPlayPause" class="btn-critical btn-critical--full" onclick="tool.handleStartStop()">
           <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">EMPEZAR</span>
         </button>
       </div>

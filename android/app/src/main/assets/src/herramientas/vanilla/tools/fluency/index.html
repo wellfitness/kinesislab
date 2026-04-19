@@ -9,13 +9,28 @@
   <title>Fluencia Verbal — KinesisLab</title>
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
-    .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-3);
+    #fluencyText {
+      word-break: normal;
+      overflow-wrap: normal;
+      hyphens: none;
+      max-width: 100%;
+      padding: 0 var(--space-2);
+      font-size: clamp(2rem, 10vw, 8rem);
+      line-height: 1.15;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stats-bar {
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: nowrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto; flex-shrink: 0; width: 100%;
+    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 0; flex: 1; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
-    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+    }
   </style>
 </head>
 <body>
@@ -41,13 +56,13 @@
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">INICIAR</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <p class="stimulus-instruction" style="color: var(--gris-300);">Di palabras relacionadas con:</p>
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      <p class="stimulus-instruction">Di palabras relacionadas con:</p>
+      <div style="flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 0;">
         <div id="fluencyText" class="text-huge">---</div>
-        <div class="stats-bar" aria-live="polite" role="status">
-          <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
-        </div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
       </div>
     </div>
   </section>

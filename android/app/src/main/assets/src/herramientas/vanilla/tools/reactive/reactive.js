@@ -3,8 +3,8 @@ class ReactiveTool {
     this.stimuli = [
       { type: 'beep', freq: 900, color: null, hex: '#ffffff', name: 'AGUDO', action: 'SALTO' },
       { type: 'beep', freq: 250, color: null, hex: '#ffffff', name: 'GRAVE', action: 'ABAJO' },
-      { type: 'color', freq: null, color: 'var(--turquesa-400)', hex: '#18f8f6', name: 'TURQUESA', action: 'DERECHA' },
-      { type: 'color', freq: null, color: 'var(--tulip-tree-400)', hex: '#eab308', name: 'DORADO', action: 'IZQUIERDA' }
+      { type: 'color', freq: null, color: 'var(--turquesa-400)', hex: '#18f8f6', name: 'AZUL', action: 'DERECHA' },
+      { type: 'color', freq: null, color: 'var(--rosa-600)', hex: '#e11d48', name: 'ROJO', action: 'IZQUIERDA' }
     ];
     this.interval = null;
     this.pendingTimeout = null;
@@ -90,7 +90,6 @@ class ReactiveTool {
     el.innerHTML = this.stimuli.map((s, i) =>
       '<div class="legend-item">' +
         '<span class="legend-signal" style="color:' + s.hex + ';">' +
-          (s.type === 'beep' ? '<span class="material-symbols-sharp" style="font-size:1rem;vertical-align:middle;">' + (s.freq >= 500 ? 'volume_up' : 'volume_down') + '</span> ' : '') +
           s.name +
         '</span>' +
         '<span class="legend-arrow">&rarr;</span>' +

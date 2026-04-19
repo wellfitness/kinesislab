@@ -251,10 +251,14 @@ class BoxingGeneratorVanilla {
         this.currentIndex = i;
         this.renderComboUI();
 
+        const t0 = performance.now();
         await this.speakAndWait(this.currentCombo[i]);
         if(!this.isRunning) break;
 
-        await this.sleep(300);
+        const minPerPunch = 2000 / this.settings.speechRate;
+        const elapsed = performance.now() - t0;
+        const extra = Math.max(300, minPerPunch - elapsed);
+        await this.sleep(extra);
       }
 
       if(!this.isRunning) break;

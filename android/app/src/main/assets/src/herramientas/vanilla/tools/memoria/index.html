@@ -60,12 +60,18 @@
       background: rgba(0, 190, 200, 0.1);
     }
     .stats-bar {
-      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap;
-      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px; margin-top: var(--space-2);
+      display: flex; gap: var(--space-3); justify-content: center; flex-wrap: nowrap;
+      padding: var(--space-1) var(--space-2); background: rgba(0,0,0,0.3); border-radius: 8px;
+      margin-top: auto; flex-shrink: 0; width: 100%;
     }
-    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
+    .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 0; flex: 1; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
-    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
+      .stat-value { font-size: 1.1rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+    }
     .modal-overlay {
       display: none;
       position: fixed;
@@ -144,15 +150,15 @@
         <span class="material-symbols-sharp">refresh</span>
       </button>
     </div>
-    <div id="stimulusContainer" class="stimulus-area">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-        <p class="stimulus-instruction" style="color: var(--gris-300);">Encuentra todas las parejas. Voltea 2 cartas por turno.</p>
+    <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
+      <p class="stimulus-instruction">Encuentra todas las parejas<br>Voltea 2 cartas por turno</p>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 0;">
         <div class="memoria-grid" id="memoriaGrid"></div>
-        <div class="stats-bar">
-          <div class="stat-item"><span id="statTime" class="stat-value" style="color: var(--tulip-tree-400);">00:00</span><span class="stat-label">Tiempo</span></div>
-          <div class="stat-item"><span id="statAttempts" class="stat-value" style="color: white;">0</span><span class="stat-label">Intentos</span></div>
-          <div class="stat-item"><span id="statPairs" class="stat-value" style="color: var(--turquesa-400);">0/3</span><span class="stat-label">Parejas</span></div>
-        </div>
+      </div>
+      <div class="stats-bar" aria-live="polite" role="status">
+        <div class="stat-item"><span id="statTime" class="stat-value" style="color: var(--tulip-tree-400);">00:00</span><span class="stat-label">Tiempo</span></div>
+        <div class="stat-item"><span id="statAttempts" class="stat-value" style="color: white;">0</span><span class="stat-label">Intentos</span></div>
+        <div class="stat-item"><span id="statPairs" class="stat-value" style="color: var(--turquesa-400);">0/3</span><span class="stat-label">Parejas</span></div>
       </div>
     </div>
   </section>

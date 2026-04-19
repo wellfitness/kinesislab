@@ -439,11 +439,25 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 12px;
+      max-width: 100%;
+      width: 100%;
+      padding: 0 var(--space-2);
+      text-align: center;
+      line-height: 1.1;
+      word-break: normal;
+      overflow-wrap: normal;
+      box-sizing: border-box;
+    }
+
+    .timer-display__title--long {
+      font-size: clamp(1.6rem, 7vw, 4rem);
     }
 
     .timer-display__title .material-symbols-sharp {
       font-size: 1em;
+      flex-shrink: 0;
     }
 
     .timer-display__title--prep {
@@ -527,22 +541,47 @@
       color: white;
     }
 
-    .prep-message {
-      background: var(--tulip-tree-500);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 1rem;
-      box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
-    }
-
     /* === RUNNING TOOLBAR === */
     .toolbar-running {
       display: flex;
       justify-content: center;
       gap: var(--space-2);
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+
+    .toolbar-running .btn-primary,
+    .toolbar-running .btn-secondary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      line-height: 1.1;
+      min-width: 0;
+      flex: 1;
+      max-width: 120px;
+      min-height: 56px;
+    }
+
+    .toolbar-running .btn-primary .material-symbols-sharp,
+    .toolbar-running .btn-secondary .material-symbols-sharp {
+      font-size: 1.4rem;
+    }
+
+    @media (min-width: 600px) {
+      .toolbar-running .btn-primary,
+      .toolbar-running .btn-secondary {
+        font-size: 0.95rem;
+        padding: 10px 16px;
+        min-height: 60px;
+      }
+      .toolbar-running .btn-primary .material-symbols-sharp,
+      .toolbar-running .btn-secondary .material-symbols-sharp {
+        font-size: 1.6rem;
+      }
     }
 
     /* === RESPONSIVE === */
@@ -554,6 +593,10 @@
       .timer-global-settings {
         flex-direction: column;
         gap: var(--space-2);
+        padding: var(--space-2);
+      }
+
+      .timer-execution-view {
         padding: var(--space-2);
       }
 
