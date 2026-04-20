@@ -214,7 +214,8 @@ public class MainActivity extends ComponentActivity {
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override public void onStart(String utteranceId) { /* noop */ }
                     @Override public void onDone(String utteranceId) { fireDone(utteranceId); }
-                    @Override public void onError(String utteranceId) { fireDone(utteranceId); }
+                    @Override @SuppressWarnings("deprecation")
+                    public void onError(String utteranceId) { fireDone(utteranceId); }
                     @Override public void onError(String utteranceId, int errorCode) { fireDone(utteranceId); }
                 });
                 ready = true;
