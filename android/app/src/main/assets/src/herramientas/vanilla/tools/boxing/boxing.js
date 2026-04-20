@@ -23,35 +23,41 @@ class BoxingGeneratorVanilla {
     this.currentIndex = -1;
     this.comboCount = 0;
 
-    // TTS voice cache (Android WebView compatibility)
-    this.voice = null;
-    this.loadVoices();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
-    }
+    this.audioCtx = null;
 
     this.initDOM();
   }
 
-  loadVoices() {
-    if (!('speechSynthesis' in window)) return;
-    const voices = window.speechSynthesis.getVoices();
-    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
-              || voices.find(v => v.default)
-              || voices[0]
-              || null;
+  ensureAudioCtx() {
+    if (this.audioCtx) {
+      if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+      return this.audioCtx;
+    }
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    this.audioCtx = new Ctx();
+    return this.audioCtx;
   }
 
-  warmupTTS() {
-    if (!('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance('');
-      u.volume = 0;
-      u.lang = 'es-ES';
-      if (this.voice) u.voice = this.voice;
-      window.speechSynthesis.speak(u);
-    } catch (e) { /* noop */ }
+  playReadyBeep() {
+    const ctx = this.ensureAudioCtx();
+    if (!ctx) return;
+    const tone = (freq, offset, dur) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      const t = ctx.currentTime + offset;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.35, t + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      osc.start(t);
+      osc.stop(t + dur + 0.02);
+    };
+    tone(880, 0, 0.16);
+    tone(1320, 0.18, 0.22);
   }
 
   initDOM() {
@@ -83,8 +89,8 @@ class BoxingGeneratorVanilla {
     this.isRunning = true;
     ScreenWakeLock.request();
     this.comboCount = 0;
-    this.loadVoices();
-    this.warmupTTS();
+    KinesisTTS.warmup();
+    this.ensureAudioCtx();
 
     // UI Button Update
     const btn = document.getElementById('btnPlayPause');
@@ -108,7 +114,7 @@ class BoxingGeneratorVanilla {
     document.getElementById('stateCombos').style.display = 'none';
     document.getElementById('statePreparing').style.display = 'none';
 
-    window.speechSynthesis.cancel();
+    KinesisTTS.cancel();
     
     const btn = document.getElementById('btnPlayPause');
     btn.style.backgroundColor = 'var(--rosa-600)';
@@ -127,19 +133,8 @@ class BoxingGeneratorVanilla {
   }
 
   speakAndWait(text) {
-    return new Promise((resolve) => {
-      if (!this.isRunning || !('speechSynthesis' in window)) return resolve();
-      try {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = this.settings.speechRate;
-        utterance.volume = 1;
-        if (this.voice) utterance.voice = this.voice;
-        utterance.onend = () => resolve();
-        utterance.onerror = () => resolve();
-        window.speechSynthesis.speak(utterance);
-      } catch (e) { resolve(); }
-    });
+    if (!this.isRunning) return Promise.resolve();
+    return KinesisTTS.speakAndWait(text, this.settings.speechRate);
   }
 
   generateCombo() {
@@ -231,16 +226,19 @@ class BoxingGeneratorVanilla {
   }
 
   async runCombosLoop() {
+    this.showPreparing(1);
+    await this.speakAndWait('Prepárate');
+    if(!this.isRunning) return;
+    await this.sleep(400);
+    if(!this.isRunning) return;
+
     while(this.isRunning) {
       this.currentCombo = this.generateCombo();
       this.comboCount++;
 
       this.showPreparing(this.comboCount);
-      await this.speakAndWait('Preparados');
-      if(!this.isRunning) break;
-      await this.sleep(1500);
-      if(!this.isRunning) break;
-      await this.speakAndWait('Ya');
+      this.playReadyBeep();
+      await this.sleep(900);
       if(!this.isRunning) break;
 
       this.showCombos();

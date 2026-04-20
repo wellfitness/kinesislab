@@ -12,7 +12,6 @@ class CombaTrainerVanilla {
     this.settings = {
       exerciseCount: 4,
       exerciseDuration: 10,
-      speechRate: 1.0,
       includeAdvanced: false
     };
 
@@ -31,35 +30,59 @@ class CombaTrainerVanilla {
     this.activeTimer = null;
     this.abortController = null;
 
-    // TTS voice cache (Android WebView compatibility)
-    this.voice = null;
-    this.loadVoices();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
-    }
+    this.audioCtx = null;
 
     this.initDOM();
   }
 
-  loadVoices() {
-    if (!('speechSynthesis' in window)) return;
-    const voices = window.speechSynthesis.getVoices();
-    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
-              || voices.find(v => v.default)
-              || voices[0]
-              || null;
+  ensureAudioCtx() {
+    if (this.audioCtx) {
+      if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+      return this.audioCtx;
+    }
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return null;
+    this.audioCtx = new Ctx();
+    return this.audioCtx;
   }
 
-  warmupTTS() {
-    if (!('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance('');
-      u.volume = 0;
-      u.lang = 'es-ES';
-      if (this.voice) u.voice = this.voice;
-      window.speechSynthesis.speak(u);
-    } catch (e) { /* noop */ }
+  playTone(freq, offset, dur, peakGain = 0.35) {
+    const ctx = this.ensureAudioCtx();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    const t = ctx.currentTime + offset;
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(peakGain, t + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.start(t);
+    osc.stop(t + dur + 0.02);
+  }
+
+  playCountdownBeep(level) {
+    const freqs = { low: 440, mid: 660, high: 880 };
+    this.playTone(freqs[level] || 440, 0, 0.18, 0.32);
+  }
+
+  playLaunchBeep() {
+    this.playTone(880, 0, 0.16);
+    this.playTone(1320, 0.18, 0.22);
+  }
+
+  playNewSequenceBeep() {
+    this.playTone(660, 0, 0.13, 0.32);
+    this.playTone(880, 0.14, 0.13, 0.32);
+    this.playTone(1100, 0.28, 0.20, 0.32);
+  }
+
+  playEndBeep() {
+    this.playTone(1320, 0, 0.15, 0.3);
+    this.playTone(880, 0.17, 0.18, 0.3);
+    this.playTone(660, 0.36, 0.26, 0.3);
   }
 
   initDOM() {
@@ -72,11 +95,6 @@ class CombaTrainerVanilla {
     document.getElementById('exerciseDuration').addEventListener('input', (e) => {
       this.settings.exerciseDuration = parseInt(e.target.value);
       document.getElementById('lblExDur').textContent = this.settings.exerciseDuration + 's';
-    });
-
-    document.getElementById('speechRate').addEventListener('input', (e) => {
-      this.settings.speechRate = parseFloat(e.target.value);
-      document.getElementById('lblSpeech').textContent = this.settings.speechRate.toFixed(1) + 'x';
     });
 
     document.getElementById('includeAdvanced').addEventListener('change', (e) => {
@@ -109,8 +127,8 @@ class CombaTrainerVanilla {
     this.isRunning = true;
     ScreenWakeLock.request();
     this.sequenceCount = 0;
-    this.loadVoices();
-    this.warmupTTS();
+    KinesisTTS.warmup();
+    this.ensureAudioCtx();
 
     // UI Button Update
     const btn = document.getElementById('btnPlayPause');
@@ -119,7 +137,7 @@ class CombaTrainerVanilla {
     document.getElementById('playText').textContent = 'DETENER';
 
     // Deshabilitar config
-    ['exerciseCount', 'exerciseDuration', 'speechRate', 'includeAdvanced'].forEach(id => document.getElementById(id).disabled = true);
+    ['exerciseCount', 'exerciseDuration', 'includeAdvanced'].forEach(id => document.getElementById(id).disabled = true);
 
     this.runSequenceLoop();
   }
@@ -129,7 +147,7 @@ class CombaTrainerVanilla {
     ScreenWakeLock.release();
     this.updateUIState('idle');
     if(this.activeTimer) clearInterval(this.activeTimer);
-    window.speechSynthesis.cancel();
+    KinesisTTS.cancel();
     
     const btn = document.getElementById('btnPlayPause');
     btn.style.backgroundColor = 'var(--turquesa-600)';
@@ -137,7 +155,7 @@ class CombaTrainerVanilla {
     document.getElementById('playText').textContent = 'EMPEZAR';
 
     // Habilitar config
-    ['exerciseCount', 'exerciseDuration', 'speechRate', 'includeAdvanced'].forEach(id => document.getElementById(id).disabled = false);
+    ['exerciseCount', 'exerciseDuration', 'includeAdvanced'].forEach(id => document.getElementById(id).disabled = false);
   }
 
   sleep(ms) {
@@ -148,31 +166,8 @@ class CombaTrainerVanilla {
   }
 
   speakAndWait(text) {
-    return new Promise((resolve) => {
-      if (!this.isRunning || !('speechSynthesis' in window)) return resolve();
-      try {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = this.settings.speechRate;
-        utterance.volume = 1;
-        if (this.voice) utterance.voice = this.voice;
-        utterance.onend = () => resolve();
-        utterance.onerror = () => resolve();
-        window.speechSynthesis.speak(utterance);
-      } catch (e) { resolve(); }
-    });
-  }
-
-  speak(text) {
-    if (!this.isRunning || !('speechSynthesis' in window)) return;
-    try {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'es-ES';
-      utterance.rate = this.settings.speechRate;
-      utterance.volume = 1;
-      if (this.voice) utterance.voice = this.voice;
-      window.speechSynthesis.speak(utterance);
-    } catch (e) { /* noop */ }
+    if (!this.isRunning) return Promise.resolve();
+    return KinesisTTS.speakAndWait(text);
   }
 
   generateSequence() {
@@ -212,9 +207,9 @@ class CombaTrainerVanilla {
         this.timeRemaining--;
         this.updateTimerUI();
 
-        if(this.timeRemaining === 3) this.speak('3');
-        if(this.timeRemaining === 2) this.speak('2');
-        if(this.timeRemaining === 1) this.speak('1');
+        if(this.timeRemaining === 3) this.playCountdownBeep('low');
+        if(this.timeRemaining === 2) this.playCountdownBeep('mid');
+        if(this.timeRemaining === 1) this.playCountdownBeep('high');
 
         if(this.timeRemaining <= 0) {
           clearInterval(this.activeTimer);
@@ -249,20 +244,30 @@ class CombaTrainerVanilla {
   }
 
   async runSequenceLoop() {
+    // Inicio único de la sesión
+    this.updateUIState('preparing');
+    document.getElementById('lblSequenceCount').textContent = `Secuencia #1`;
+    await this.speakAndWait('Prepárate');
+    if(!this.isRunning) return;
+    await this.sleep(800);
+    if(!this.isRunning) return;
+
     while(this.isRunning) {
       this.currentSequence = this.generateSequence();
       this.sequenceCount++;
 
-      // Preparing
-      this.updateUIState('preparing');
-      document.getElementById('lblSequenceCount').textContent = `Secuencia #${this.sequenceCount}`;
-      await this.speakAndWait('Preparados');
-      if(!this.isRunning) break;
-      await this.sleep(1500);
-      if(!this.isRunning) break;
-
-      await this.speakAndWait('Ya');
-      if(!this.isRunning) break;
+      // Pantalla preparing + sonido distintivo a partir de la 2ª secuencia
+      if (this.sequenceCount > 1) {
+        this.updateUIState('preparing');
+        document.getElementById('lblSequenceCount').textContent = `Secuencia #${this.sequenceCount}`;
+        this.playNewSequenceBeep();
+        await this.sleep(900);
+        if(!this.isRunning) break;
+      } else {
+        this.playLaunchBeep();
+        await this.sleep(500);
+        if(!this.isRunning) break;
+      }
 
       for(let i = 0; i < this.currentSequence.length; i++) {
         if(!this.isRunning) break;
@@ -282,6 +287,7 @@ class CombaTrainerVanilla {
 
         if(i < this.currentSequence.length - 1) {
           this.updateUIState('resting');
+          this.playLaunchBeep();
           if(!this.isRunning) break;
           await this.sleep(1500);
         }
@@ -291,7 +297,7 @@ class CombaTrainerVanilla {
 
       // Completed
       this.updateUIState('completed');
-      await this.speakAndWait('Secuencia completada');
+      this.playEndBeep();
       if(!this.isRunning) break;
 
       await this.sleep(5000); // Descanso de bloque

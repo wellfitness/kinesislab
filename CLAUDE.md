@@ -52,7 +52,7 @@ personales y de grupos.
 
 #### Herramientas de Soporte (gris)
 - `timers/` — Temporizador Clínico (AMRAP, EMOM, pausas)
-- `comba/` — Comba Funcional (salto guiado por voz)
+- `comba/` — Comba Reactiva (salto guiado por voz)
 - `boxing/` — Boxeo Reactivo (combos bajo estrés verbal)
 
 ---

@@ -15,32 +15,6 @@ class ClockTool {
     this.reactionTimes = [];
     this.trialStart = 0;
     this.audioCtx = null;
-    this.voice = null;
-    this.loadVoices();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
-    }
-  }
-
-  loadVoices() {
-    if (!('speechSynthesis' in window)) return;
-    const voices = window.speechSynthesis.getVoices();
-    this.voice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('es'))
-              || voices.find(v => v.default)
-              || voices[0]
-              || null;
-  }
-
-  warmupTTS() {
-    if (!('speechSynthesis' in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance('');
-      u.volume = 0;
-      u.lang = 'es-ES';
-      if (this.voice) u.voice = this.voice;
-      window.speechSynthesis.speak(u);
-    } catch (e) { /* noop */ }
   }
 
   minuteAngle(min) { return min * 6; }
@@ -143,8 +117,7 @@ class ClockTool {
     if (this.isPlaying) {
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
-      this.loadVoices();
-      this.warmupTTS();
+      KinesisTTS.warmup();
       this.resetStats();
       this.startEngine();
       this.setButtonsEnabled(true);
@@ -168,7 +141,7 @@ class ClockTool {
     this.interval = null;
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    KinesisTTS.cancel();
   }
 
   changeSpeed(ms) {
@@ -196,17 +169,8 @@ class ClockTool {
 
     this.beep(600, 60);
 
-    if ('speechSynthesis' in window) {
-      try {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(trial.text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 1.1;
-        utterance.volume = 1;
-        if (this.voice) utterance.voice = this.voice;
-        window.speechSynthesis.speak(utterance);
-      } catch (e) { /* noop */ }
-    }
+    KinesisTTS.cancel();
+    KinesisTTS.speak(trial.text, 1.1);
 
     this.updateStats();
   }

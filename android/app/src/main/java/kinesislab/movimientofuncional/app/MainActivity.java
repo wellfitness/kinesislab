@@ -3,12 +3,16 @@ package kinesislab.movimientofuncional.app;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.view.Gravity;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -25,6 +29,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
+import java.util.Locale;
+
 public class MainActivity extends ComponentActivity {
 
     private static final String APP_BASE = "https://appassets.androidplatform.net/";
@@ -36,6 +42,7 @@ public class MainActivity extends ComponentActivity {
     private ImageView splashView;
     private boolean splashDismissed = false;
     private long splashStartedAt = 0L;
+    private AndroidTTSBridge ttsBridge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +121,9 @@ public class MainActivity extends ComponentActivity {
 
         webView.setWebChromeClient(new WebChromeClient());
 
+        ttsBridge = new AndroidTTSBridge(this, webView);
+        webView.addJavascriptInterface(ttsBridge, "AndroidTTS");
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -169,5 +179,94 @@ public class MainActivity extends ComponentActivity {
     protected void onResume() {
         super.onResume();
         setImmersive();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (ttsBridge != null) {
+            ttsBridge.shutdown();
+            ttsBridge = null;
+        }
+        super.onDestroy();
+    }
+
+    /**
+     * Bridge entre JavaScript (window.AndroidTTS) y android.speech.tts.TextToSpeech.
+     * Solución infalible para la síntesis de voz dentro del WebView, donde
+     * window.speechSynthesis es inconsistente entre versiones/dispositivos.
+     * Las herramientas (comba, boxing, clock, arrows) lo invocan a través de
+     * assets/js/tts-bridge.js, que cae al Web Speech API si el bridge no existe.
+     */
+    private static final class AndroidTTSBridge {
+        private final WebView webView;
+        private TextToSpeech tts;
+        private boolean ready = false;
+
+        AndroidTTSBridge(Context ctx, WebView webView) {
+            this.webView = webView;
+            this.tts = new TextToSpeech(ctx.getApplicationContext(), status -> {
+                if (status != TextToSpeech.SUCCESS) return;
+                int result = tts.setLanguage(new Locale("es", "ES"));
+                if (result == TextToSpeech.LANG_MISSING_DATA
+                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    tts.setLanguage(Locale.getDefault());
+                }
+                tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override public void onStart(String utteranceId) { /* noop */ }
+                    @Override public void onDone(String utteranceId) { fireDone(utteranceId); }
+                    @Override public void onError(String utteranceId) { fireDone(utteranceId); }
+                    @Override public void onError(String utteranceId, int errorCode) { fireDone(utteranceId); }
+                });
+                ready = true;
+            });
+        }
+
+        private void fireDone(String utteranceId) {
+            if (utteranceId == null || !utteranceId.startsWith("klw_")) return;
+            // Las llamadas a evaluateJavascript deben ocurrir en el hilo principal del WebView.
+            webView.post(() -> webView.evaluateJavascript(
+                "window.__androidTTSDone && window.__androidTTSDone('" + utteranceId + "')",
+                null
+            ));
+        }
+
+        @JavascriptInterface
+        public boolean isReady() {
+            return ready;
+        }
+
+        @JavascriptInterface
+        public void speak(String text, float rate) {
+            if (!ready || tts == null || text == null) return;
+            tts.setSpeechRate(rate > 0f ? rate : 1.0f);
+            tts.speak(text, TextToSpeech.QUEUE_ADD, null, "kl_" + System.nanoTime());
+        }
+
+        @JavascriptInterface
+        public void speakWithCallback(String text, float rate, String callbackId) {
+            if (callbackId == null) return;
+            if (!ready || tts == null || text == null) {
+                fireDone(callbackId);
+                return;
+            }
+            tts.setSpeechRate(rate > 0f ? rate : 1.0f);
+            // El parámetro Bundle es null porque ya pasamos utteranceId como 4º arg.
+            int code = tts.speak(text, TextToSpeech.QUEUE_ADD, null, callbackId);
+            if (code != TextToSpeech.SUCCESS) fireDone(callbackId);
+        }
+
+        @JavascriptInterface
+        public void cancel() {
+            if (tts != null) tts.stop();
+        }
+
+        void shutdown() {
+            if (tts != null) {
+                tts.stop();
+                tts.shutdown();
+                tts = null;
+            }
+            ready = false;
+        }
     }
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <link rel="manifest" href="../../../../../manifest.json">
-  <title>Comba Funcional — KinesisLab</title>
+  <title>Comba Reactiva — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link rel="stylesheet" href="../../css/tool-base.css">
   <style>
@@ -54,6 +54,53 @@
       background: var(--turquesa-600);
       color: white;
     }
+
+    /* === CONFIG BAR: layout stacked === */
+    .config-panel__controls--stacked {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      width: 100%;
+    }
+    .config-panel__row {
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-3);
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .config-panel__row .config-panel__slider-group {
+      flex: 1 1 140px;
+      min-width: 0;
+    }
+    .config-panel__row .config-panel__checkbox {
+      flex: 0 0 auto;
+    }
+    .btn-primary--full {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary--full .material-symbols-sharp {
+      font-size: 1.5rem;
+    }
+    /* Forzar visibilidad del texto en móvil (base oculta los labels en <600px) */
+    .exec-toolbar .btn-primary--full > span:not(.material-symbols-sharp) {
+      display: inline !important;
+      font-size: inherit !important;
+    }
+    @media (max-width: 600px) {
+      .config-panel__row { gap: var(--space-2); }
+      .config-panel__row .config-panel__slider-group { flex: 1 1 110px; }
+    }
   </style>
 </head>
 <body style="background-color: var(--gris-900); color: white;">
@@ -62,7 +109,7 @@
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 1px;">
-        Comba Funcional
+        Comba Reactiva
       </h2>
       <div class="exec-header-actions">
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -73,25 +120,23 @@
     </header>
 
     <div class="exec-toolbar config-panel" id="configPanel">
-      <div class="config-panel__controls">
-        <div class="config-panel__slider-group">
-          <label>Ejercicios: <span id="lblExCount">4</span></label>
-          <input type="range" id="exerciseCount" min="2" max="10" value="4">
-        </div>
-        <div class="config-panel__slider-group">
-          <label>Duracion: <span id="lblExDur">10s</span></label>
-          <input type="range" id="exerciseDuration" min="10" max="40" step="5" value="10">
-        </div>
-        <div class="config-panel__slider-group">
-          <label>Voz: <span id="lblSpeech">1.0x</span></label>
-          <input type="range" id="speechRate" min="0.8" max="1.5" step="0.1" value="1.0">
-        </div>
-        <div class="config-panel__checkbox">
-          <input type="checkbox" id="includeAdvanced">
-          <label for="includeAdvanced">Avanzados</label>
+      <div class="config-panel__controls config-panel__controls--stacked">
+        <div class="config-panel__row">
+          <div class="config-panel__slider-group">
+            <label>Ejercicios: <span id="lblExCount">4</span></label>
+            <input type="range" id="exerciseCount" min="2" max="10" value="4">
+          </div>
+          <div class="config-panel__slider-group">
+            <label>Duracion: <span id="lblExDur">10s</span></label>
+            <input type="range" id="exerciseDuration" min="10" max="40" step="5" value="10">
+          </div>
+          <div class="config-panel__checkbox">
+            <input type="checkbox" id="includeAdvanced">
+            <label for="includeAdvanced">Avanzados</label>
+          </div>
         </div>
 
-        <button id="btnPlayPause" class="btn-primary" onclick="tool.handleStartStop()" style="flex-shrink: 0;">
+        <button id="btnPlayPause" class="btn-primary btn-primary--full" onclick="tool.handleStartStop()">
           <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">EMPEZAR</span>
         </button>
       </div>
@@ -146,7 +191,7 @@
   <div class="info-modal-overlay" id="infoModal" onclick="if(event.target===this)this.classList.remove('active')">
     <div class="info-modal">
       <div class="info-modal-header">
-        <h3>Comba Funcional</h3>
+        <h3>Comba Reactiva</h3>
         <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
@@ -168,7 +213,7 @@
           <ol>
             <li>Configura cu&aacute;ntos ejercicios y la duraci&oacute;n de cada uno.</li>
             <li>Activa &ldquo;ejercicios avanzados&rdquo; si quieres cruces y dobles.</li>
-            <li>Pulsa <strong>EMPEZAR</strong>. La voz te va indicando cada cambio.</li>
+            <li>Pulsa <strong>EMPEZAR</strong>. La voz dice qu&eacute; ejercicio toca; los cambios y la cuenta atr&aacute;s suenan como pitidos.</li>
             <li>Solo tienes que escuchar y saltar &mdash; no mires la pantalla.</li>
           </ol>
         </div>
@@ -177,7 +222,6 @@
           <ul>
             <li>Sin avanzados es perfecto para empezar (salto b&aacute;sico, pies alternos, rodillas).</li>
             <li>Con avanzados: cruces y doble salto &mdash; cuidado, son dif&iacute;ciles.</li>
-            <li>Sube la velocidad de voz si quieres m&aacute;s presi&oacute;n.</li>
             <li>En grupo: todos saltan a la vez siguiendo la misma voz.</li>
           </ul>
         </div>
@@ -195,6 +239,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/tts-bridge.js"></script>
   <script src="comba.js"></script>
 </body>
 </html>
