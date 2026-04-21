@@ -7,7 +7,7 @@ class SonidosTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.totalTrials = 0;
     this.minPerSound = 2;
     this.soundCounts = [0, 0, 0];

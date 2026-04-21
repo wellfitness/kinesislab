@@ -2,7 +2,7 @@ class TraceTool {
   constructor() {
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 8000;
   }
   togglePlay() {
     this.isPlaying = !this.isPlaying;
@@ -22,7 +22,7 @@ class TraceTool {
   startEngine() {
     ScreenWakeLock.request();
     this.runTrace();
-    this.interval = setInterval(() => this.runTrace(), this.currentSpeed * 2);
+    this.interval = setInterval(() => this.runTrace(), this.currentSpeed);
   }
   stopEngine() {
     ScreenWakeLock.release();

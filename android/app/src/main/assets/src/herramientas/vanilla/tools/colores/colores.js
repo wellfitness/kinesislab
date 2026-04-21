@@ -8,7 +8,7 @@ class ColoresTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.rounds = 0;
     this.minPerColor = 2;
     this.colorCounts = [0, 0, 0, 0];

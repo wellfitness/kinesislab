@@ -10,7 +10,7 @@ class SearchTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 3000;
+    this.currentSpeed = 4500;
     this.hits = 0;
     this.misses = 0;
     this.totalTrials = 0;
@@ -57,7 +57,7 @@ class SearchTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed * 1.5);
+    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
   }
 
   stopEngine() {

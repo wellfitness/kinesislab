@@ -119,6 +119,18 @@
     .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+
+    @media (min-width: 1280px) {
+      .reactive-action { font-size: clamp(5rem, 9vw, 7rem); letter-spacing: 8px; }
+      .legend-panel { max-width: 400px; padding: var(--space-3); gap: 12px; }
+      .legend-signal { font-size: 1.1rem; min-width: 110px; }
+      .legend-action { font-size: 1.05rem; width: 180px; padding: 8px 12px; }
+      .legend-arrow { font-size: 1.4rem; }
+      .stat-value { font-size: 2.2rem; }
+      .stat-label { font-size: 0.95rem; }
+      .stats-bar { padding: var(--space-3); }
+      .stimulus-instruction { font-size: 1.6rem; }
+    }
   </style>
 </head>
 <body>
@@ -135,8 +147,8 @@
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>

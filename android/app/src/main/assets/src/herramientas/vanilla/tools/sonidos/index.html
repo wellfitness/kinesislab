@@ -90,6 +90,17 @@
       .stat-value { font-size: 1.1rem; }
       .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
     }
+
+    @media (min-width: 1280px) {
+      #sonidosIcon { font-size: clamp(10rem, 18vmin, 16rem) !important; }
+      .sonidos-action { font-size: clamp(4.5rem, 8vw, 6.5rem); letter-spacing: 6px; }
+      .legend-panel { max-width: 400px; padding: var(--space-3); gap: 12px; }
+      .legend-sound { font-size: 1.1rem; min-width: 100px; }
+      .legend-action { font-size: 1.05rem; width: 170px; padding: 8px 12px; }
+      .legend-arrow { font-size: 1.4rem; }
+      .stat-value { font-size: 2rem; }
+      .stat-label { font-size: 0.9rem; }
+    }
   </style>
 </head>
 <body>
@@ -105,8 +116,8 @@
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
         <select class="speed-select" onchange="tool.changeSpeed(this.value)">
-          <option value="6000">Lenta (6s)</option>
-          <option value="4000" selected>Media (4s)</option>
+          <option value="4000">Lenta (4s)</option>
+          <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
         </select>
       </div>

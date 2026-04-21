@@ -10,7 +10,7 @@ class ReactiveTool {
     this.pendingTimeout = null;
     this.clearTimeout = null;
     this.isPlaying = false;
-    this.currentSpeed = 4000;
+    this.currentSpeed = 3000;
     this.totalTrials = 0;
     this.minPerStimulus = 2;
     this.stimulusCounts = [0, 0, 0, 0];

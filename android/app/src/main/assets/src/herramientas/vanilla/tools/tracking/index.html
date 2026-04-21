@@ -23,6 +23,14 @@
     .stat-item { display: flex; flex-direction: column; align-items: center; min-width: 64px; }
     .stat-value { font-size: 1.5rem; font-weight: bold; font-family: var(--font-display); }
     .stat-label { font-size: 0.7rem; color: var(--gris-400); text-transform: uppercase; letter-spacing: 1px; }
+
+    @media (min-width: 1280px) {
+      #tracking-dot { width: 100px; height: 100px; box-shadow: 0 0 60px var(--rosa-400); }
+      .stat-value { font-size: 2.2rem; }
+      .stat-label { font-size: 0.95rem; }
+      .stats-bar { padding: var(--space-2) var(--space-4); }
+      .stimulus-instruction { font-size: 1.8rem !important; }
+    }
   </style>
 </head>
 <body>

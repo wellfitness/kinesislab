@@ -9,7 +9,7 @@ class FluencyTool {
     ];
     this.interval = null;
     this.isPlaying = false;
-    this.currentSpeed = 3000;
+    this.currentSpeed = 6000;
     this.totalTrials = 0;
     this.lastCategory = null;
     this.audioCtx = null;
@@ -53,7 +53,7 @@ class FluencyTool {
 
   startEngine() {
     this.runFluency();
-    this.interval = setInterval(() => this.runFluency(), this.currentSpeed * 2);
+    this.interval = setInterval(() => this.runFluency(), this.currentSpeed);
   }
 
   stopEngine() {
