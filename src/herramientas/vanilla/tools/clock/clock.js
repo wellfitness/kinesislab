@@ -6,7 +6,7 @@ class ClockTool {
     this.interval = null;
     this.pendingRestart = null;
     this.isPlaying = false;
-    this.currentSpeed = 6000;
+    this.currentSpeed = 4000;
     this.currentAnswer = null;
     this.responded = false;
     this.hits = 0;

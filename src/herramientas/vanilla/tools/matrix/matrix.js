@@ -10,7 +10,7 @@ class MatrixTool {
     this.interval = null;
     this.pendingRestart = null;
     this.isPlaying = false;
-    this.currentSpeed = 3000;
+    this.currentSpeed = 6000;
     this.hideTimeout = null;
     this.activeCells = [];
     this.playerSelection = [];
@@ -112,7 +112,7 @@ class MatrixTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
+    this.interval = setInterval(() => this.tick(), this.currentSpeed);
   }
 
   tick() {
@@ -132,7 +132,7 @@ class MatrixTool {
         this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
-        this.interval = setInterval(() => this.tick(), this.currentSpeed * 2);
+        this.interval = setInterval(() => this.tick(), this.currentSpeed);
       }, 800);
       return;
     }
@@ -196,7 +196,7 @@ class MatrixTool {
         : 'Toca las ' + this.cellCount + ' celdas';
       instruction.style.color = 'var(--turquesa-400)';
       this.setCellsClickable(true);
-    }, this.currentSpeed * 0.5);
+    }, this.currentSpeed * 0.25);
 
     this.updateStats();
   }
