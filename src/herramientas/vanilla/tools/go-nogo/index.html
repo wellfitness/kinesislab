@@ -115,6 +115,22 @@
     .feedback-miss .go-circle {
       box-shadow: 0 0 80px rgba(234, 179, 8, 0.9);
     }
+
+    @media (min-width: 1280px) {
+      .go-circle {
+        width: clamp(360px, 40vmin, 520px);
+        height: clamp(360px, 40vmin, 520px);
+      }
+      .go-circle .material-symbols-sharp {
+        font-size: clamp(120px, 16vmin, 180px);
+      }
+      .go-label {
+        font-size: 3.2rem;
+        letter-spacing: 8px;
+      }
+      .stat-value { font-size: 2rem; }
+      .stat-label { font-size: 0.9rem; }
+    }
   </style>
 </head>
 <body>

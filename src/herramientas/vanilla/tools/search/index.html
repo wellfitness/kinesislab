@@ -65,6 +65,15 @@
       .stat-value { font-size: 1.1rem; }
       .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
     }
+
+    @media (min-width: 1280px) {
+      .search-main { max-width: 1100px; margin: 0 auto; }
+      .search-grid { grid-template-columns: repeat(9, 1fr); gap: 10px; padding: var(--space-3); }
+      .search-item { font-size: clamp(2.6rem, 4.5vw, 4rem); min-width: 72px; min-height: 72px; }
+      .stat-value { font-size: 2rem; }
+      .stat-label { font-size: 0.9rem; }
+      .stimulus-instruction { font-size: 1.6rem; }
+    }
   </style>
 </head>
 <body>
