@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <link rel="manifest" href="../../../../../manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../../../assets/favicon-32x32.png?v=5">
+  <link rel="apple-touch-icon" href="../../../../../assets/apple-touch-icon.png?v=5">
   <title>Sonidos — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
@@ -13,11 +15,17 @@
     .sonidos-action {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 14vw, 4.5rem);
+      line-height: 1.05;
       letter-spacing: 4px;
       color: var(--tulip-tree-400);
       margin-top: var(--space-2);
       transition: opacity 400ms ease;
       min-height: 3.5rem;
+      max-width: 100%;
+      padding: 0 var(--space-2);
+      text-align: center;
+      word-break: normal;
+      overflow-wrap: normal;
     }
     .stimulus-area {
       display: flex;
@@ -90,6 +98,9 @@
       .stats-bar { gap: 4px; padding: var(--space-1) 6px; }
       .stat-value { font-size: 1.1rem; }
       .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
+    }
+    @media (max-width: 480px) {
+      .sonidos-action { font-size: clamp(1.75rem, 11vw, 3.5rem); letter-spacing: 0.03em; }
     }
 
     @media (min-width: 1280px) {
