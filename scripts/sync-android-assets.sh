@@ -37,9 +37,15 @@ for file in "${HTML_FILES[@]}"; do
   sed -i \
     -e '\|<link[^>]*fonts\.googleapis\.com[^>]*>|d' \
     -e '\|<script[^>]*sw-updater\.js[^>]*></script>|d' \
+    -e '\|<link[^>]*rel="manifest"[^>]*>|d' \
+    -e '\|<link[^>]*rel="icon"[^>]*>|d' \
+    -e '\|<link[^>]*rel="apple-touch-icon"[^>]*>|d' \
     "$file"
   if ! grep -q "local-fonts.css" "$file"; then
     sed -i 's|<head>|<head>\n  <link rel="stylesheet" href="/fonts/local-fonts.css">|' "$file"
+  fi
+  if ! grep -q 'rel="icon" href="data:' "$file"; then
+    sed -i 's|<head>|<head>\n  <link rel="icon" href="data:,">|' "$file"
   fi
 done
 
