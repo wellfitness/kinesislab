@@ -36,12 +36,12 @@ class FlechasTool {
     const gain = ctx.createGain();
     osc.connect(gain);
     gain.connect(ctx.destination);
-    osc.frequency.value = 800;
-    osc.type = 'sine';
-    gain.gain.value = 0.25;
+    osc.type = 'triangle';
+    osc.frequency.value = 600;
+    gain.gain.value = 0.15;
     osc.start();
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-    osc.stop(ctx.currentTime + 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+    osc.stop(ctx.currentTime + 0.03);
   }
 
   togglePlay() {

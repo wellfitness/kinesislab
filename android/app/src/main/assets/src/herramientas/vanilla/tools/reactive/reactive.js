@@ -16,6 +16,7 @@ class ReactiveTool {
     this.stimulusCounts = [0, 0, 0, 0];
     this.learningDone = false;
     this.audioCtx = null;
+    this.lastStimIndex = null;
   }
 
   getAudioCtx() {
@@ -37,6 +38,20 @@ class ReactiveTool {
     osc.stop(ctx.currentTime + dur / 1000);
   }
 
+  tick() {
+    const ctx = this.getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'triangle';
+    osc.frequency.value = 600;
+    gain.gain.value = 0.15;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+    osc.stop(ctx.currentTime + 0.03);
+  }
+
   togglePlay() {
     this.isPlaying = !this.isPlaying;
     if (this.isPlaying) {
@@ -45,6 +60,7 @@ class ReactiveTool {
       this.totalTrials = 0;
       this.stimulusCounts = [0, 0, 0, 0];
       this.learningDone = false;
+      this.lastStimIndex = null;
       this.updateStats();
       this.renderLegend();
       this.startEngine();
@@ -126,6 +142,10 @@ class ReactiveTool {
 
       this.updateStats();
 
+      if (stim.type === 'color' && stimIndex === this.lastStimIndex) {
+        this.tick();
+      }
+
       if (stim.type === 'beep') {
         const icon = stim.freq >= 500 ? 'volume_up' : 'volume_down';
         signalEl.innerHTML = '<span class="material-symbols-sharp" style="font-size: clamp(4rem, 12vw, 7rem); color: white;">' + icon + '</span>';
@@ -134,6 +154,8 @@ class ReactiveTool {
       } else {
         bg.style.background = stim.color;
       }
+
+      this.lastStimIndex = stimIndex;
 
       if (!this.learningDone) {
         actionEl.textContent = stim.action;
