@@ -1,6 +1,6 @@
 class TraceTool {
   constructor() {
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 8000;
   }
@@ -22,15 +22,20 @@ class TraceTool {
   startEngine() {
     ScreenWakeLock.request();
     this.runTrace();
-    this.interval = setInterval(() => this.runTrace(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runTrace(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
+    if (this.scheduler) this.scheduler.stop();
   }
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   runTrace() {

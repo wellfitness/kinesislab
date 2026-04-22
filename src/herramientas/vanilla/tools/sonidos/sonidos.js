@@ -5,7 +5,7 @@ class SonidosTool {
       { name: 'AGUDO', frequency: 800, icon: 'volume_up', action: 'SALTO' },
       { name: 'MEDIO', frequency: 440, icon: 'volume_mute', action: 'GIRO' }
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
     this.totalTrials = 0;
@@ -57,17 +57,21 @@ class SonidosTool {
 
   startEngine() {
     this.runSonidos();
-    this.interval = setInterval(() => this.runSonidos(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runSonidos(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   updateAction(index, value) {
@@ -85,7 +89,7 @@ class SonidosTool {
       '<div class="legend-item">' +
         '<span class="legend-sound">' + s.name + '</span>' +
         '<span class="legend-arrow">→</span>' +
-        '<input class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
+        '<input name="action-' + i + '" class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
           'onchange="tool.updateAction(' + i + ', this.value)" ' +
           'maxlength="20">' +
       '</div>'

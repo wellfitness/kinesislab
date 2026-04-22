@@ -3,7 +3,7 @@ class ClockTool {
     this.hourNames = ['Doce', 'Una', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve', 'Diez', 'Once'];
     this.mode = 'lr';
     this.format = 'text';
-    this.interval = null;
+    this.scheduler = null;
     this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 4000;
@@ -132,13 +132,17 @@ class ClockTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.evaluateAndNext(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
     KinesisTTS.cancel();
@@ -146,7 +150,7 @@ class ClockTool {
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   resetStats() {
@@ -189,7 +193,7 @@ class ClockTool {
         this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
-        this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+        this.scheduler.start();
       }, 800);
       return;
     }

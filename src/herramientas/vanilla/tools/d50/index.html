@@ -71,7 +71,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Operaci&oacute;n:</span>
-        <select class="speed-select" onchange="tool.changeMode(this.value)">
+        <select aria-label="Modo" name="mode" class="speed-select" onchange="tool.changeMode(this.value)">
           <option value="suma" selected>Suma</option>
           <option value="resta">Resta</option>
           <option value="mixto">Mixto</option>
@@ -79,7 +79,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
           <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
@@ -152,6 +152,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="d50.js"></script>
 </body>
 </html>

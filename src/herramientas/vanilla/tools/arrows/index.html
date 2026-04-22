@@ -34,7 +34,7 @@
     <div class="exec-toolbar">
       <div id="cadenceGroup" class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
           <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
@@ -103,6 +103,7 @@
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
   <script src="../../../../../assets/js/tts-bridge.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="arrows.js"></script>
 </body>
 </html>

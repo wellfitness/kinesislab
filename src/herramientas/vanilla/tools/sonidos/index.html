@@ -127,7 +127,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
           <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
@@ -144,9 +144,9 @@
          <div id="sonidosAction" class="sonidos-action"></div>
       </div>
       <div id="sonidosLegend" class="legend-panel">
-         <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-         <div class="legend-item"><span class="legend-sound">AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-         <div class="legend-item"><span class="legend-sound">MEDIO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="GIRO" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+         <div class="legend-item"><span class="legend-sound">GRAVE</span><span class="legend-arrow">&rarr;</span><input name="action-grave" class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+         <div class="legend-item"><span class="legend-sound">AGUDO</span><span class="legend-arrow">&rarr;</span><input name="action-agudo" class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+         <div class="legend-item"><span class="legend-sound">MEDIO</span><span class="legend-arrow">&rarr;</span><input name="action-medio" class="legend-action" value="GIRO" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
          <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
@@ -197,6 +197,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="sonidos.js"></script>
 </body>
 </html>

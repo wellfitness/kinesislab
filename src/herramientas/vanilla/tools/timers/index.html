@@ -689,14 +689,14 @@
           <p class="timer-card__subtitle">Every Minute On the Minute<br>Ejecuta al inicio de cada intervalo</p>
           <div class="timer-card__config">
             <div class="config-row">
-              <label>Intervalo</label>
+              <label for="cfgEmomInterval">Intervalo</label>
               <div class="config-row__right">
                 <input type="number" id="cfgEmomInterval" class="config-input" value="60" min="10" max="300" onclick="event.stopPropagation()">
                 <span class="config-unit">seg</span>
               </div>
             </div>
             <div class="config-row">
-              <label>Rondas</label>
+              <label for="cfgEmomRounds">Rondas</label>
               <div class="config-row__right">
                 <input type="number" id="cfgEmomRounds" class="config-input" value="10" min="1" max="60" onclick="event.stopPropagation()">
               </div>
@@ -716,21 +716,21 @@
           <p class="timer-card__subtitle">Trabajo / Descanso<br>Alterna fases con rondas configurables</p>
           <div class="timer-card__config">
             <div class="config-row">
-              <label>Trabajo</label>
+              <label for="cfgIntWork">Trabajo</label>
               <div class="config-row__right">
                 <input type="number" id="cfgIntWork" class="config-input" value="30" min="5" max="300" onclick="event.stopPropagation()">
                 <span class="config-unit">seg</span>
               </div>
             </div>
             <div class="config-row">
-              <label>Descanso</label>
+              <label for="cfgIntRest">Descanso</label>
               <div class="config-row__right">
                 <input type="number" id="cfgIntRest" class="config-input" value="30" min="5" max="300" onclick="event.stopPropagation()">
                 <span class="config-unit">seg</span>
               </div>
             </div>
             <div class="config-row">
-              <label>Rondas</label>
+              <label for="cfgIntRounds">Rondas</label>
               <div class="config-row__right">
                 <input type="number" id="cfgIntRounds" class="config-input" value="8" min="1" max="50" onclick="event.stopPropagation()">
               </div>
@@ -750,7 +750,7 @@
           <p class="timer-card__subtitle">As Fast As Possible<br>Cron&oacute;metro ascendente con l&iacute;mite</p>
           <div class="timer-card__config">
             <div class="config-row">
-              <label>L&iacute;mite</label>
+              <label for="cfgAfapMin">L&iacute;mite</label>
               <div class="config-row__right">
                 <input type="number" id="cfgAfapMin" class="config-input" value="10" min="1" max="60" onclick="event.stopPropagation()">
                 <span class="config-unit">min</span>
@@ -771,7 +771,7 @@
           <p class="timer-card__subtitle">As Many Rounds As Possible<br>Completa tantas rondas como puedas</p>
           <div class="timer-card__config">
             <div class="config-row">
-              <label>Duraci&oacute;n</label>
+              <label for="cfgAmrapMin">Duraci&oacute;n</label>
               <div class="config-row__right">
                 <input type="number" id="cfgAmrapMin" class="config-input" value="12" min="1" max="60" onclick="event.stopPropagation()">
                 <span class="config-unit">min</span>

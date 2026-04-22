@@ -9,6 +9,12 @@ class TimersTool {
     this.isWorkPhase = true;
     this.afapTime = 0;
 
+    this.phaseStartTime = 0;
+    this.phaseDurationMs = 0;
+    this.totalPausedMs = 0;
+    this.pauseStartedAt = null;
+    this.phaseAlertFired = false;
+
     this.audioCtx = null;
 
     this.config = {
@@ -52,6 +58,25 @@ class TimersTool {
     this.config.prepSeconds = Math.max(3, Math.min(20, val('cfgPrep', 5)));
   }
 
+  // === Phase clock (absolute time, drift-free) ===
+
+  beginPhase(durationSec) {
+    this.phaseStartTime = performance.now();
+    this.phaseDurationMs = durationSec * 1000;
+    this.totalPausedMs = 0;
+    this.pauseStartedAt = null;
+    this.phaseAlertFired = false;
+    this.timeLeft = durationSec;
+  }
+
+  getPhaseElapsedMs() {
+    let elapsed = performance.now() - this.phaseStartTime - this.totalPausedMs;
+    if (this.isPaused && this.pauseStartedAt !== null) {
+      elapsed -= (performance.now() - this.pauseStartedAt);
+    }
+    return Math.max(0, elapsed);
+  }
+
   // === Timer Selection ===
 
   selectTimer(type) {
@@ -73,7 +98,7 @@ class TimersTool {
     this.afapTime = 0;
 
     this.phase = 'prep';
-    this.timeLeft = this.config.prepSeconds;
+    this.beginPhase(this.config.prepSeconds);
 
     this.showTimerView();
     this.renderPrep();
@@ -84,10 +109,12 @@ class TimersTool {
   }
 
   tickPrep() {
-    this.timeLeft--;
+    const remainingMs = this.phaseDurationMs - this.getPhaseElapsedMs();
+    this.timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
     this.renderPrep();
 
-    if (this.timeLeft <= 0) {
+    if (remainingMs <= 0 && !this.phaseAlertFired) {
+      this.phaseAlertFired = true;
       this.playAlert();
       this.clearTick();
       this.actuallyStart();
@@ -100,20 +127,20 @@ class TimersTool {
 
     switch (this.selectedTimer) {
       case 'EMOM':
-        this.timeLeft = this.config.emomInterval;
         this.currentRound = 1;
+        this.beginPhase(this.config.emomInterval);
         break;
       case 'INTERVALOS':
-        this.timeLeft = this.config.intervalWork;
         this.currentRound = 1;
         this.isWorkPhase = true;
+        this.beginPhase(this.config.intervalWork);
         break;
       case 'AFAP':
         this.afapTime = 0;
-        this.timeLeft = this.config.afapLimit;
+        this.beginPhase(this.config.afapLimit);
         break;
       case 'AMRAP':
-        this.timeLeft = this.config.amrapMinutes * 60;
+        this.beginPhase(this.config.amrapMinutes * 60);
         break;
     }
 
@@ -138,25 +165,29 @@ class TimersTool {
   }
 
   tickEmom() {
-    this.timeLeft--;
-    if (this.timeLeft <= 0) {
+    const remainingMs = this.phaseDurationMs - this.getPhaseElapsedMs();
+    this.timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
+    if (remainingMs <= 0 && !this.phaseAlertFired) {
+      this.phaseAlertFired = true;
       this.playAlert();
       this.currentRound++;
       if (this.currentRound > this.config.emomRounds) {
         this.finish();
         return;
       }
-      this.timeLeft = this.config.emomInterval;
+      this.beginPhase(this.config.emomInterval);
     }
   }
 
   tickInterval() {
-    this.timeLeft--;
-    if (this.timeLeft <= 0) {
+    const remainingMs = this.phaseDurationMs - this.getPhaseElapsedMs();
+    this.timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
+    if (remainingMs <= 0 && !this.phaseAlertFired) {
+      this.phaseAlertFired = true;
       this.playAlert();
       if (this.isWorkPhase) {
         this.isWorkPhase = false;
-        this.timeLeft = this.config.intervalRest;
+        this.beginPhase(this.config.intervalRest);
       } else {
         this.currentRound++;
         if (this.currentRound > this.config.intervalRounds) {
@@ -164,23 +195,27 @@ class TimersTool {
           return;
         }
         this.isWorkPhase = true;
-        this.timeLeft = this.config.intervalWork;
+        this.beginPhase(this.config.intervalWork);
       }
     }
   }
 
   tickAfap() {
-    this.afapTime++;
+    const elapsedMs = this.getPhaseElapsedMs();
+    this.afapTime = Math.floor(elapsedMs / 1000);
     this.timeLeft = this.config.afapLimit - this.afapTime;
-    if (this.afapTime >= this.config.afapLimit) {
+    if (elapsedMs >= this.phaseDurationMs && !this.phaseAlertFired) {
+      this.phaseAlertFired = true;
       this.playAlert();
       this.finish();
     }
   }
 
   tickAmrap() {
-    this.timeLeft--;
-    if (this.timeLeft <= 0) {
+    const remainingMs = this.phaseDurationMs - this.getPhaseElapsedMs();
+    this.timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
+    if (remainingMs <= 0 && !this.phaseAlertFired) {
+      this.phaseAlertFired = true;
       this.playAlert();
       this.finish();
     }
@@ -190,7 +225,16 @@ class TimersTool {
 
   togglePause() {
     if (this.phase !== 'running') return;
-    this.isPaused = !this.isPaused;
+    if (this.isPaused) {
+      if (this.pauseStartedAt !== null) {
+        this.totalPausedMs += performance.now() - this.pauseStartedAt;
+        this.pauseStartedAt = null;
+      }
+      this.isPaused = false;
+    } else {
+      this.pauseStartedAt = performance.now();
+      this.isPaused = true;
+    }
     this.updatePauseBtn();
   }
 

@@ -34,6 +34,7 @@ class MemoriaTool {
     this.attempts = 0;
     this.totalPairs = 0;
     this.timer = null;
+    this.startTime = 0;
     this.elapsed = 0;
     this.locked = false;
     this.gameStarted = false;
@@ -63,8 +64,9 @@ class MemoriaTool {
     this.reset();
     this.gameStarted = true;
     ScreenWakeLock.request();
+    this.startTime = performance.now();
     this.timer = setInterval(() => {
-      this.elapsed++;
+      this.elapsed = Math.floor((performance.now() - this.startTime) / 1000);
       this.updateStats();
     }, 1000);
   }

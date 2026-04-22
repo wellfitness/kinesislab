@@ -58,7 +58,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Modo:</span>
-        <select class="speed-select" onchange="tool.changeVariant(this.value)">
+        <select aria-label="Variante" name="variant" class="speed-select" onchange="tool.changeVariant(this.value)">
           <option value="lr-text">Texto &#x2194;</option>
           <option value="tb-text">Texto &#x2195;</option>
           <option value="lr-24h">24h &#x2194;</option>
@@ -67,7 +67,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="5000">Lenta (5s)</option>
           <option value="4000" selected>Media (4s)</option>
           <option value="3000">R&aacute;pida (3s)</option>
@@ -156,6 +156,7 @@
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
   <script src="../../../../../assets/js/tts-bridge.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="clock.js"></script>
 </body>
 </html>
