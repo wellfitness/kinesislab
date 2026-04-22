@@ -14,6 +14,27 @@ class ColoresTool {
     this.colorCounts = [0, 0, 0, 0];
     this.learningDone = false;
     this.level = 2;
+    this.audioCtx = null;
+  }
+
+  getAudioCtx() {
+    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+    return this.audioCtx;
+  }
+
+  tick() {
+    const ctx = this.getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'triangle';
+    osc.frequency.value = 600;
+    gain.gain.value = 0.15;
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+    osc.stop(ctx.currentTime + 0.03);
   }
 
   togglePlay() {
@@ -99,6 +120,7 @@ class ColoresTool {
 
   runColores() {
     const colorIndex = Math.floor(Math.random() * this.coloresData.length);
+    this.tick();
     const col = this.coloresData[colorIndex];
     const bg = document.getElementById('stimulus-colores');
     const textEl = document.getElementById('coloresText');
