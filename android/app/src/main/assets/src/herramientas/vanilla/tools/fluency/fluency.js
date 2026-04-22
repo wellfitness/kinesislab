@@ -7,7 +7,7 @@ class FluencyTool {
       "Empieza por A", "Empieza por C", "Empieza por M",
       "Empieza por S", "Empieza por P"
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 6000;
     this.totalTrials = 0;
@@ -53,17 +53,21 @@ class FluencyTool {
 
   startEngine() {
     this.runFluency();
-    this.interval = setInterval(() => this.runFluency(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runFluency(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   runFluency() {

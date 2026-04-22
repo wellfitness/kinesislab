@@ -8,7 +8,7 @@ class SearchTool {
       { target: 'I', distractor: 'l' },
       { target: 'M', distractor: 'N' }
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 4500;
     this.hits = 0;
@@ -57,18 +57,22 @@ class SearchTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.evaluateAndNext(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   resetStats() {

@@ -155,7 +155,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
           <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
@@ -171,10 +171,10 @@
       <div id="reactiveSignal" class="reactive-signal"></div>
       <div id="reactiveAction" class="reactive-action" style="opacity: 0;"></div>
       <div id="reactiveLegend" class="legend-panel">
-        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">AGUDO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">GRAVE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="ABAJO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">AGUDO</span><span class="legend-arrow">&rarr;</span><input name="action-agudo" class="legend-action" value="SALTO" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#ffffff;">GRAVE</span><span class="legend-arrow">&rarr;</span><input name="action-grave" class="legend-action" value="ABAJO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#18f8f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input name="action-azul" class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input name="action-rojo" class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
         <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
@@ -224,6 +224,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="reactive.js"></script>
 </body>
 </html>

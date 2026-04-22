@@ -6,7 +6,7 @@ class ReactiveTool {
       { type: 'color', freq: null, color: 'var(--turquesa-400)', hex: '#18f8f6', name: 'AZUL', action: 'DERECHA' },
       { type: 'color', freq: null, color: 'var(--rosa-600)', hex: '#e11d48', name: 'ROJO', action: 'IZQUIERDA' }
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.pendingTimeout = null;
     this.clearTimeout = null;
     this.isPlaying = false;
@@ -59,12 +59,16 @@ class ReactiveTool {
 
   startEngine() {
     this.runReactive();
-    this.interval = setInterval(() => this.runReactive(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runReactive(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
     if (this.pendingTimeout) clearTimeout(this.pendingTimeout);
     if (this.clearTimeout) clearTimeout(this.clearTimeout);
     this.pendingTimeout = null;
@@ -73,7 +77,7 @@ class ReactiveTool {
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   updateAction(index, value) {
@@ -93,7 +97,7 @@ class ReactiveTool {
           s.name +
         '</span>' +
         '<span class="legend-arrow">&rarr;</span>' +
-        '<input class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
+        '<input name="action-' + i + '" class="legend-action" value="' + this.escapeAttr(s.action) + '" ' +
           'onchange="tool.updateAction(' + i + ', this.value)" ' +
           'maxlength="20">' +
       '</div>'

@@ -1,6 +1,6 @@
 class ArrowsTool {
   constructor() {
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
   }
@@ -24,16 +24,21 @@ class ArrowsTool {
   startEngine() {
     this.runArrows();
     ScreenWakeLock.request();
-    this.interval = setInterval(() => this.runArrows(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runArrows(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
+    if (this.scheduler) this.scheduler.stop();
     KinesisTTS.cancel();
     ScreenWakeLock.release();
   }
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   runArrows() {

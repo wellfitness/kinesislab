@@ -266,7 +266,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Nivel:</span>
-        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+        <select aria-label="Nivel" name="level" class="speed-select" onchange="tool.changeLevel(this.value)">
           <option value="1" selected>1 Lista</option>
           <option value="2">2 Listas</option>
           <option value="3">Inverso</option>
@@ -274,7 +274,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">&Iacute;tems:</span>
-        <select class="speed-select" onchange="tool.changeCount(this.value)">
+        <select aria-label="Ítems" name="count" class="speed-select" onchange="tool.changeCount(this.value)">
           <option value="3" selected>3</option>
           <option value="4">4</option>
           <option value="5">5</option>
@@ -282,7 +282,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="3000">Lenta (3s)</option>
           <option value="2000" selected>Media (2s)</option>
           <option value="1500">R&aacute;pida (1.5s)</option>

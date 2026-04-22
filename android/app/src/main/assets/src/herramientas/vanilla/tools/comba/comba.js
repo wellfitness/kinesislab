@@ -195,23 +195,25 @@ class CombaTrainerVanilla {
 
   runExerciseTimer(duration) {
     return new Promise((resolve) => {
+      const endAt = performance.now() + duration * 1000;
+      let lastBeepedSecond = duration + 1;
       this.timeRemaining = duration;
       this.updateTimerUI();
 
       this.activeTimer = setInterval(() => {
-        if(!this.isRunning) {
+        if (!this.isRunning) {
           clearInterval(this.activeTimer);
           return resolve();
         }
-
-        this.timeRemaining--;
+        const remaining = Math.max(0, Math.ceil((endAt - performance.now()) / 1000));
+        this.timeRemaining = remaining;
         this.updateTimerUI();
-
-        if(this.timeRemaining === 3) this.playCountdownBeep('low');
-        if(this.timeRemaining === 2) this.playCountdownBeep('mid');
-        if(this.timeRemaining === 1) this.playCountdownBeep('high');
-
-        if(this.timeRemaining <= 0) {
+        if (remaining < lastBeepedSecond && remaining >= 1 && remaining <= 3) {
+          const level = remaining === 3 ? 'low' : remaining === 2 ? 'mid' : 'high';
+          this.playCountdownBeep(level);
+          lastBeepedSecond = remaining;
+        }
+        if (remaining <= 0) {
           clearInterval(this.activeTimer);
           resolve();
         }

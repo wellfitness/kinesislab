@@ -147,7 +147,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Nivel:</span>
-        <select id="levelSelect" class="speed-select" onchange="tool.changeLevel(this.value)">
+        <select aria-label="Nivel" id="levelSelect" class="speed-select" onchange="tool.changeLevel(this.value)">
           <option value="basic" selected>B&aacute;sico</option>
           <option value="distractors">Distractores</option>
           <option value="inverted">Invertido</option>
@@ -155,7 +155,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="3000">Lenta (3s)</option>
           <option value="2000" selected>Media (2s)</option>
           <option value="1200">R&aacute;pida (1.2s)</option>
@@ -234,6 +234,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="go-nogo.js"></script>
 </body>
 </html>

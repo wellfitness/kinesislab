@@ -6,7 +6,7 @@ class NBackTool {
       hard:   { n: 2, matchProb: 0.45, label: '2-Back' }
     };
     this.currentLevel = 'easy';
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
     this.stimuli = [
@@ -67,18 +67,22 @@ class NBackTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showStimulus();
-    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.evaluateAndNext(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   changeLevel(level) {

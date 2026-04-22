@@ -6,7 +6,7 @@ class ColoresTool {
       { name: 'VERDE', hex: '#10b981', action: 'DERECHA' },
       { name: 'AMARILLO', hex: '#eab308', action: 'IZQUIERDA' }
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
     this.rounds = 0;
@@ -42,17 +42,22 @@ class ColoresTool {
   startEngine() {
     this.runColores();
     ScreenWakeLock.request();
-    this.interval = setInterval(() => this.runColores(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runColores(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
+    if (this.scheduler) this.scheduler.stop();
     ScreenWakeLock.release();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   changeLevel(val) {

@@ -28,6 +28,7 @@ done
 cp "$ROOT/assets"/mi-foto.webp "$DEST/assets/" 2>/dev/null || true
 [ -f "$ROOT/assets/js/wake-lock.js" ] && cp "$ROOT/assets/js/wake-lock.js" "$DEST/assets/js/"
 [ -f "$ROOT/assets/js/tts-bridge.js" ] && cp "$ROOT/assets/js/tts-bridge.js" "$DEST/assets/js/"
+[ -f "$ROOT/assets/js/cadence-scheduler.js" ] && cp "$ROOT/assets/js/cadence-scheduler.js" "$DEST/assets/js/"
 
 echo "Aplicando transformaciones Android (fonts locales + sin sw-updater)..."
 mapfile -t HTML_FILES < <(find "$DEST/src/herramientas/vanilla" -name '*.html' -type f 2>/dev/null; [ -f "$DEST/legal.html" ] && echo "$DEST/legal.html"; [ -f "$DEST/privacy.html" ] && echo "$DEST/privacy.html")

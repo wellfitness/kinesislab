@@ -95,7 +95,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Cuadr&iacute;cula:</span>
-        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+        <select aria-label="Nivel" name="level" class="speed-select" onchange="tool.changeLevel(this.value)">
           <option value="3" selected>3&times;3</option>
           <option value="4">4&times;4</option>
           <option value="5">5&times;5</option>
@@ -103,7 +103,7 @@
       </div>
       <div class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="8000">Lenta (8s)</option>
           <option value="6000" selected>Media (6s)</option>
           <option value="4000">R&aacute;pida (4s)</option>
@@ -172,6 +172,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="matrix.js"></script>
 </body>
 </html>

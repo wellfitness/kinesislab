@@ -10,7 +10,7 @@ class FlechasTool {
       { arrow: 'west', label: 'IZQUIERDA' },
       { arrow: 'east', label: 'DERECHA' }
     ];
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 2000;
     this.level = 'normal';
@@ -60,19 +60,23 @@ class FlechasTool {
   startEngine() {
     this.showArrow();
     ScreenWakeLock.request();
-    this.interval = setInterval(() => this.showArrow(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.showArrow(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
+    if (this.scheduler) this.scheduler.stop();
     ScreenWakeLock.release();
-    this.interval = null;
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
     this.updateArrowColor();
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   changeLevel(val) {

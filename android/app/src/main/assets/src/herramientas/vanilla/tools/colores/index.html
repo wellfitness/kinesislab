@@ -111,7 +111,7 @@
     <div class="exec-toolbar">
       <div class="control-group">
         <span class="control-label">Nivel:</span>
-        <select class="speed-select" onchange="tool.changeLevel(this.value)">
+        <select aria-label="Nivel" name="level" class="speed-select" onchange="tool.changeLevel(this.value)">
           <option value="1">Stroop</option>
           <option value="2" selected>Color + Acci&oacute;n</option>
           <option value="3">Stroop + Acci&oacute;n</option>
@@ -119,7 +119,7 @@
       </div>
       <div id="cadenceGroup" class="control-group">
         <span class="control-label">Cadencia:</span>
-        <select class="speed-select" onchange="tool.changeSpeed(this.value)">
+        <select aria-label="Cadencia" name="speed" class="speed-select" onchange="tool.changeSpeed(this.value)">
           <option value="4000">Lenta (4s)</option>
           <option value="3000" selected>Media (3s)</option>
           <option value="2000">R&aacute;pida (2s)</option>
@@ -138,10 +138,10 @@
          </div>
       </div>
       <div id="coloresLegend" class="legend-panel">
-        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#3b82f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#10b981;">VERDE</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
-        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">AMARILLO</span><span class="legend-arrow">&rarr;</span><input class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#e11d48;">ROJO</span><span class="legend-arrow">&rarr;</span><input name="action-rojo" class="legend-action" value="SENTADILLA" onchange="tool.updateAction(0, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#3b82f6;">AZUL</span><span class="legend-arrow">&rarr;</span><input name="action-azul" class="legend-action" value="SALTO" onchange="tool.updateAction(1, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#10b981;">VERDE</span><span class="legend-arrow">&rarr;</span><input name="action-verde" class="legend-action" value="DERECHA" onchange="tool.updateAction(2, this.value)" maxlength="20"></div>
+        <div class="legend-item"><span class="legend-signal" style="color:#eab308;">AMARILLO</span><span class="legend-arrow">&rarr;</span><input name="action-amarillo" class="legend-action" value="IZQUIERDA" onchange="tool.updateAction(3, this.value)" maxlength="20"></div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
         <div class="stat-item"><span id="statRounds" class="stat-value" style="color: white;">0</span><span class="stat-label">Rondas</span></div>
@@ -198,6 +198,7 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js"></script>
+  <script src="../../../../../assets/js/cadence-scheduler.js"></script>
   <script src="colores.js"></script>
 </body>
 </html>

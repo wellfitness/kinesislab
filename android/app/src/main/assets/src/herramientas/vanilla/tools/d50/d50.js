@@ -1,6 +1,6 @@
 class D50Tool {
   constructor() {
-    this.interval = null;
+    this.scheduler = null;
     this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 3000;
@@ -58,20 +58,24 @@ class D50Tool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.evaluateAndNext(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   resetStats() {
@@ -131,7 +135,7 @@ class D50Tool {
         this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
-        this.interval = setInterval(() => this.evaluateAndNext(), this.currentSpeed);
+        this.scheduler.start();
       }, 800);
       return;
     }

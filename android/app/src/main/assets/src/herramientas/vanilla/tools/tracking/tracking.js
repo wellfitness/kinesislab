@@ -1,6 +1,6 @@
 class TrackingTool {
   constructor() {
-    this.interval = null;
+    this.scheduler = null;
     this.isPlaying = false;
     this.currentSpeed = 1000;
     this.totalTrials = 0;
@@ -25,19 +25,23 @@ class TrackingTool {
 
   startEngine() {
     this.runTrackingTick();
-    this.interval = setInterval(() => this.runTrackingTick(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.runTrackingTick(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   stopEngine() {
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
   }
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
     const dot = document.getElementById('tracking-dot');
     dot.style.transition = 'all ' + (this.currentSpeed / 1000) + 's ease-in-out';
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   runTrackingTick() {

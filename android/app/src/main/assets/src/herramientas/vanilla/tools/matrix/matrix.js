@@ -7,7 +7,7 @@ class MatrixTool {
     };
     this.currentLevel = '3';
     this.orderedMode = false;
-    this.interval = null;
+    this.scheduler = null;
     this.pendingRestart = null;
     this.isPlaying = false;
     this.currentSpeed = 6000;
@@ -112,7 +112,12 @@ class MatrixTool {
   startEngine() {
     ScreenWakeLock.request();
     this.showTrial();
-    this.interval = setInterval(() => this.tick(), this.currentSpeed);
+    if (!this.scheduler) {
+      this.scheduler = new CadenceScheduler(() => this.tick(), this.currentSpeed);
+    } else {
+      this.scheduler.changeInterval(this.currentSpeed);
+    }
+    this.scheduler.start();
   }
 
   tick() {
@@ -132,7 +137,7 @@ class MatrixTool {
         this.pendingRestart = null;
         if (!this.isPlaying) return;
         this.showTrial();
-        this.interval = setInterval(() => this.tick(), this.currentSpeed);
+        this.scheduler.start();
       }, 800);
       return;
     }
@@ -141,8 +146,7 @@ class MatrixTool {
 
   stopEngine() {
     ScreenWakeLock.release();
-    if (this.interval) clearInterval(this.interval);
-    this.interval = null;
+    if (this.scheduler) this.scheduler.stop();
     clearTimeout(this.hideTimeout);
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
@@ -150,7 +154,7 @@ class MatrixTool {
 
   changeSpeed(ms) {
     this.currentSpeed = parseInt(ms, 10);
-    if (this.isPlaying) { this.stopEngine(); this.startEngine(); }
+    if (this.scheduler) this.scheduler.changeInterval(this.currentSpeed);
   }
 
   resetStats() {
