@@ -25,3 +25,8 @@ android/gradle.properties
 *.jks
 # android/app/build.gradle SI se versiona: no contiene secretos.
 # Las credenciales del keystore viven en android/gradle.properties (ignorado).
+
+# Script auxiliar de build local y su log
+COMPILAR-AAB.bat
+build-log.txt
+*.aab
