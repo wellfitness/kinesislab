@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'kinesislab.movimientofuncional.app'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'kinesislab.movimientofuncional.app'
+        minSdk 21
+        targetSdk 36
+        versionCode 14
+        versionName '2.0.9'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(KEYSTORE_FILE)
+            storePassword KEYSTORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    // Kotlin >=1.8 fusiono kotlin-stdlib-jdk7/jdk8 dentro de kotlin-stdlib.
+    // Forzamos a las deps transitivas a usar la version unificada para evitar
+    // "Duplicate class" entre kotlin-stdlib:1.8.x y kotlin-stdlib-jdk7/8:1.6.x.
+    constraints {
+        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22') {
+            because 'kotlin-stdlib-jdk7 fue fusionado en kotlin-stdlib desde 1.8'
+        }
+        implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22') {
+            because 'kotlin-stdlib-jdk8 fue fusionado en kotlin-stdlib desde 1.8'
+        }
+    }
+
+    implementation 'androidx.activity:activity:1.9.3'
+    implementation 'androidx.core:core:1.13.1'
+    implementation 'androidx.webkit:webkit:1.12.1'
+}
+
+// Sincroniza src/herramientas/vanilla/ -> android/app/src/main/assets/ antes
+// de cada build. Sin esto, los cambios web no llegan al APK.
+tasks.register('syncWebAssets', Exec) {
+    workingDir rootProject.projectDir.parentFile
+    executable 'bash'
+    args 'scripts/sync-android-assets.sh'
+}
+
+preBuild.dependsOn syncWebAssets

@@ -23,4 +23,5 @@ android/local.properties
 android/gradle.properties
 *.keystore
 *.jks
-android/app/build.gradle
+# android/app/build.gradle SI se versiona: no contiene secretos.
+# Las credenciales del keystore viven en android/gradle.properties (ignorado).
