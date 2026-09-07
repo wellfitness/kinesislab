@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 15+ (API 35) impone edge-to-edge e ignora android:statusBarColor y
+  android:navigationBarColor. Se omiten aqui para evitar avisos de deprecacion
+  al compilar contra API 36, manteniendo values/ y values-v31/ intactos para
+  los dispositivos antiguos donde esos atributos si tienen efecto.
+-->
+<resources>
+    <style name="Theme.LauncherActivity" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowSplashScreenBackground">@color/backgroundColor</item>
+    </style>
+</resources>
