@@ -113,14 +113,27 @@
       if (!current) return;
       current.trials.push(Object.assign({}, trial, { t: Date.now() - current.startTime }));
     },
-    end() {
+    end(extraConfig) {
       if (!current) return null;
+      if (extraConfig && typeof extraConfig === 'object') {
+        current.config = Object.assign({}, current.config, extraConfig);
+      }
       const summary = computeSummary(current);
       let comparison = null;
-      if (summary && summary.total >= 5) {
+      const minTrials = (current.config && typeof current.config.minTrials === 'number')
+        ? current.config.minTrials
+        : 5;
+      if (summary && summary.total >= minTrials) {
         const user = users.active();
-        if (user) saveSession(user, current.toolId, summary);
-        comparison = buildComparison(user, current.toolId, summary);
+        if (user) {
+          comparison = buildComparison(user, current.toolId, summary);
+          saveSession(user, current.toolId, summary);
+          const metric = (summary.config && summary.config.primaryMetric) || 'rtMedian';
+          const top = ranking.getTop(current.toolId, metric, 5);
+          comparison.ranking = top;
+          const idx = top.findIndex(t => t.user === user);
+          comparison.myRank = idx >= 0 ? idx + 1 : null;
+        }
       }
       current = null;
       return { summary, comparison };
@@ -290,7 +303,7 @@
       if (!user) return null;
       const list = safeGet(KEY.userSessions(user, toolId), []);
       if (!list.length) return null;
-      const lowerBetter = (metric === 'rtMedian');
+      const lowerBetter = (metric === 'rtMedian' || metric === 'ies');
       return list.reduce((best, cur) => {
         if (cur[metric] == null) return best;
         if (!best) return cur;
@@ -305,7 +318,8 @@
       const list = safeGet(KEY.userSessions(user, toolId), []);
       const values = list.map(s => s[metric]).filter(v => v != null);
       if (!values.length) return null;
-      return Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+      const avg = values.reduce((a, b) => a + b, 0) / values.length;
+      return metric === 'accuracy' ? Math.round(avg * 100) / 100 : Math.round(avg);
     }
   };
 
@@ -341,7 +355,7 @@
     getTop(toolId, metric, n) {
       metric = metric || 'rtMedian';
       n = n || 5;
-      const lowerBetter = (metric === 'rtMedian');
+      const lowerBetter = (metric === 'rtMedian' || metric === 'ies');
       const items = users.list().map(user => {
         const list = safeGet(KEY.userSessions(user, toolId), []);
         const values = list.map(s => s[metric]).filter(v => v != null);
@@ -357,19 +371,31 @@
   // ---------- Comparación post-sesión ----------
   function buildComparison(user, toolId, current) {
     if (!user) return null;
-    const best = history.getBest(toolId, 'rtMedian');
-    const avg = history.getAverage(toolId, 'rtMedian');
-    const top = ranking.getTop(toolId, 'rtMedian', 5);
+    const metric = (current && current.config && current.config.primaryMetric) || 'rtMedian';
+    const lowerBetter = (metric === 'rtMedian' || metric === 'ies');
+    const best = history.getBest(toolId, metric);
+    const avg = history.getAverage(toolId, metric);
+    const top = ranking.getTop(toolId, metric, 5);
     let myRank = null;
     const idx = top.findIndex(t => t.user === user);
     if (idx >= 0) myRank = idx + 1;
+    const curVal = current ? current[metric] : null;
+    const bestVal = best ? best[metric] : null;
+    const improvedVsAvg = avg != null && curVal != null && (lowerBetter ? curVal < avg : curVal > avg);
+    const improvedVsBest = bestVal != null && curVal != null && (lowerBetter ? curVal < bestVal : curVal > bestVal);
     return {
-      personalBest: best ? { rtMedian: best.rtMedian, date: best.date } : null,
+      metric,
+      personalBest: best ? {
+        value: bestVal,
+        rtMedian: best.rtMedian,
+        accuracy: best.accuracy,
+        date: best.date
+      } : null,
       personalAvg: avg,
       ranking: top,
       myRank,
-      improvedVsAvg: avg != null && current.rtMedian != null && current.rtMedian < avg,
-      improvedVsBest: best && current.rtMedian != null && current.rtMedian < best.rtMedian
+      improvedVsAvg,
+      improvedVsBest
     };
   }
 

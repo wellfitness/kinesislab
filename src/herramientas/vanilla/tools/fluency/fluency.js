@@ -81,26 +81,27 @@ class FluencyTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        const intra = this.intraCategoryIntervals;
-        const sw = this.switchIntervals;
-        const avgIntra = intra.length > 0 ? Math.round(intra.reduce((a, b) => a + b, 0) / intra.length) : null;
-        const avgSwitch = sw.length > 0 ? Math.round(sw.reduce((a, b) => a + b, 0) / sw.length) : null;
-        const wordsPerCat = this.totalTrials > 0 ? (this.totalWords / this.totalTrials).toFixed(1) : 0;
-        if (avgIntra != null && avgSwitch != null) {
-          const switchCost = avgSwitch - avgIntra;
-          customFeedback = `${this.totalWords} palabras (${wordsPerCat}/categoría) · coste de cambio: +${switchCost} ms`;
-          result.summary.config = result.summary.config || {};
-          result.summary.config.totalWords = this.totalWords;
-          result.summary.config.wordsPerCategory = wordsPerCat;
-          result.summary.config.switchCost = switchCost;
-          result.summary.config.avgIntraInterval = avgIntra;
-          result.summary.config.avgSwitchInterval = avgSwitch;
-        } else if (this.totalWords > 0) {
-          customFeedback = `${this.totalWords} palabras en ${this.totalTrials} categorías`;
-        }
+      const intra = this.intraCategoryIntervals;
+      const sw = this.switchIntervals;
+      const avgIntra = intra.length > 0 ? Math.round(intra.reduce((a, b) => a + b, 0) / intra.length) : null;
+      const avgSwitch = sw.length > 0 ? Math.round(sw.reduce((a, b) => a + b, 0) / sw.length) : null;
+      const wordsPerCat = this.totalTrials > 0 ? (this.totalWords / this.totalTrials).toFixed(1) : 0;
+      let extra = {
+        totalWords: this.totalWords,
+        wordsPerCategory: wordsPerCat,
+        minTrials: 3
+      };
+      if (avgIntra != null && avgSwitch != null) {
+        const switchCost = avgSwitch - avgIntra;
+        const sign = switchCost >= 0 ? '+' : '';
+        customFeedback = `${this.totalWords} palabras (${wordsPerCat}/categoría) · coste de cambio: ${sign}${switchCost} ms`;
+        extra.switchCost = switchCost;
+        extra.avgIntraInterval = avgIntra;
+        extra.avgSwitchInterval = avgSwitch;
+      } else if (this.totalWords > 0) {
+        customFeedback = `${this.totalWords} palabras en ${this.totalTrials} categorías`;
       }
+      result = SessionStats.session.end(extra);
     }
 
     document.getElementById('playIcon').textContent = 'play_arrow';

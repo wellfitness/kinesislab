@@ -10,7 +10,7 @@
   <title>Memoria Visual — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .memoria-grid {
       display: grid;
@@ -132,9 +132,10 @@
       background: var(--turquesa-600);
       color: white;
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Memoria Visual</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -155,7 +156,7 @@
       <button id="btnPlayPause" class="btn-primary" onclick="tool.start()">
         <span id="playIcon" class="material-symbols-sharp">play_arrow</span><span id="playText">COMENZAR</span>
       </button>
-      <button class="btn-secondary" onclick="tool.reset()">
+      <button class="btn-secondary" onclick="tool.reset()" aria-label="Reiniciar">
         <span class="material-symbols-sharp">refresh</span>
       </button>
       <button id="btnFinalize" class="btn-finalize" onclick="tool.finalize()" aria-label="Finalizar sesión">
@@ -179,7 +180,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Memoria Visual</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -229,7 +230,7 @@
 
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="memoria.js?v=2.0.7"></script>
 </body>
 </html>

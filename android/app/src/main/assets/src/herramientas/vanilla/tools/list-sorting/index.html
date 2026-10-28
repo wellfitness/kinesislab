@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <title>Listas de Objetos — KinesisLab</title>
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     /* === LAYOUT === */
     #stimulusContainer.stimulus-area {
@@ -161,18 +161,23 @@
       border-color: rgba(16, 185, 129, 0.5);
       color: #10b981;
     }
-    .btn-true:not(:disabled):hover {
-      background: rgba(16, 185, 129, 0.1);
-      border-color: #10b981;
-    }
+@media (hover: hover) {
+  .btn-true:not(:disabled):hover {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+  }
+}
+
     .btn-false {
       border-color: rgba(225, 29, 72, 0.5);
       color: var(--rosa-400);
     }
-    .btn-false:not(:disabled):hover {
-      background: rgba(225, 29, 72, 0.1);
-      border-color: var(--rosa-400);
-    }
+@media (hover: hover) {
+  .btn-false:not(:disabled):hover {
+    background: rgba(225, 29, 72, 0.1);
+    border-color: var(--rosa-400);
+  }
+}
 
     /* === FEEDBACK ICON === */
     .feedback-icon {
@@ -249,9 +254,10 @@
       .stat-value { font-size: 1rem; }
       .present-item { font-size: clamp(2rem, 8vw, 3.5rem); }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Listas de Objetos</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -340,7 +346,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Listas de Objetos</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -398,7 +404,7 @@
 
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="list-sorting.js?v=2.0.7"></script>
 </body>
 </html>

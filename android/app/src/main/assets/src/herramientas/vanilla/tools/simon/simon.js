@@ -82,12 +82,12 @@ class SimonTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        result.summary.config = result.summary.config || {};
-        result.summary.config.maxStreak = this.bestStreak;
-        customFeedback = `Has alcanzado ${this.bestStreak} colores seguidos · ${this.direction === 'reverse' ? 'modo atrás' : 'modo adelante'}`;
-      }
+      customFeedback = `Has alcanzado ${this.bestStreak} colores seguidos · ${this.direction === 'reverse' ? 'modo atrás' : 'modo adelante'}`;
+      result = SessionStats.session.end({
+        maxStreak: this.bestStreak,
+        direction: this.direction,
+        minTrials: 3
+      });
     }
 
     this.setPlayButton('play_arrow', 'INICIAR');

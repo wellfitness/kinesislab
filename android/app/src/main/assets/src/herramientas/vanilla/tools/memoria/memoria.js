@@ -97,15 +97,14 @@ class MemoriaTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        const efficiency = this.attempts > 0 ? (this.matched / this.attempts * 100).toFixed(0) : 0;
-        customFeedback = `${this.matched}/${this.totalPairs} parejas en ${this.attempts} intentos · eficiencia ${efficiency}%`;
-        result.summary.config = result.summary.config || {};
-        result.summary.config.matched = this.matched;
-        result.summary.config.totalPairs = this.totalPairs;
-        result.summary.config.efficiency = efficiency;
-      }
+      const efficiency = this.attempts > 0 ? (this.matched / this.attempts * 100).toFixed(0) : 0;
+      customFeedback = `${this.matched}/${this.totalPairs} parejas en ${this.attempts} intentos · eficiencia ${efficiency}%`;
+      result = SessionStats.session.end({
+        matched: this.matched,
+        totalPairs: this.totalPairs,
+        efficiency: efficiency,
+        minTrials: 3
+      });
     }
 
     if (result && result.summary && result.summary.total >= 3 && window.SessionStatsUI) {

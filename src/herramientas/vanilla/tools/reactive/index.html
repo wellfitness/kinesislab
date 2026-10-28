@@ -10,7 +10,7 @@
   <title>Se&ntilde;ales Reactivas — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .reactive-action {
       font-family: var(--font-display);
@@ -66,9 +66,10 @@
         gap: 4px;
       }
       .legend-action {
-        width: 96px;
-        font-size: 0.75rem;
-        padding: 4px 6px;
+        width: 132px;
+        font-size: 1rem;
+        min-height: 44px;
+        padding: 6px 8px;
       }
       .legend-signal {
         font-size: 0.75rem;
@@ -110,7 +111,8 @@
       border-radius: 6px;
       color: var(--tulip-tree-400);
       font-family: var(--font-display);
-      font-size: 0.85rem;
+      font-size: 1rem;
+      min-height: 44px;
       padding: 4px 8px;
       width: 132px;
       text-align: center;
@@ -141,9 +143,10 @@
       .stats-bar { padding: var(--space-3); }
       .stimulus-instruction { font-size: 1.6rem; }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Se&ntilde;ales Reactivas</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -192,7 +195,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Se&ntilde;ales Reactivas</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -243,7 +246,7 @@
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/cadence-scheduler.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="reactive.js?v=2.0.7"></script>
 </body>
 </html>

@@ -132,7 +132,7 @@ class CombaTrainerVanilla {
     ScreenWakeLock.request();
     this.sequenceCount = 0;
     this.totalExercises = 0;
-    KinesisTTS.warmup();
+    if (window.KinesisTTS) KinesisTTS.warmup();
     this.ensureAudioCtx();
 
     if (window.SessionStats) {
@@ -184,13 +184,13 @@ class CombaTrainerVanilla {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        customFeedback = `${this.sequenceCount} secuencias · ${this.totalExercises} ejercicios`;
-        result.summary.config = result.summary.config || {};
-        result.summary.config.sequenceCount = this.sequenceCount;
-        result.summary.config.totalExercises = this.totalExercises;
-      }
+      customFeedback = `${this.sequenceCount} secuencias · ${this.totalExercises} ejercicios`;
+      result = SessionStats.session.end({
+        sequenceCount: this.sequenceCount,
+        totalExercises: this.totalExercises,
+        primaryMetric: 'total',
+        minTrials: 3
+      });
     }
 
     if (result && result.summary && result.summary.total >= 3 && window.SessionStatsUI) {
@@ -212,6 +212,7 @@ class CombaTrainerVanilla {
 
   speakAndWait(text) {
     if (!this.isRunning) return Promise.resolve();
+    if (!window.KinesisTTS) return Promise.resolve();
     return KinesisTTS.speakAndWait(text);
   }
 
@@ -363,7 +364,7 @@ if (window.SessionStatsUI) {
   SessionStatsUI.init({
     toolId: 'comba',
     toolName: 'Comba Reactiva',
-    primaryMetric: 'rtMedian',
+    primaryMetric: 'total',
     onRepeat: () => tool.handleStartStop(),
     onClose: () => {}
   });

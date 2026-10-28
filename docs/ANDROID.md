@@ -35,12 +35,23 @@ bundlados dentro del APK se regeneran automáticamente antes de cada build.
 
 1. Borra `android/app/src/main/assets/` (conserva `fonts/`).
 2. Copia `src/herramientas/vanilla/` → `android/app/src/main/assets/src/herramientas/vanilla/`.
-3. Copia imágenes referenciadas (`logo-*.webp`, `mi-foto.webp`) → `android/app/src/main/assets/assets/`.
-4. Copia `legal.html` y `privacy.html` al root.
-5. Aplica transformaciones Android a cada HTML:
+3. Copia `legal.html` y `privacy.html` al root.
+4. Aplica transformaciones Android a cada HTML:
    - Elimina `<link>` a Google Fonts CDN.
    - Elimina `<script>` del service worker updater (no aplica en WebView).
    - Inyecta `<link rel="stylesheet" href="/fonts/local-fonts.css">` al `<head>`.
+   - En `legal.html` y `privacy.html`, el enlace "volver" pasa a apuntar al
+     dashboard (`src/herramientas/vanilla/dashboard.html`) en vez de a la
+     landing pública, que dentro de la app solo ofrece el enlace de la
+     Play Store.
+5. Copia **exactamente los recursos locales que referencia el HTML** del
+   bundle (JS, CSS e imágenes), resolviendo cada `src`/`href` contra el
+   árbol de la fuente. No hay lista de ficheros a mano: una lista fija dejó
+   fuera `session-stats.js`, `session-stats-ui.js` y `design-tokens.css`, y
+   el APK salió sin estadísticas, sin ranking y con las páginas legales sin
+   estilos.
+6. **Verifica** que toda referencia local del bundle exista. Si alguna no
+   aparece, el script termina con error y el build se detiene.
 
 ### Gradle task `syncWebAssets`
 

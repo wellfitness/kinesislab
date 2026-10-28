@@ -83,19 +83,19 @@ class SearchTool {
     this.stopEngine();
 
     let result = null;
-    if (window.SessionStats) result = SessionStats.session.end();
-
-    // En modo pendiente, calcular y mostrar slope como custom feedback
     let customFeedback = null;
-    if (this.slopeMode && result && result.summary) {
-      const slope = this.computeSlope();
-      if (slope !== null) {
-        result.summary.config = result.summary.config || {};
-        result.summary.config.slope = slope;
-        customFeedback = `Eficiencia de búsqueda: ${slope} ms por estímulo extra`;
-      } else {
-        customFeedback = 'Pocos datos para calcular la pendiente — completa más rondas';
+    if (window.SessionStats) {
+      let extra = undefined;
+      if (this.slopeMode) {
+        const slope = this.computeSlope();
+        if (slope !== null) {
+          extra = { slope };
+          customFeedback = `Eficiencia de búsqueda: ${slope} ms por estímulo extra`;
+        } else {
+          customFeedback = 'Pocos datos para calcular la pendiente — completa más rondas';
+        }
       }
+      result = SessionStats.session.end(extra);
     }
 
     this.setPlayButton('play_arrow', 'INICIAR');

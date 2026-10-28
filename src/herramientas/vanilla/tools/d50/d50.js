@@ -105,25 +105,23 @@ class D50Tool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        const bins = ['cerca', 'media', 'lejos'];
-        const avgs = bins.map(b => {
-          const arr = this.rtByDistanceBin[b] || [];
-          if (arr.length < 2) return null;
-          return Math.round(arr.reduce((a, c) => a + c, 0) / arr.length);
+      const bins = ['cerca', 'media', 'lejos'];
+      const avgs = bins.map(b => {
+        const arr = this.rtByDistanceBin[b] || [];
+        if (arr.length < 2) return null;
+        return Math.round(arr.reduce((a, c) => a + c, 0) / arr.length);
+      });
+      const validCount = avgs.filter(v => v != null).length;
+      let rtByDistance = null;
+      if (validCount >= 2) {
+        const parts = [];
+        bins.forEach((b, i) => {
+          if (avgs[i] != null) parts.push(`${b}: ${avgs[i]} ms`);
         });
-        const validCount = avgs.filter(v => v != null).length;
-        if (validCount >= 2) {
-          const parts = [];
-          bins.forEach((b, i) => {
-            if (avgs[i] != null) parts.push(`${b}: ${avgs[i]} ms`);
-          });
-          customFeedback = `Distancia numérica al 50 → ${parts.join(' · ')}`;
-          result.summary.config = result.summary.config || {};
-          result.summary.config.rtByDistance = { cerca: avgs[0], media: avgs[1], lejos: avgs[2] };
-        }
+        customFeedback = `Distancia numérica al 50: ${parts.join(' · ')}`;
+        rtByDistance = { cerca: avgs[0], media: avgs[1], lejos: avgs[2] };
       }
+      result = SessionStats.session.end(rtByDistance ? { rtByDistance } : undefined);
     }
 
     document.getElementById('playIcon').textContent = 'play_arrow';

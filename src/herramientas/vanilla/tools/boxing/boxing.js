@@ -14,7 +14,7 @@ class BoxingGeneratorVanilla {
     this.settings = {
       punchCount: 4,
       includeDefensive: false,
-      speechRate: 1.0
+      speechRate: window.KinesisTTS ? window.KinesisTTS.getRate() : 0.9
     };
 
     // State internals
@@ -69,8 +69,14 @@ class BoxingGeneratorVanilla {
       document.getElementById('lblPunch').textContent = this.settings.punchCount;
     });
 
-    document.getElementById('speechRate').addEventListener('input', (e) => {
+    // El control de voz no es propio de boxing: escribe en el ajuste global
+    // del bridge, que es el mismo dial que ven el resto de herramientas.
+    const speechRateInput = document.getElementById('speechRate');
+    speechRateInput.value = String(this.settings.speechRate);
+    document.getElementById('lblSpeech').textContent = this.settings.speechRate.toFixed(1) + 'x';
+    speechRateInput.addEventListener('input', (e) => {
       this.settings.speechRate = parseFloat(e.target.value);
+      if (window.KinesisTTS) window.KinesisTTS.setRate(this.settings.speechRate);
       document.getElementById('lblSpeech').textContent = this.settings.speechRate.toFixed(1) + 'x';
     });
 
@@ -94,7 +100,7 @@ class BoxingGeneratorVanilla {
     ScreenWakeLock.request();
     this.comboCount = 0;
     this.totalPunches = 0;
-    KinesisTTS.warmup();
+    if (window.KinesisTTS) KinesisTTS.warmup();
     this.ensureAudioCtx();
 
     if (window.SessionStats) {
@@ -127,7 +133,7 @@ class BoxingGeneratorVanilla {
     document.getElementById('stateCombos').style.display = 'none';
     document.getElementById('statePreparing').style.display = 'none';
 
-    KinesisTTS.cancel();
+    if (window.KinesisTTS) KinesisTTS.cancel();
 
     if (this.sessionActive) {
       this.finalize();
@@ -150,13 +156,13 @@ class BoxingGeneratorVanilla {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        customFeedback = `${this.comboCount} combos · ${this.totalPunches} golpes/movimientos`;
-        result.summary.config = result.summary.config || {};
-        result.summary.config.comboCount = this.comboCount;
-        result.summary.config.totalPunches = this.totalPunches;
-      }
+      customFeedback = `${this.comboCount} combos · ${this.totalPunches} golpes/movimientos`;
+      result = SessionStats.session.end({
+        comboCount: this.comboCount,
+        totalPunches: this.totalPunches,
+        primaryMetric: 'total',
+        minTrials: 3
+      });
     }
 
     if (result && result.summary && result.summary.total >= 3 && window.SessionStatsUI) {
@@ -178,7 +184,10 @@ class BoxingGeneratorVanilla {
 
   speakAndWait(text) {
     if (!this.isRunning) return Promise.resolve();
-    return KinesisTTS.speakAndWait(text, this.settings.speechRate);
+    if (!window.KinesisTTS) return Promise.resolve();
+    // La velocidad la gobierna el bridge (ajuste global). Aquí solo se guarda
+    // una copia para calcular el descanso entre golpes.
+    return KinesisTTS.speakAndWait(text);
   }
 
   generateCombo() {
@@ -319,7 +328,7 @@ if (window.SessionStatsUI) {
   SessionStatsUI.init({
     toolId: 'boxing',
     toolName: 'Boxeo Reactivo',
-    primaryMetric: 'rtMedian',
+    primaryMetric: 'total',
     onRepeat: () => tool.handleStartStop(),
     onClose: () => {}
   });

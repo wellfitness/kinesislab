@@ -279,3 +279,85 @@ describe('SessionStats.tools', () => {
     expect(activos).toContain('flechas');
   });
 });
+
+describe('SessionStats.comparison y mejoras de Fase 1', () => {
+  beforeEach(() => {
+    window.SessionStats.users.setActive('Elena');
+  });
+
+  it('end(extraConfig) persiste propiedades adicionales en localStorage', () => {
+    window.SessionStats.session.start('memoria', { pairs: 3 });
+    for (let i = 0; i < 3; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 400 });
+    const res = window.SessionStats.session.end({ matched: 3, totalPairs: 3, efficiency: '100', minTrials: 3 });
+    expect(res.summary.config.matched).toBe(3);
+    expect(res.summary.config.efficiency).toBe('100');
+
+    const recent = window.SessionStats.history.getRecent('memoria');
+    expect(recent).toHaveLength(1);
+    expect(recent[0].config.matched).toBe(3);
+    expect(recent[0].config.efficiency).toBe('100');
+  });
+
+  it('minTrials permite guardar sesiones con 3 trials', () => {
+    window.SessionStats.session.start('boxing', { minTrials: 3 });
+    for (let i = 0; i < 3; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 350 });
+    const res = window.SessionStats.session.end();
+    expect(res.summary).not.toBeNull();
+    expect(window.SessionStats.history.getRecent('boxing')).toHaveLength(1);
+  });
+
+  it('detecta nuevo record personal cuando se supera la mejor marca previa', () => {
+    window.SessionStats.session.start('go-nogo', {});
+    for (let i = 0; i < 5; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 400 });
+    const first = window.SessionStats.session.end();
+    // Primera sesion no tiene record previo que superar
+    expect(first.comparison.improvedVsBest).toBeFalsy();
+
+    // Segunda sesion mas rapida (320 ms < 400 ms)
+    window.SessionStats.session.start('go-nogo', {});
+    for (let i = 0; i < 5; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 320 });
+    const second = window.SessionStats.session.end();
+    expect(second.comparison.improvedVsBest).toBe(true);
+    expect(second.comparison.personalBest.rtMedian).toBe(400);
+
+    // Tercera sesion mas lenta (380 ms > 320 ms)
+    window.SessionStats.session.start('go-nogo', {});
+    for (let i = 0; i < 5; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 380 });
+    const third = window.SessionStats.session.end();
+    expect(third.comparison.improvedVsBest).toBe(false);
+  });
+
+  it('soporta metricas donde mayor es mejor como accuracy', () => {
+    window.SessionStats.session.start('matrix', { primaryMetric: 'accuracy', minTrials: 3 });
+    window.SessionStats.session.recordTrial({ correct: true, rt: 300 });
+    window.SessionStats.session.recordTrial({ correct: true, rt: 300 });
+    window.SessionStats.session.recordTrial({ correct: false, rt: 300 });
+    const s1 = window.SessionStats.session.end();
+    expect(s1.comparison.metric).toBe('accuracy');
+
+    // Segunda sesion con mejor precision (100% > 67%)
+    window.SessionStats.session.start('matrix', { primaryMetric: 'accuracy', minTrials: 3 });
+    for (let i = 0; i < 3; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 300 });
+    const s2 = window.SessionStats.session.end();
+    expect(s2.comparison.improvedVsBest).toBe(true);
+
+    const best = window.SessionStats.history.getBest('matrix', 'accuracy');
+    expect(best.accuracy).toBe(1);
+  });
+
+  it('soporta ies donde menor puntuacion es mejor', () => {
+    window.SessionStats.session.start('search', { primaryMetric: 'ies' });
+    // rt=500, acc=1 -> ies=500
+    for (let i = 0; i < 5; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 500 });
+    window.SessionStats.session.end();
+
+    // rt=300, acc=1 -> ies=300 (mejor)
+    window.SessionStats.session.start('search', { primaryMetric: 'ies' });
+    for (let i = 0; i < 5; i++) window.SessionStats.session.recordTrial({ correct: true, rt: 300 });
+    const s2 = window.SessionStats.session.end();
+    expect(s2.comparison.improvedVsBest).toBe(true);
+
+    const best = window.SessionStats.history.getBest('search', 'ies');
+    expect(best.ies).toBe(300);
+  });
+});

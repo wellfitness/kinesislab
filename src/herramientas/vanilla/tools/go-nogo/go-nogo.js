@@ -94,7 +94,7 @@ class GoNoGoTool {
   speak(text) {
     if (window.KinesisTTS && KinesisTTS.isAvailable()) {
       KinesisTTS.cancel();
-      KinesisTTS.speak(text, 1.3);
+      KinesisTTS.speak(text);
     }
   }
 
@@ -138,17 +138,16 @@ class GoNoGoTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
+      let extra = undefined;
       // En SART, calcular y mostrar post-error slowing
-      if (this.currentLevel === 'sart' && result && result.summary) {
+      if (this.currentLevel === 'sart') {
         const avgPost = this.postErrorRTs.length
           ? Math.round(this.postErrorRTs.reduce((a, b) => a + b, 0) / this.postErrorRTs.length) : null;
         const avgNormal = this.normalRTs.length
           ? Math.round(this.normalRTs.reduce((a, b) => a + b, 0) / this.normalRTs.length) : null;
         if (avgPost != null && avgNormal != null) {
           const slowing = avgPost - avgNormal;
-          result.summary.config = result.summary.config || {};
-          result.summary.config.postErrorSlowing = slowing;
+          extra = { postErrorSlowing: slowing };
           if (slowing > 20) {
             customFeedback = `Post-error slowing: +${slowing} ms · te has vuelto más prudente tras los errores`;
           } else if (slowing < -20) {
@@ -158,6 +157,7 @@ class GoNoGoTool {
           }
         }
       }
+      result = SessionStats.session.end(extra);
     }
 
     this.setPlayButton('play_arrow', 'INICIAR');

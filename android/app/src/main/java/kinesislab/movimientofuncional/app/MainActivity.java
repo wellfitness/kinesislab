@@ -29,7 +29,11 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewClientCompat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import org.json.JSONObject;
 
 public class MainActivity extends ComponentActivity {
 
@@ -54,7 +58,9 @@ public class MainActivity extends ComponentActivity {
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
         }
 
-        WebView.setWebContentsDebuggingEnabled(true);
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(Color.parseColor("#000806"));
@@ -146,6 +152,41 @@ public class MainActivity extends ComponentActivity {
         webView.loadUrl(APP_BASE + DASHBOARD_PATH);
     }
 
+    @Override
+    protected void onPause() {
+        if (ttsBridge != null) {
+            ttsBridge.cancel();
+        }
+        if (webView != null) {
+            webView.onPause();
+            webView.pauseTimers();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            webView.onResume();
+            webView.resumeTimers();
+        }
+        setImmersive();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (ttsBridge != null) {
+            ttsBridge.shutdown();
+            ttsBridge = null;
+        }
+        if (webView != null) {
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
+    }
+
     private void scheduleSplashDismiss() {
         if (splashDismissed || splashView == null) return;
         long elapsed = System.currentTimeMillis() - splashStartedAt;
@@ -180,20 +221,6 @@ public class MainActivity extends ComponentActivity {
         );
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setImmersive();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (ttsBridge != null) {
-            ttsBridge.shutdown();
-            ttsBridge = null;
-        }
-        super.onDestroy();
-    }
 
     /**
      * Bridge entre JavaScript (window.AndroidTTS) y android.speech.tts.TextToSpeech.
@@ -205,17 +232,46 @@ public class MainActivity extends ComponentActivity {
     private static final class AndroidTTSBridge {
         private final WebView webView;
         private TextToSpeech tts;
-        private boolean ready = false;
+
+        // Los métodos @JavascriptInterface se ejecutan en el hilo del puente
+        // JS y el arranque del motor corre en el hilo principal: las banderas
+        // deben ser volatile para que no se lean obsoletas. Con `ready` leída
+        // como false, cada locución se quedaría en `pending` y la voz no
+        // sonaría nunca.
+        private volatile boolean ready = false;
+        private volatile boolean spanishAvailable = false;
+
+        /**
+         * Locales de español por orden de preferencia. es-ES primero porque la
+         * aplicación está en español de España y es la voz que articula mejor
+         * las instrucciones. El resto son alternativas para dispositivos que
+         * solo tienen voz latinoamericana.
+         */
+        private static final String[] SPANISH_LOCALES = {
+                "es-ES", "es", "es-MX", "es-419", "es-US"
+        };
+
+        /** Locuciones emitidas antes de que el motor terminara de arrancar. */
+        private final List<PendingUtterance> pending = new ArrayList<>();
+        private final Object pendingLock = new Object();
+
+        private static final class PendingUtterance {
+            final String text;
+            final float rate;
+            final String callbackId;
+
+            PendingUtterance(String text, float rate, String callbackId) {
+                this.text = text;
+                this.rate = rate;
+                this.callbackId = callbackId;
+            }
+        }
 
         AndroidTTSBridge(Context ctx, WebView webView) {
             this.webView = webView;
             this.tts = new TextToSpeech(ctx.getApplicationContext(), status -> {
                 if (status != TextToSpeech.SUCCESS) return;
-                int result = tts.setLanguage(new Locale("es", "ES"));
-                if (result == TextToSpeech.LANG_MISSING_DATA
-                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    tts.setLanguage(Locale.getDefault());
-                }
+                spanishAvailable = applySpanishLanguage();
                 tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override public void onStart(String utteranceId) { /* noop */ }
                     @Override public void onDone(String utteranceId) { fireDone(utteranceId); }
@@ -224,26 +280,106 @@ public class MainActivity extends ComponentActivity {
                     @Override public void onError(String utteranceId, int errorCode) { fireDone(utteranceId); }
                 });
                 ready = true;
+                markReadyAndFlush();
             });
+        }
+
+        /**
+         * Busca una voz en español entre los locales disponibles y la activa.
+         *
+         * Si no hay ninguna NO se recurre al idioma del dispositivo: leer el
+         * texto en español con la voz del sistema es indistinguible de un
+         * fallo de audio, que es justo lo que reportó la usuaria. En ese caso
+         * el motor no locuta y la interfaz avisa para que instale un motor en
+         * español.
+         */
+        private boolean applySpanishLanguage() {
+            for (String tag : SPANISH_LOCALES) {
+                Locale locale = Locale.forLanguageTag(tag);
+                if (tts.isLanguageAvailable(locale) >= TextToSpeech.LANG_AVAILABLE) {
+                    tts.setLanguage(locale);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Publica que el motor está listo y drena la cola en la misma sección
+         * crítica. Si la publicación y el drenaje fueran independientes, una
+         * locución encolada justo entre ambos quedaría varada: no sonaría y no
+         * se avisaría de ello.
+         */
+        private void markReadyAndFlush() {
+            List<PendingUtterance> queued;
+            synchronized (pendingLock) {
+                ready = true;
+                queued = new ArrayList<>(pending);
+                pending.clear();
+            }
+            for (PendingUtterance u : queued) {
+                if (!spanishAvailable) {
+                    // Sin voz en español no se locuta, pero la promesa se
+                    // resuelve para que la herramienta no se quede esperando.
+                    fireDone(u.callbackId);
+                    continue;
+                }
+                tts.setSpeechRate(u.rate > 0f ? u.rate : 1.0f);
+                tts.speak(u.text, TextToSpeech.QUEUE_ADD, null, u.callbackId);
+            }
         }
 
         private void fireDone(String utteranceId) {
             if (utteranceId == null || !utteranceId.startsWith("klw_")) return;
+            // El id se escapa como cadena JSON: speakWithCallback es público
+            // para el WebView y una comilla sin escapar inyectaría JavaScript.
+            final String quoted = JSONObject.quote(utteranceId);
             // Las llamadas a evaluateJavascript deben ocurrir en el hilo principal del WebView.
             webView.post(() -> webView.evaluateJavascript(
-                "window.__androidTTSDone && window.__androidTTSDone('" + utteranceId + "')",
+                "window.__androidTTSDone && window.__androidTTSDone(" + quoted + ")",
                 null
             ));
         }
 
+        /** El motor ya enlazó y se puede localizar. */
         @JavascriptInterface
         public boolean isReady() {
             return ready;
         }
 
+        /**
+         * Indica si el dispositivo tiene voz en español. Antes de que el motor
+         * arranque no se sabe: la interfaz no debe dar por hecho que no la hay.
+         */
+        @JavascriptInterface
+        public boolean isSpanishAvailable() {
+            return ready && spanishAvailable;
+        }
+
+        @JavascriptInterface
+        public void warmup() {
+            if (!ready || tts == null || !spanishAvailable) return;
+            // Locución vacía con QUEUE_FLUSH: calienta el motor sin dejar nada
+            // encolado detrás de la primera instrucción real.
+            tts.speak("", TextToSpeech.QUEUE_FLUSH, null, "kl_warmup");
+        }
+
         @JavascriptInterface
         public void speak(String text, float rate) {
-            if (!ready || tts == null || text == null) return;
+            if (text == null) return;
+            // Comprobar y encolar bajo el mismo lock: si el motor ya está
+            // listo no se encola nada, y si no lo está la locución entra en la
+            // cola antes de que el hilo principal la drene.
+            synchronized (pendingLock) {
+                if (!ready || tts == null) {
+                    // El motor todavía está arrancando. Antes la instrucción se
+                    // perdía en silencio; ahora se encola y se reproduce en
+                    // cuanto el motor está listo.
+                    pending.add(new PendingUtterance(text, rate, "kl_pending_" + System.nanoTime()));
+                    return;
+                }
+            }
+            if (!spanishAvailable) return;
             tts.setSpeechRate(rate > 0f ? rate : 1.0f);
             tts.speak(text, TextToSpeech.QUEUE_ADD, null, "kl_" + System.nanoTime());
         }
@@ -251,7 +387,19 @@ public class MainActivity extends ComponentActivity {
         @JavascriptInterface
         public void speakWithCallback(String text, float rate, String callbackId) {
             if (callbackId == null) return;
-            if (!ready || tts == null || text == null) {
+            if (text == null) {
+                fireDone(callbackId);
+                return;
+            }
+            synchronized (pendingLock) {
+                if (!ready || tts == null) {
+                    pending.add(new PendingUtterance(text, rate, callbackId));
+                    return;
+                }
+            }
+            if (!spanishAvailable) {
+                // Sin voz en español no se locuta, pero la promesa se resuelve
+                // para que la secuencia de la herramienta no se bloquee.
                 fireDone(callbackId);
                 return;
             }
@@ -263,16 +411,23 @@ public class MainActivity extends ComponentActivity {
 
         @JavascriptInterface
         public void cancel() {
+            synchronized (pendingLock) {
+                pending.clear();
+            }
             if (tts != null) tts.stop();
         }
 
         void shutdown() {
+            synchronized (pendingLock) {
+                pending.clear();
+            }
             if (tts != null) {
                 tts.stop();
                 tts.shutdown();
                 tts = null;
             }
             ready = false;
+            spanishAvailable = false;
         }
     }
 }

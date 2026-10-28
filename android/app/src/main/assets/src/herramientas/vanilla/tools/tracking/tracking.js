@@ -51,13 +51,9 @@ class TrackingTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        const modeLabel = this.mode === 'headshake' ? 'Cabeza (vestibular)' : 'Ocular (smooth pursuit)';
-        customFeedback = `${this.totalTrials} movimientos · modo ${modeLabel}`;
-        result.summary.config = result.summary.config || {};
-        result.summary.config.mode = this.mode;
-      }
+      const modeLabel = this.mode === 'headshake' ? 'Cabeza (vestibular)' : 'Ocular (smooth pursuit)';
+      customFeedback = `${this.totalTrials} movimientos · modo ${modeLabel}`;
+      result = SessionStats.session.end({ mode: this.mode, primaryMetric: 'total', minTrials: 3 });
     }
 
     document.getElementById('playIcon').textContent = 'play_arrow';
@@ -152,7 +148,7 @@ if (window.SessionStatsUI) {
   SessionStatsUI.init({
     toolId: 'tracking',
     toolName: 'Seguimiento Continuo',
-    primaryMetric: 'rtMedian',
+    primaryMetric: 'total',
     onRepeat: () => tool.togglePlay(),
     onClose: () => {}
   });

@@ -171,13 +171,14 @@ class MatrixTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
-      if (result && result.summary) {
-        const dirLabel = this.orderedMode ? (this.direction === 'reverse' ? 'orden inverso' : 'orden directo') : 'sin orden';
-        customFeedback = `${this.gridSize}×${this.gridSize} · ${this.cellCount} celdas · ${dirLabel}`;
-        result.summary.config = result.summary.config || {};
-        result.summary.config.gridSize = this.gridSize;
-      }
+      const dirLabel = this.orderedMode ? (this.direction === 'reverse' ? 'orden inverso' : 'orden directo') : 'sin orden';
+      customFeedback = `${this.gridSize}×${this.gridSize} · ${this.cellCount} celdas · ${dirLabel}`;
+      result = SessionStats.session.end({
+        gridSize: this.gridSize,
+        cellCount: this.cellCount,
+        direction: this.direction,
+        minTrials: 3
+      });
     }
 
     this.setPlayButton('play_arrow', 'INICIAR');

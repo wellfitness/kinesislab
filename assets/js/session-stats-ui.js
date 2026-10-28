@@ -313,7 +313,7 @@
           }
         } else {
           const confirmReplace = confirm(
-            `⚠ MODO REEMPLAZAR\n\n` +
+            `MODO REEMPLAZAR\n\n` +
             `Esto BORRA todos los datos actuales y los sustituye por los del archivo.\n\n` +
             `¿Seguro?`
           );
@@ -536,20 +536,29 @@
     if (!c || (!c.personalBest && c.personalAvg == null)) {
       return '<p class="history-empty">Esta es tu primera sesión guardada. ¡Sigue así!</p>';
     }
-    const useRT = config.primaryMetric === 'rtMedian';
-    const cur = useRT ? s.rtMedian : (s.accuracy != null ? Math.round(s.accuracy * 100) : null);
-    const best = useRT && c.personalBest ? c.personalBest.rtMedian : null;
-    const avg = useRT ? c.personalAvg : null;
-    const unit = useRT ? ' ms' : '%';
+    const metric = (c && c.metric) || config.primaryMetric || 'rtMedian';
+    const isAcc = metric === 'accuracy';
+
+    let cur = s ? s[metric] : null;
+    let best = c.personalBest ? (c.personalBest.value != null ? c.personalBest.value : c.personalBest[metric]) : null;
+    let avg = c.personalAvg;
+
+    const unit = isAcc ? '%' : (metric === 'ies' ? '' : (metric === 'total' ? ' estímulos' : ' ms'));
+    if (isAcc) {
+      if (cur != null && cur <= 1) cur = Math.round(cur * 100);
+      if (best != null && best <= 1) best = Math.round(best * 100);
+      if (avg != null && avg <= 1) avg = Math.round(avg * 100);
+    }
+
     const lines = [];
     if (best != null) {
-      const bestDate = new Date(c.personalBest.date);
-      const bestDateStr = bestDate.toLocaleDateString('es', { day: 'numeric', month: 'short' });
-      lines.push(`Tu mejor sesión: <strong>${best}${unit}</strong> (${bestDateStr})`);
+      const bestDate = c.personalBest && c.personalBest.date ? new Date(c.personalBest.date) : null;
+      const bestDateStr = bestDate ? ` (${bestDate.toLocaleDateString('es', { day: 'numeric', month: 'short' })})` : '';
+      lines.push(`Tu mejor sesión: <strong>${best}${unit}</strong>${bestDateStr}`);
     }
     if (avg != null && cur != null) {
       const better = c.improvedVsAvg;
-      lines.push(`Promedio: <strong>${avg}${unit}</strong> · Hoy: <strong>${cur}${unit}</strong>${better ? ' ✓ mejor que tu media' : ''}`);
+      lines.push(`Promedio: <strong>${avg}${unit}</strong> · Hoy: <strong>${cur}${unit}</strong>${better ? ' <span class="material-symbols-sharp" style="font-size:0.95em; vertical-align:-0.15em;" aria-hidden="true">check</span> mejor que tu media' : ''}`);
     }
     if (c.improvedVsBest) {
       lines.push(`<strong style="color:var(--tulip-tree-400)">¡Nuevo récord personal!</strong>`);

@@ -28,7 +28,7 @@ class ArrowsTool {
       }
       this.isPlaying = true;
       this.setPlayButton('pause', 'PAUSA');
-      KinesisTTS.warmup();
+      if (window.KinesisTTS) KinesisTTS.warmup();
       this.startEngine();
     } else if (this.isPlaying) {
       this.isPlaying = false;
@@ -83,7 +83,7 @@ class ArrowsTool {
 
   stopEngine() {
     if (this.scheduler) this.scheduler.stop();
-    KinesisTTS.cancel();
+    if (window.KinesisTTS) KinesisTTS.cancel();
     ScreenWakeLock.release();
   }
 
@@ -101,8 +101,10 @@ class ArrowsTool {
     const isCongruent = Math.random() < this.congruentRatio;
     const audioDir = isCongruent ? visDir : (visDir === 'IZQUIERDA' ? 'DERECHA' : 'IZQUIERDA');
 
-    KinesisTTS.cancel();
-    KinesisTTS.speak(audioDir, 1.3);
+    if (window.KinesisTTS) {
+      KinesisTTS.cancel();
+      KinesisTTS.speak(audioDir);
+    }
 
     if (window.SessionStats && this.sessionActive) {
       SessionStats.session.recordTrial({

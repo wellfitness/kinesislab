@@ -57,10 +57,13 @@
       margin-bottom: 1.5rem;
       transition: all 200ms;
     }
-    .back-link:hover {
-      background-color: var(--gris-700);
-      color: white;
-    }
+@media (hover: hover) {
+  .back-link:hover {
+    background-color: var(--gris-700);
+    color: white;
+  }
+}
+
     ul {
       margin-left: 1.5rem;
       margin-bottom: 1rem;
@@ -68,7 +71,7 @@
     main {
       padding-top: 1rem;
     }
-  </style>
+</style>
 </head>
 <body>
   <a href="./index.html" class="back-link" aria-label="Volver a KinesisLab"><span class="material-symbols-sharp">arrow_back</span></a>

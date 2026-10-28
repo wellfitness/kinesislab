@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <title>Matriz Visoespacial — KinesisLab</title>
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .matrix-grid {
       display: grid;
@@ -73,10 +73,17 @@
       color: var(--gris-300);
       cursor: pointer;
       user-select: none;
+      /* La etiqueta es la zona de toque real del checkbox: debe llegar al
+         mínimo de 44px. */
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 4px;
     }
     .ordered-toggle input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
+      font-size: 1rem;
       accent-color: var(--turquesa-400);
       cursor: pointer;
     }
@@ -93,9 +100,10 @@
       .stat-value { font-size: 1.1rem; }
       .stat-label { font-size: 0.55rem; letter-spacing: 0.3px; }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Matriz Visoespacial</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -134,7 +142,7 @@
         <div class="ordered-toggle">
           <input type="checkbox" id="orderedCheck" onchange="tool.toggleOrdered(this.checked)">
           <label for="orderedCheck">Modo orden</label>
-          <select id="directionSelect" class="speed-select" onchange="tool.changeDirection(this.value)" style="margin-left:12px; font-size: 0.85rem; padding: 4px 8px; min-height: auto;" disabled>
+          <select id="directionSelect" class="speed-select" onchange="tool.changeDirection(this.value)" style="margin-left:12px;" disabled>
             <option value="forward" selected>&#9654; Adelante</option>
             <option value="reverse">&#9664; Atr&aacute;s</option>
           </select>
@@ -153,7 +161,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Matriz Visoespacial</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -209,7 +217,7 @@
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/cadence-scheduler.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="matrix.js?v=2.0.7"></script>
 </body>
 </html>

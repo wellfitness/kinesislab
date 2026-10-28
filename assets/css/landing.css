@@ -115,10 +115,12 @@ body {
   box-shadow: 0 0 20px var(--turquesa-glow);
 }
 
-.btn-launch:hover {
-  background-color: var(--turquesa-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px var(--turquesa-glow);
+@media (hover: hover) {
+  .btn-launch:hover {
+    background-color: var(--turquesa-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--turquesa-glow);
+  }
 }
 
 /* Features Section */
@@ -156,9 +158,11 @@ body {
   box-shadow: var(--shadow-landing-sm);
 }
 
-.feature-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(20, 184, 166, 0.3);
+@media (hover: hover) {
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(20, 184, 166, 0.3);
+  }
 }
 
 .feature-icon {
@@ -219,7 +223,11 @@ footer {
 }
 
 footer a { color: var(--turquesa-main); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
+@media (hover: hover) {
+  footer a:hover {
+    text-decoration: underline;
+  }
+}
 
 @media (max-width: 768px) {
   .hero { min-height: 70vh; padding-top: 6rem; }

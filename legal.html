@@ -57,10 +57,12 @@
       transition: all 0.2s;
     }
 
-    .legal-nav a:hover {
-      background: rgba(0,190,200,0.1);
-      border-color: var(--turquesa-600);
-    }
+@media (hover: hover) {
+  .legal-nav a:hover {
+    background: rgba(0,190,200,0.1);
+    border-color: var(--turquesa-600);
+  }
+}
 
     .legal-container {
       max-width: 800px;
@@ -111,7 +113,11 @@
       text-decoration: none;
     }
 
-    .legal-section a:hover { text-decoration: underline; }
+@media (hover: hover) {
+  .legal-section a:hover {
+    text-decoration: underline;
+  }
+}
 
     .legal-section strong { color: var(--gris-200); }
 
@@ -171,10 +177,12 @@
       transition: all 200ms;
     }
 
-    .back-link:hover {
-      background-color: var(--gris-700);
-      color: white;
-    }
+@media (hover: hover) {
+  .back-link:hover {
+    background-color: var(--gris-700);
+    color: white;
+  }
+}
 
     .site-footer {
       background: var(--gris-900);
@@ -210,13 +218,23 @@
     .footer-elena-bio strong { color: white; }
     .footer-social { display: flex; gap: 8px; }
     .footer-social a { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid var(--gris-700); border-radius: 50%; color: var(--turquesa-400); transition: all 0.2s; text-decoration: none; }
-    .footer-social a:hover { background: rgba(255,255,255,0.1); border-color: var(--turquesa-600); }
+@media (hover: hover) {
+  .footer-social a:hover {
+    background: rgba(255,255,255,0.1); border-color: var(--turquesa-600);
+  }
+}
+
     .footer-social a .material-symbols-sharp { font-size: 18px; }
     .footer-links h4 { display: flex; align-items: center; gap: 8px; color: white; font-family: 'ABeeZee', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
     .footer-links h4 .material-symbols-sharp { font-size: 18px; color: var(--turquesa-400); }
     .footer-nav-cards { display: flex; flex-direction: column; gap: 8px; }
     .footer-nav-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--gris-700); border-left: 3px solid var(--turquesa-600); border-radius: 8px; transition: all 0.2s; text-decoration: none; color: inherit; }
-    .footer-nav-card:hover { background: rgba(255,255,255,0.05); border-color: var(--turquesa-500); }
+@media (hover: hover) {
+  .footer-nav-card:hover {
+    background: rgba(255,255,255,0.05); border-color: var(--turquesa-500);
+  }
+}
+
     .footer-nav-card--principal { border: 1px solid var(--turquesa-700); border-left: 3px solid var(--turquesa-400); }
     .footer-nav-card .material-symbols-sharp:first-child { font-size: 22px; flex-shrink: 0; }
     .footer-nav-card div { flex: 1; }
@@ -236,7 +254,12 @@
     .footer-nav-badge--turquesa { color: var(--turquesa-400); background: rgba(0,190,200,0.15); }
     .footer-nav-badge--dorado { color: var(--gris-900); background: linear-gradient(135deg, var(--tulip-tree-400) 0%, var(--tulip-tree-500) 100%); font-weight: 600; }
     .footer-legal a { display: block; color: var(--gris-400); font-size: 0.9rem; padding: 10px 0; min-height: 44px; transition: color 0.2s; text-decoration: none; }
-    .footer-legal a:hover { color: var(--turquesa-400); }
+@media (hover: hover) {
+  .footer-legal a:hover {
+    color: var(--turquesa-400);
+  }
+}
+
     .footer-bottom { border-top: 1px solid var(--turquesa-400); padding-top: 1.5rem; margin-top: 1.5rem; text-align: center; max-width: 1200px; margin-left: auto; margin-right: auto; }
     .footer-bottom p { color: white; font-size: 0.85rem; }
 
@@ -244,7 +267,7 @@
       .legal-container { padding: 2rem 1.25rem; }
       .data-table th { width: 40%; }
     }
-  </style>
+</style>
 </head>
 <body>
 

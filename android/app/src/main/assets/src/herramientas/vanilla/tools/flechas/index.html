@@ -7,28 +7,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <title>Flechas Reactivas — KinesisLab</title>
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
+    .flechas-display-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      width: 100%;
+      gap: clamp(1.2rem, 3.5vh, 2.8rem);
+    }
     .arrow-display {
-      font-size: clamp(12rem, 40vw, 22rem);
+      font-size: clamp(10rem, 34vmin, 20rem);
       line-height: 1;
       transition: all 250ms ease-out;
       filter: drop-shadow(0 0 60px currentColor);
+      user-select: none;
     }
     .arrow-display.flash {
-      transform: scale(1.1);
+      transform: scale(1.08);
+    }
+    .has-conflict .arrow-display {
+      font-size: clamp(8rem, 26vmin, 15rem);
+    }
+    .flechas-display-area:has(#conflictText:not(:empty)) .arrow-display {
+      font-size: clamp(8rem, 26vmin, 15rem);
     }
     .conflict-instruction {
       font-family: var(--font-display);
-      font-size: clamp(3.5rem, 14vw, 8rem);
+      font-size: clamp(2.6rem, 9vw, 5.2rem);
+      line-height: 1.1;
       color: var(--rosa-400);
-      letter-spacing: 6px;
+      letter-spacing: 5px;
       text-transform: uppercase;
       text-shadow: 0 0 30px rgba(225, 29, 72, 0.5);
-      margin-bottom: var(--space-1);
-      min-height: 1em;
+      margin: 0;
       width: 100%;
       text-align: center;
+      flex-shrink: 0;
     }
     .fullscreen-btn {
       background: transparent;
@@ -41,31 +59,44 @@
       align-items: center;
       transition: all 200ms;
     }
-    .fullscreen-btn:hover { color: white; background: var(--gris-800); }
+@media (hover: hover) {
+  .fullscreen-btn:hover {
+    color: white; background: var(--gris-800);
+  }
+}
+
     @media (max-width: 480px) {
       .fullscreen-btn { display: none; }
     }
 
     @media (min-width: 1280px) {
       .arrow-display {
-        font-size: clamp(24rem, 55vmin, 34rem);
+        font-size: clamp(14rem, 42vmin, 24rem);
+      }
+      .has-conflict .arrow-display {
+        font-size: clamp(10rem, 28vmin, 16rem);
+      }
+      .flechas-display-area:has(#conflictText:not(:empty)) .arrow-display {
+        font-size: clamp(10rem, 28vmin, 16rem);
       }
       .conflict-instruction {
-        font-size: clamp(8rem, 14vw, 11rem);
+        font-size: clamp(4rem, 6vw, 6.2rem);
+        letter-spacing: 6px;
       }
       .stimulus-instruction {
         font-size: 1.6rem;
       }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Flechas Reactivas</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
       <h2 style="color: var(--turquesa-400); font-family: var(--font-display); font-size: 1.5rem;">Flechas Reactivas</h2>
       <div class="exec-header-actions">
-        <button class="fullscreen-btn" onclick="tool.toggleFullscreen()">
+        <button class="fullscreen-btn" onclick="tool.toggleFullscreen()" aria-label="Pantalla completa">
           <span id="fullscreenIcon" class="material-symbols-sharp">fullscreen</span>
         </button>
         <button class="btn-info" onclick="document.getElementById('infoModal').classList.add('active')" aria-label="Ayuda"><span class="material-symbols-sharp">help_outline</span></button>
@@ -105,7 +136,7 @@
     </div>
     <div id="stimulusContainer" class="stimulus-area" style="flex-direction: column;">
       <p id="flechasInstruction" class="stimulus-instruction">Mueve tu cuerpo en la direcci&oacute;n de la flecha</p>
-      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0;">
+      <div id="flechasDisplayArea" class="flechas-display-area">
         <div id="conflictText" class="conflict-instruction" style="display: none;"></div>
         <span id="arrowIcon" class="material-symbols-sharp arrow-display" style="color: var(--tulip-tree-400);">directions</span>
       </div>
@@ -115,7 +146,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Flechas Reactivas</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -173,10 +204,10 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
-  <script src="../../../../../assets/js/tts-bridge.js?v=2.0.5"></script>
+  <script src="../../../../../assets/js/tts-bridge.js?v=2.0.12"></script>
   <script src="../../../../../assets/js/cadence-scheduler.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="flechas.js?v=2.0.7"></script>
 </body>
 </html>

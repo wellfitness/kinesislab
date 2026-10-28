@@ -10,7 +10,7 @@
   <title>Decisi&oacute;n D50 — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .d50-answers { display: flex; gap: 24px; justify-content: center; margin-top: var(--space-4); width: 100%; padding: 0 var(--space-2); }
     .d50-answer-btn {
@@ -56,9 +56,10 @@
         margin-top: var(--space-3);
       }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Decisi&oacute;n D50</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -115,7 +116,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Decisi&oacute;n D50</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -165,7 +166,7 @@
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/cadence-scheduler.js?v=2.0.7"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="d50.js?v=2.0.7"></script>
 </body>
 </html>

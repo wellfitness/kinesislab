@@ -10,7 +10,7 @@
   <title>Simon — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .simon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 90vw; max-width: 400px; }
     @media (min-width: 600px) { .simon-grid { width: 80vw; max-width: 700px; gap: 24px; } }
@@ -41,9 +41,10 @@
       .stat-label { font-size: 0.95rem; }
       .stimulus-instruction { font-size: 1.6rem; }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Simon Dice</h1>
   <section class="view-execution">
     <header class="exec-header">
       <img src="../../../../../assets/logo-negro.webp" alt="KinesisLab" class="exec-header-logo">
@@ -71,10 +72,10 @@
       <p id="simonInstruction" class="stimulus-instruction">Pulsa INICIAR para comenzar</p>
       <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0;">
         <div class="simon-grid">
-          <button id="simon-0" class="simon-btn" style="background-color: var(--turquesa-400); color: var(--turquesa-400);" onclick="tool.handleTap(0)"></button>
-          <button id="simon-1" class="simon-btn" style="background-color: var(--tulip-tree-400); color: var(--tulip-tree-400);" onclick="tool.handleTap(1)"></button>
-          <button id="simon-2" class="simon-btn" style="background-color: var(--rosa-400); color: var(--rosa-400);" onclick="tool.handleTap(2)"></button>
-          <button id="simon-3" class="simon-btn" style="background-color: #3b82f6; color: #3b82f6;" onclick="tool.handleTap(3)"></button>
+          <button id="simon-0" class="simon-btn" style="background-color: var(--turquesa-400); color: var(--turquesa-400);" onclick="tool.handleTap(0)" aria-label="Cian"></button>
+          <button id="simon-1" class="simon-btn" style="background-color: var(--tulip-tree-400); color: var(--tulip-tree-400);" onclick="tool.handleTap(1)" aria-label="Amarillo"></button>
+          <button id="simon-2" class="simon-btn" style="background-color: var(--rosa-400); color: var(--rosa-400);" onclick="tool.handleTap(2)" aria-label="Rosa"></button>
+          <button id="simon-3" class="simon-btn" style="background-color: #3b82f6; color: #3b82f6;" onclick="tool.handleTap(3)" aria-label="Azul"></button>
         </div>
       </div>
       <div class="stats-bar" aria-live="polite" role="status">
@@ -89,7 +90,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Simon Dice</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -143,7 +144,7 @@
 
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="simon.js?v=2.0.7"></script>
 </body>
 </html>

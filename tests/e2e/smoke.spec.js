@@ -20,6 +20,16 @@ for (const p of PAGES) {
     const consoleErrors = [];
     const pageErrors = [];
 
+    // La prueba no debe depender de la red externa. Una hoja de estilos de
+    // Google Fonts bloquea DOMContentLoaded, así que si la red falla o va
+    // lenta la navegación se queda colgada hasta el timeout de 30 s y la
+    // prueba falla de forma intermitente y siempre en una página distinta.
+    // Se responde con una hoja vacía: sin reglas @font-face el navegador ni
+    // siquiera pide los ficheros de fuente, y no queda ningún error en consola.
+    const emptyCss = { status: 200, contentType: 'text/css', body: '' };
+    await page.route('**://fonts.googleapis.com/**', route => route.fulfill(emptyCss));
+    await page.route('**://fonts.gstatic.com/**', route => route.fulfill(emptyCss));
+
     page.on('console', msg => {
       if (msg.type() === 'error') {
         const text = msg.text();

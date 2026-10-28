@@ -7,14 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00bec8">
   <title>Comba Reactiva — KinesisLab</title>
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     .status-panel {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 40vh;
+      min-height: 40dvh;
       width: 100%;
     }
 
@@ -101,9 +101,10 @@
       .config-panel__row { gap: var(--space-2); }
       .config-panel__row .config-panel__slider-group { flex: 1 1 110px; }
     }
-  </style>
+</style>
 </head>
 <body style="background-color: var(--gris-900); color: white;">
+  <h1 class="sr-only">Comba Reactiva</h1>
 
   <section class="view-execution">
     <header class="exec-header">
@@ -195,7 +196,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Comba Reactiva</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')"><span class="material-symbols-sharp">close</span></button>
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar"><span class="material-symbols-sharp">close</span></button>
       </div>
       <div class="info-modal-body">
         <div class="info-section">
@@ -253,9 +254,9 @@
   </div>
 
   <script src="../../../../../assets/js/wake-lock.js?v=2.0.5"></script>
-  <script src="../../../../../assets/js/tts-bridge.js?v=2.0.5"></script>
+  <script src="../../../../../assets/js/tts-bridge.js?v=2.0.12"></script>
   <script src="../../../../../assets/js/session-stats.js?v=2.0.10"></script>
-  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.10"></script>
+  <script src="../../../../../assets/js/session-stats-ui.js?v=2.0.12"></script>
   <script src="comba.js?v=2.0.7"></script>
 </body>
 </html>

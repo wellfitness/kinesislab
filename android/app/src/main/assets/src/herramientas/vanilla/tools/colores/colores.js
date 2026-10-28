@@ -330,7 +330,7 @@ class ColoresTool {
       const spoken = (effLevel === 5 && distractorIndex != null)
         ? this.coloresData[distractorIndex].name.toLowerCase()
         : col.name.toLowerCase();
-      KinesisTTS.speak(spoken, 1.3);
+      KinesisTTS.speak(spoken);
     }
 
     if (window.SessionStats && this.sessionActive) {

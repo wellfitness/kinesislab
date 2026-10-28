@@ -143,7 +143,7 @@ class ClockTool {
           cadence: this.currentSpeed
         });
       }
-      KinesisTTS.warmup();
+      if (window.KinesisTTS) KinesisTTS.warmup();
       this.isPlaying = true;
       document.getElementById('playIcon').textContent = 'pause';
       document.getElementById('playText').textContent = 'PAUSA';
@@ -254,7 +254,7 @@ class ClockTool {
     if (this.scheduler) this.scheduler.stop();
     if (this.pendingRestart) clearTimeout(this.pendingRestart);
     this.pendingRestart = null;
-    KinesisTTS.cancel();
+    if (window.KinesisTTS) KinesisTTS.cancel();
   }
 
   changeSpeed(ms) {
@@ -284,8 +284,10 @@ class ClockTool {
 
     this.beep(600, 60);
 
-    KinesisTTS.cancel();
-    KinesisTTS.speak(trial.text, 1.1);
+    if (window.KinesisTTS) {
+      KinesisTTS.cancel();
+      KinesisTTS.speak(trial.text);
+    }
 
     this.updateStats();
   }

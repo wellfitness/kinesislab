@@ -10,7 +10,7 @@
   <title>Temporizadores — KinesisLab</title>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Righteous&family=ABeeZee&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.9">
+  <link rel="stylesheet" href="../../css/tool-base.css?v=2.0.12">
   <style>
     /* === CONFIG VIEW === */
     .timer-config-view {
@@ -48,7 +48,8 @@
     }
 
     .setting-input {
-      width: 64px;
+      width: 72px;
+      min-height: 44px;
       padding: 8px;
       background: var(--gris-900);
       border: 1px solid var(--gris-600);
@@ -98,10 +99,12 @@
       border-color: var(--gris-600);
     }
 
-    .btn-sound:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.1);
-    }
+@media (hover: hover) {
+  .btn-sound:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+  }
+}
 
     /* === TIMER CARDS GRID === */
     .timer-cards-grid {
@@ -166,23 +169,29 @@
       transition: opacity 400ms;
     }
 
-    .timer-card:hover {
-      border-color: rgba(0, 190, 200, 0.4);
-      transform: translateY(-6px);
-      box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.35),
-        0 0 60px rgba(0, 190, 200, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    }
+@media (hover: hover) {
+  .timer-card:hover {
+    border-color: rgba(0, 190, 200, 0.4);
+    transform: translateY(-6px);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.35),
+      0 0 60px rgba(0, 190, 200, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+}
 
-    .timer-card:hover::before {
-      height: 4px;
-      opacity: 1;
-    }
+@media (hover: hover) {
+  .timer-card:hover::before {
+    height: 4px;
+    opacity: 1;
+  }
+}
 
-    .timer-card:hover::after {
-      opacity: 1.5;
-    }
+@media (hover: hover) {
+  .timer-card:hover::after {
+    opacity: 1.5;
+  }
+}
 
     .timer-card.selected {
       border-color: rgba(24, 248, 246, 0.35);
@@ -240,16 +249,20 @@
       opacity: 0;
     }
 
-    .timer-card:hover .timer-card__icon {
-      transform: scale(1.08);
-      background: linear-gradient(135deg, rgba(0, 190, 200, 0.22) 0%, rgba(24, 248, 246, 0.08) 100%);
-      border-color: rgba(0, 190, 200, 0.3);
-      box-shadow: 0 4px 20px rgba(0, 190, 200, 0.15);
-    }
+@media (hover: hover) {
+  .timer-card:hover .timer-card__icon {
+    transform: scale(1.08);
+    background: linear-gradient(135deg, rgba(0, 190, 200, 0.22) 0%, rgba(24, 248, 246, 0.08) 100%);
+    border-color: rgba(0, 190, 200, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 190, 200, 0.15);
+  }
+}
 
-    .timer-card:hover .timer-card__icon::after {
-      opacity: 1;
-    }
+@media (hover: hover) {
+  .timer-card:hover .timer-card__icon::after {
+    opacity: 1;
+  }
+}
 
     .timer-card.selected .timer-card__icon {
       background: linear-gradient(135deg, rgba(0, 190, 200, 0.25) 0%, rgba(24, 248, 246, 0.1) 100%);
@@ -294,10 +307,12 @@
       transition: border-color 300ms, background 300ms;
     }
 
-    .timer-card:hover .timer-card__config {
-      border-color: rgba(55, 65, 81, 0.7);
-      background: rgba(17, 24, 39, 0.7);
-    }
+@media (hover: hover) {
+  .timer-card:hover .timer-card__config {
+    border-color: rgba(55, 65, 81, 0.7);
+    background: rgba(17, 24, 39, 0.7);
+  }
+}
 
     .timer-card.selected .timer-card__config {
       border-color: rgba(0, 190, 200, 0.15);
@@ -333,13 +348,14 @@
     }
 
     .config-input {
-      width: 64px;
+      width: 72px;
+      min-height: 44px;
       padding: 8px 8px;
       background: rgba(31, 41, 55, 0.8);
       border: 1px solid rgba(75, 85, 99, 0.5);
       border-radius: 8px;
       color: white;
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 700;
       text-align: center;
       font-family: var(--font-sans);
@@ -353,10 +369,12 @@
       background: rgba(31, 41, 55, 1);
     }
 
-    .config-input:hover:not(:focus) {
-      border-color: rgba(75, 85, 99, 0.8);
-      background: rgba(31, 41, 55, 0.95);
-    }
+@media (hover: hover) {
+  .config-input:hover:not(:focus) {
+    border-color: rgba(75, 85, 99, 0.8);
+    background: rgba(31, 41, 55, 0.95);
+  }
+}
 
     .config-unit {
       color: var(--gris-500);
@@ -412,11 +430,13 @@
       display: flex;
     }
 
-    .timer-card__start:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(225, 29, 72, 0.4);
-      filter: brightness(1.08);
-    }
+@media (hover: hover) {
+  .timer-card__start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(225, 29, 72, 0.4);
+    filter: brightness(1.08);
+  }
+}
 
     .timer-card__start:active {
       transform: translateY(0);
@@ -627,9 +647,10 @@
         font-size: clamp(4rem, 16vw, 8rem);
       }
     }
-  </style>
+</style>
 </head>
 <body>
+  <h1 class="sr-only">Temporizadores</h1>
   <section class="view-execution">
 
     <!-- Header -->
@@ -670,7 +691,7 @@
         <button class="btn-secondary" onclick="tool.stop()">
           <span class="material-symbols-sharp">stop</span> Detener
         </button>
-        <button class="btn-secondary" onclick="tool.reset()">
+        <button class="btn-secondary" onclick="tool.reset()" aria-label="Reiniciar">
           <span class="material-symbols-sharp">restart_alt</span> Reiniciar
         </button>
       </div>
@@ -800,7 +821,7 @@
     <div class="info-modal">
       <div class="info-modal-header">
         <h3>Temporizadores de Entrenamiento</h3>
-        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')">
+        <button class="info-modal-close" onclick="document.getElementById('infoModal').classList.remove('active')" aria-label="Cerrar">
           <span class="material-symbols-sharp">close</span>
         </button>
       </div>

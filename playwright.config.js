@@ -5,13 +5,16 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   reporter: 'list',
+  // Margen para máquinas cargadas: un fallo observado fue de infraestructura
+  // en browserContext.newPage, no del producto.
+  timeout: 60000,
   use: {
     baseURL: 'http://127.0.0.1:4174',
     trace: 'off',
     headless: true
   },
   webServer: {
-    command: 'python -m http.server 4174 --bind 127.0.0.1',
+    command: 'python scripts/serve.py 4174',
     url: 'http://127.0.0.1:4174/index.html',
     reuseExistingServer: true,
     timeout: 15000

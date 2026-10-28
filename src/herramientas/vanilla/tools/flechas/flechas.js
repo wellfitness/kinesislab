@@ -5,20 +5,20 @@ class FlechasTool {
       'north_east', 'north_west', 'south_east', 'south_west'
     ];
     this.cardinalDirections = [
-      { arrow: 'north', label: 'ARRIBA' },
-      { arrow: 'south', label: 'ABAJO' },
+      { arrow: 'north', label: 'DELANTE' },
+      { arrow: 'south', label: 'DETRÁS' },
       { arrow: 'west', label: 'IZQUIERDA' },
       { arrow: 'east', label: 'DERECHA' }
     ];
     this.directionVoiceLabels = {
-      'north': 'arriba',
-      'south': 'abajo',
+      'north': 'delante',
+      'south': 'detrás',
       'west': 'izquierda',
       'east': 'derecha',
-      'north_east': 'arriba derecha',
-      'north_west': 'arriba izquierda',
-      'south_east': 'abajo derecha',
-      'south_west': 'abajo izquierda'
+      'north_east': 'delante derecha',
+      'north_west': 'delante izquierda',
+      'south_east': 'detrás derecha',
+      'south_west': 'detrás izquierda'
     };
     this.scheduler = null;
     this.isPlaying = false;
@@ -94,7 +94,7 @@ class FlechasTool {
     let result = null;
     let customFeedback = null;
     if (window.SessionStats) {
-      result = SessionStats.session.end();
+      result = SessionStats.session.end({ primaryMetric: 'total', minTrials: 3 });
       // Si nivel mezcla, mostrar distribución real de condiciones
       if (this.level === 'mezcla' && result && result.summary) {
         const trials = (result.summary && result.summary.config) ? null : null;
@@ -108,9 +108,24 @@ class FlechasTool {
     this.totalTrials = 0;
     document.getElementById('arrowIcon').textContent = 'directions';
     document.getElementById('arrowIcon').style.color = this.getSpeedColor();
-    document.getElementById('conflictText').textContent = '';
+    this.setConflict('');
     if (result && result.summary && result.summary.total >= 5 && window.SessionStatsUI) {
       SessionStatsUI.showResults(result.summary, result.comparison, customFeedback ? { customFeedback } : {});
+    }
+  }
+
+  setConflict(text) {
+    const conflictEl = document.getElementById('conflictText');
+    const areaEl = document.getElementById('flechasDisplayArea');
+    if (!conflictEl) return;
+    if (text) {
+      conflictEl.textContent = text;
+      conflictEl.style.display = '';
+      if (areaEl) areaEl.classList.add('has-conflict');
+    } else {
+      conflictEl.textContent = '';
+      conflictEl.style.display = 'none';
+      if (areaEl) areaEl.classList.remove('has-conflict');
     }
   }
 
@@ -157,17 +172,16 @@ class FlechasTool {
 
   changeLevel(val) {
     this.level = val;
-    const conflictEl = document.getElementById('conflictText');
     const instructionEl = document.getElementById('flechasInstruction');
 
     if (val === 'conflicto') {
-      conflictEl.style.display = '';
+      this.setConflict('');
       instructionEl.textContent = 'Sigue la PALABRA, ignora la flecha';
     } else if (val === 'mezcla') {
-      conflictEl.style.display = 'none';
+      this.setConflict('');
       instructionEl.innerHTML = 'Si aparece palabra: sigue la <strong style="color: var(--rosa-400)">PALABRA</strong>. Si no: sigue la flecha';
     } else {
-      conflictEl.style.display = 'none';
+      this.setConflict('');
       instructionEl.textContent = 'Mueve tu cuerpo en la dirección de la flecha';
     }
 
@@ -189,7 +203,7 @@ class FlechasTool {
       this.setPlayButton('play_arrow', 'INICIAR');
       document.getElementById('arrowIcon').textContent = 'directions';
       document.getElementById('arrowIcon').style.color = this.getSpeedColor();
-      document.getElementById('conflictText').textContent = '';
+      this.setConflict('');
     }
   }
 
@@ -218,7 +232,6 @@ class FlechasTool {
 
   showArrow() {
     const el = document.getElementById('arrowIcon');
-    const conflictEl = document.getElementById('conflictText');
 
     el.classList.remove('flash');
     void el.offsetWidth;
@@ -231,8 +244,7 @@ class FlechasTool {
       const arrow = this.cardinalDirections[Math.floor(Math.random() * this.cardinalDirections.length)];
       const conflict = this.getConflictDirection(arrow.arrow);
       el.textContent = arrow.arrow;
-      conflictEl.style.display = '';
-      conflictEl.textContent = conflict.label;
+      this.setConflict(conflict.label);
       // En conflicto se sigue la palabra → la voz dice la palabra
       targetLabel = conflict.label.toLowerCase();
       condition = 'incongruent';
@@ -241,25 +253,21 @@ class FlechasTool {
       const arrow = this.cardinalDirections[Math.floor(Math.random() * this.cardinalDirections.length)];
       el.textContent = arrow.arrow;
       if (condition === 'neutral') {
-        conflictEl.style.display = 'none';
-        conflictEl.textContent = '';
+        this.setConflict('');
         targetLabel = arrow.label.toLowerCase();
       } else if (condition === 'congruent') {
-        conflictEl.style.display = '';
-        conflictEl.textContent = arrow.label;
+        this.setConflict(arrow.label);
         targetLabel = arrow.label.toLowerCase();
       } else {
         // incongruent: palabra distinta a flecha. Cliente sigue la palabra.
         const conflict = this.getConflictDirection(arrow.arrow);
-        conflictEl.style.display = '';
-        conflictEl.textContent = conflict.label;
+        this.setConflict(conflict.label);
         targetLabel = conflict.label.toLowerCase();
       }
     } else {
       const arrow = this.arrows[Math.floor(Math.random() * this.arrows.length)];
       el.textContent = arrow;
-      conflictEl.style.display = 'none';
-      conflictEl.textContent = '';
+      this.setConflict('');
       targetLabel = this.directionVoiceLabels[arrow] || arrow;
       condition = 'normal';
     }
@@ -269,7 +277,7 @@ class FlechasTool {
 
     if (this.currentMode === 'voice' && window.KinesisTTS && targetLabel) {
       KinesisTTS.cancel();
-      KinesisTTS.speak(targetLabel, 1.3);
+      KinesisTTS.speak(targetLabel);
     }
 
     this.totalTrials++;
@@ -293,7 +301,7 @@ if (window.SessionStatsUI) {
   SessionStatsUI.init({
     toolId: 'flechas',
     toolName: 'Flechas Reactivas',
-    primaryMetric: 'rtMedian',
+    primaryMetric: 'total',
     onRepeat: () => tool.togglePlay(),
     onClose: () => {}
   });

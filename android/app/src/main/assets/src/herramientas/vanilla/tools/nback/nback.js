@@ -112,17 +112,7 @@ class NBackTool {
 
     let result = null;
     if (window.SessionStats) {
-      // En adaptive guardamos también el N máximo alcanzado
-      if (this.isAdaptive) {
-        // override config con el N máximo y guardar
-        result = SessionStats.session.end();
-        if (result && result.summary) {
-          result.summary.config = result.summary.config || {};
-          result.summary.config.maxN = this.adaptiveMaxN;
-        }
-      } else {
-        result = SessionStats.session.end();
-      }
+      result = SessionStats.session.end(this.isAdaptive ? { maxN: this.adaptiveMaxN } : undefined);
     }
 
     this.setPlayButton('play_arrow', 'INICIAR');
